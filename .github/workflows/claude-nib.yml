@@ -1,0 +1,27 @@
+name: Claude NIB Suite
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pydantic anthropic
+      - name: Specs-only if no key
+        if: ${{ !secrets.ANTHROPIC_API_KEY }}
+        run: python tools/claude/run_experiments.py --num 20 --dry
+      - name: Full run with Claude
+        if: ${{ secrets.ANTHROPIC_API_KEY }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python tools/claude/run_experiments.py --num 40
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-experiments
+          path: reports/claude_experiments
