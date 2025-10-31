@@ -1,0 +1,15 @@
+experiment: E05-PAD-TempGate
+seed: 1337
+router:
+  base_tau: 1.0
+  pad_map:
+    arousal_coeff: 0.25
+    neg_pleasure_coeff: 0.20
+retrieval:
+  top_k: 10
+calibration:
+  temp_scaling: true
+  validation_split: 0.1
+logging:
+  level: INFO
+  output_dir: reports
