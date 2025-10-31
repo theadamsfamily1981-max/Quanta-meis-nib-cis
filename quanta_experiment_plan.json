@@ -1,0 +1,118 @@
+{
+  "suite": "1.0",
+  "date": "2025-10-30",
+  "gates": {
+    "accuracy_min": 0.75,
+    "ece_max": 0.1,
+    "forgetting_max": 0.1,
+    "ood_sep_min": 0.05,
+    "selective_acc_at_80_min": 0.8,
+    "latency_ms_max": 50
+  },
+  "experiments": [
+    {
+      "id": 1,
+      "name": "Model Architecture Audit",
+      "target": "acc>=0.75",
+      "actions": ["verify model load", "forward pass sanity", "grad flow"]
+    },
+    {
+      "id": 2,
+      "name": "Training Data Validation",
+      "target": "acc>=0.75",
+      "actions": ["label integrity", "preprocessing checks", "stratified sample review"]
+    },
+    {
+      "id": 3,
+      "name": "Loss Function Investigation",
+      "target": "acc>=0.75",
+      "actions": ["grad norms", "nan/inf checks", "objective audit"]
+    },
+    {
+      "id": 4,
+      "name": "Learning Rate Sweep",
+      "target": "acc>=0.75",
+      "grid": {"lr": [1e-5, 1e-4, 1e-3, 1e-2, 1e-1]}
+    },
+    {
+      "id": 5,
+      "name": "Meta-Learning Algorithm Fix",
+      "target": "acc>=0.75",
+      "actions": ["isolate base model", "tune aux weights"]
+    },
+    {
+      "id": 6,
+      "name": "Batch Size Optimization",
+      "target": "acc>=0.75",
+      "grid": {"batch_size": [8, 16, 32, 64, 128]}
+    },
+    {
+      "id": 7,
+      "name": "Regularization Tuning",
+      "target": "acc>=0.75",
+      "grid": {"dropout": [0.0, 0.1, 0.2], "weight_decay": [0.0, 0.01, 0.05]}
+    },
+    {
+      "id": 8,
+      "name": "OOD Score Calibration",
+      "target": "ood>=0.05",
+      "actions": ["fix sign convention", "validate metric impl"]
+    },
+    {
+      "id": 9,
+      "name": "Temperature Scaling (OOD)",
+      "target": "ood>=0.05",
+      "grid": {"temperature": [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]}
+    },
+    {
+      "id": 10,
+      "name": "Energy-Based OOD",
+      "target": "ood>=0.05"
+    },
+    {
+      "id": 11,
+      "name": "Mahalanobis OOD",
+      "target": "ood>=0.05"
+    },
+    {
+      "id": 12,
+      "name": "Ensemble OOD Scoring",
+      "target": "ood>=0.05"
+    },
+    {
+      "id": 13,
+      "name": "Implement Selective Prediction",
+      "target": "acc@80%>=0.8"
+    },
+    {
+      "id": 14,
+      "name": "Confidence-Accuracy Correlation",
+      "target": "acc@80%>=0.8"
+    },
+    {
+      "id": 15,
+      "name": "Conformal Prediction",
+      "target": "acc@80%>=0.8"
+    },
+    {
+      "id": 16,
+      "name": "Multi-Task Learning"
+    },
+    {
+      "id": 17,
+      "name": "Augmentation"
+    },
+    {
+      "id": 18,
+      "name": "Optimizer Upgrade"
+    },
+    {
+      "id": 19,
+      "name": "Model Capacity"
+    },
+    {
+      "id": 20,
+      "name": "End-to-End Validation"
+    }
+  ]
+}
