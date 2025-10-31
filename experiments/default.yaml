@@ -1,0 +1,17 @@
+train:
+  lr: 0.001
+  batch_size: 32
+  weight_decay: 0.01
+calibration:
+  temperature: 1.5
+  fit_on: val
+ood:
+  score: energy
+  threshold_gamma: auto
+selective:
+  coverage_target: 0.80
+router:
+  base_tau: 1.0
+  pad_gate:
+    arousal_coeff: 0.25
+    neg_pleasure_coeff: 0.20

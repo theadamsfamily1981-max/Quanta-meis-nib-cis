@@ -1,0 +1,16 @@
+modes:
+  dev:
+    accuracy_min: 0.75
+    ece_max: 0.03
+    ood_sep_min: 0.05
+    selective_acc_at_80_min: 0.80
+    latency_ms_max: 50
+    forgetting_abs_max: 0.10
+  prod:
+    accuracy_min: 0.78
+    ece_max: 0.03
+    ood_sep_min: 0.06
+    selective_acc_at_80_min: 0.80
+    latency_ms_max: 50
+    forgetting_abs_max: 0.10
+coverage_target: 0.80
