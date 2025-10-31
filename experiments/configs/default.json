@@ -1,6 +1,0 @@
-{
-  "backend": "numpy",
-  "seed": 0,
-  "ece_bins": 10,
-  "coverage": 0.8
-}
