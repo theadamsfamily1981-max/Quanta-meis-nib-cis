@@ -1,0 +1,37 @@
+{
+  "experiment": "quasi_variational_dynamics_benchmark",
+  "timestamp": "2024-06-11T10:15:00Z",
+  "solver_configs": [
+    {
+      "name": "proximal-langevin",
+      "step_size": 0.05,
+      "iterations": 2000,
+      "regularizer": "elastic-net"
+    },
+    {
+      "name": "stochastic-mirror",
+      "step_size": 0.025,
+      "iterations": 4000,
+      "regularizer": "tv-l1"
+    }
+  ],
+  "metrics": {
+    "energy_gap": {
+      "mean": 0.0124,
+      "std": 0.0031
+    },
+    "transport_cost": {
+      "mean": 0.087,
+      "std": 0.009
+    },
+    "witness_stability": {
+      "mean": 0.944,
+      "std": 0.018
+    }
+  },
+  "diagnostics": {
+    "acceptance_rate": 0.72,
+    "effective_sample_size": 812,
+    "burn_in_fraction": 0.1
+  }
+}
