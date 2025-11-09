@@ -1,0 +1,59 @@
+metadata:
+  name: "t2_acrw_v1_1c"
+  description: "Retune experiment for the T2 backbone using the ACR-W optimizer with rho=0.8, tuned for the v1.1c release window. Targets post-warmup convergence in O(t^-0.5) with gradient norm below 0.5 and empirical stability above 0.90 on at least 70% of runs."
+  version: "1.1c"
+  authors:
+    - "Auto-configurator"
+  tags:
+    - "retune"
+    - "acr-w"
+    - "stability"
+
+model:
+  backbone: "T2"
+  variant: "retune"
+  regularization:
+    weight_decay: 0.01
+    gradient_clipping: 0.5
+  initialization:
+    scheme: "xavier_uniform"
+    gain: 1.0
+
+optimizer:
+  type: "acr-w"
+  rho: 0.8
+  learning_rate:
+    base: 0.5
+    schedule: "cosine"
+    warmup:
+      steps: 600
+      strategy: "linear"
+  momentum:
+    beta1: 0.9
+    beta2: 0.95
+  epsilon: 1.0e-8
+
+training:
+  batch_size: 2048
+  epochs: 220
+  gradient_norm_target: 0.5
+  convergence_rate_target: "O(t^-0.5)"
+  stability_target: 0.90
+  stability_run_threshold: 0.70
+  evaluation_interval: 1
+
+schedulers:
+  cosine:
+    min_factor: 0.10
+    restart: false
+    warmup_adapt: true
+
+logging:
+  level: "INFO"
+  metrics:
+    - "loss"
+    - "grad_norm"
+    - "stability"
+    - "learning_rate"
+  checkpoint_interval: 5
+  artifact_store: "artifacts/t2_acrw_v1_1c"

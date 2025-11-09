@@ -1,0 +1,36 @@
+metadata:
+  name: "exploration_sgld_v1_1c"
+  description: "Companion exploratory study for stochastic gradient Langevin dynamics using cosine annealing on the diffusion coefficient. Validates stability improvements across the 50-run matrix while aligning the noise floor with the primary ACR-W retune schedule."
+  version: "1.1c"
+  related_experiment: "t2_acrw_v1_1c"
+
+sampler:
+  type: "sgld"
+  steps: 120000
+  base_step_size: 0.15
+  noise_scale: 0.4
+  temperature: 1.0
+  cosine_schedule:
+    period: 15000
+    floor: 0.05
+    ceiling: 1.0
+    restart: false
+
+constraints:
+  gradient_norm:
+    limit: 0.5
+    enforce: true
+  stability_probability:
+    target: 0.90
+    runs_threshold: 0.70
+
+observables:
+  - "loss"
+  - "grad_norm"
+  - "stability"
+  - "acceptance_rate"
+
+logging:
+  sample_interval: 100
+  flush_interval: 1000
+  store_path: "artifacts/sgld_v1_1c"
