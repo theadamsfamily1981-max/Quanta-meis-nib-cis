@@ -1,0 +1,5 @@
+system: multimodal
+adapters:
+  text: default_text_adapter
+  image: default_image_adapter
+  audio: default_audio_adapter

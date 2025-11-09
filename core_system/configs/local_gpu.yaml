@@ -1,0 +1,4 @@
+system: local_gpu
+hardware:
+  accelerator: cuda
+  devices: 1
