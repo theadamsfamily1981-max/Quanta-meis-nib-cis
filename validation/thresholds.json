@@ -1,0 +1,18 @@
+{
+  "comprehensive": {
+    "energy_efficiency": {"min": 0.45},
+    "entropy": {"min": 3.0},
+    "fractal_dimension": {"max": 1.0},
+    "curvature": {"max": 2.5},
+    "topological_complexity": {"min": 0.3, "max": 0.7},
+    "stability_index": {"max": 0.2}
+  },
+  "impossibility": {
+    "halting_proxy": {"min": 0.02},
+    "godel_incompleteness_proxy": {"min": 0.3},
+    "p_vs_np_gap": {"max": 12.0},
+    "no_free_lunch_proxy": {"min": 0.9},
+    "attention_convergence": {"min": 0.2},
+    "entropy_resilience": {"min": 2.0}
+  }
+}
