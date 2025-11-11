@@ -1,0 +1,46 @@
+name: T-FAN v2 CI Gates
+
+on:
+  pull_request:
+  push:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  fast-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy scipy scikit-learn
+      - name: Run attention scaling gate
+        run: python tools/tfan_ci.py attention --config configs/tfan_ci.yaml
+      - name: Run hyperbolic NDCG gate
+        run: python tools/tfan_ci.py hyperbolic --config configs/tfan_ci.yaml
+      - name: Run PGU latency & deception gate
+        run: python tools/tfan_ci.py pgu --config configs/tfan_ci.yaml
+      - name: Run thermo (NEEP) gate
+        run: python tools/tfan_ci.py thermo --config configs/tfan_ci.yaml
+      - name: Run topology proxy/robustness gate
+        run: python tools/tfan_ci.py topology --config configs/tfan_ci.yaml
+
+  nightly-topology:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          pip install gudhi ripser numpy
+      - name: Exact-PH validation
+        run: python tools/tfan_ci.py topology --config configs/tfan_ci.yaml --mode exact
