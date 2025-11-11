@@ -1,0 +1,89 @@
+# T-F-A-N definitive production config
+
+# ===== Pareto / MOO =====
+pareto:
+  trials: 200
+  report_bucket: ${TFAN_TELEMETRY_SINK}   # s3://... or gs://...
+  min_nondominated: 6
+  crowding_eps: 0.05
+
+# ===== TLS / SSA =====
+attention:
+  keep_ratio: 0.30            # k/N in [0.2, 0.33]
+  per_head_landmarks: true
+  tls_mode_train: "dpp"       # dpp | mst | rp
+  tls_mode_eval:  "mst"
+  tls_mode_online: "rp"
+  tls_alpha_persistence: 0.7  # hybrid weight (persist vs diversity)
+  fallback:
+    acc_drop_pct: 2.0
+    overhead_pct: 10.0
+
+# ===== Topology (DPH / PLay) =====
+topology:
+  exact_ph_cap:
+    minutes: 20
+    samples: 5000
+  proxy_accept:
+    wasserstein_gap_pct_max: 2.0
+    cosine_min: 0.90
+  targets:
+    cv:
+      beta0: 1
+      beta1: 0
+    kg:
+      low_beta1: true
+      low_beta2: true
+
+# ===== FDT / FDR Governance =====
+fdt:
+  snapshot_every_steps: 50
+  fdr_hot: 1.5
+  fdr_cold: 0.5
+  lr_mult_hot: 0.5
+  lr_mult_cold: 1.5
+  temp_min: 0.5
+  temp_max: 2.0
+  early_stop:
+    fdr1_tol: 0.05
+    patience_epochs: 8
+
+# ===== EPR Stability =====
+epr:
+  cv_max: 0.15
+  magnitude_delta_min: -0.10   # at least -10% vs baseline
+
+# ===== CTD Hyperbolic Gate =====
+ctd:
+  ndcg_gain_min: 0.05
+  riemann_overhead_max: 0.12
+  enabled_tasks: ["fb15k-237", "wordnet"]
+
+# ===== TTW-Sentry =====
+ttw:
+  p95_ms_max: 5.0
+  triggers:
+    vfe_spike_sigma: 3.0
+    grad_burst_sigma: 3.0
+    entropy_jump_abs: 0.15
+
+# ===== PGU-MAK =====
+pgu:
+  p95_ms_max: 200.0
+  cache:
+    size: 4096
+    ttl_days: 7
+    substitution_aware: true
+    reuse_unsat_core: true
+  hard_block_envs: ["autonomy","robotics","safety_critical"]
+
+# ===== SLOs (redundant explicit gates) =====
+slos:
+  attn_p95_ms_max: 10.0
+  ttw_p95_ms_max: 5.0
+  pgu_p95_ms_max: 200.0
+
+# ===== Telemetry =====
+telemetry:
+  sink: ${TFAN_TELEMETRY_SINK}
+  retention_months: 6
