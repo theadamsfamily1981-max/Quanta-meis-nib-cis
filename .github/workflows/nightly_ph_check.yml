@@ -1,0 +1,84 @@
+name: Nightly PH Validation
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM UTC daily
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  ph-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+
+      - name: Run nightly PH validation
+        run: |
+          python tools/nightly_ph_check.py \
+            --max-samples 5000 \
+            --time-cap-min 20 \
+            --output artifacts/nightly_ph_report.json
+        timeout-minutes: 25
+
+      - name: Check gates
+        run: |
+          python -c "
+          import json
+          with open('artifacts/nightly_ph_report.json') as f:
+              report = json.load(f)
+
+          w_gap = report['wasserstein_gap']
+          cos_sim = report['cosine_similarity']
+
+          print(f'Wasserstein gap: {w_gap:.4f} (gate: ≤0.02)')
+          print(f'Cosine similarity: {cos_sim:.4f} (gate: ≥0.90)')
+
+          if w_gap > 0.02:
+              raise ValueError(f'Wasserstein gap {w_gap:.4f} exceeds threshold 0.02')
+
+          if cos_sim < 0.90:
+              raise ValueError(f'Cosine similarity {cos_sim:.4f} below threshold 0.90')
+
+          print('✅ All PH validation gates passed')
+          "
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ph-validation-report
+          path: artifacts/nightly_ph_report.json
+
+      - name: Generate summary
+        if: always()
+        run: |
+          python -c "
+          import json
+          with open('artifacts/nightly_ph_report.json') as f:
+              report = json.load(f)
+
+          summary = f'''
+          ## Nightly PH Validation Report
+
+          - **Wasserstein Gap**: {report['wasserstein_gap']:.4f} (gate: ≤0.02)
+          - **Cosine Similarity**: {report['cosine_similarity']:.4f} (gate: ≥0.90)
+          - **Samples Processed**: {report['num_samples']}
+          - **Runtime**: {report['runtime_seconds']:.1f}s
+          - **Status**: {'✅ PASS' if report['gates_passed'] else '❌ FAIL'}
+          '''
+
+          with open('$GITHUB_STEP_SUMMARY', 'a') as f:
+              f.write(summary)
+          "

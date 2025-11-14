@@ -1,0 +1,227 @@
+name: Performance Benchmarks
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Weekly on Sunday at 3 AM UTC
+  workflow_dispatch:
+
+jobs:
+  attention-benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+
+      - name: Run attention benchmark
+        run: |
+          python scripts/bench_attention.py \
+            --lengths 8000 16000 32000 \
+            --keep-ratio 0.33 \
+            --output artifacts/bench_attention.json
+        timeout-minutes: 30
+
+      - name: Validate attention gates
+        run: |
+          python -c "
+          import json
+          with open('artifacts/bench_attention.json') as f:
+              results = json.load(f)
+
+          print('=== Attention Benchmark Results ===')
+          for length, data in results.items():
+              speedup = data['speedup']
+              print(f'Length {length}: {speedup:.2f}× speedup')
+
+              if speedup < 3.0:
+                  raise ValueError(f'Speedup {speedup:.2f}× below 3× gate for length {length}')
+
+          print('\\n✅ All attention benchmarks passed (≥3× speedup)')
+          "
+
+      - name: Upload attention results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: attention-benchmark
+          path: artifacts/bench_attention.json
+
+  memory-alpha-benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+
+      - name: Run memory-α benchmark
+        run: |
+          python scripts/bench_memory_alpha.py \
+            --lengths 1000 2000 5000 10000 20000 \
+            --keep-ratio 0.33 \
+            --resident-pages 4 \
+            --page-size 2048 \
+            --out artifacts/bench_memory_alpha.json
+        timeout-minutes: 20
+
+      - name: Validate memory gates
+        run: |
+          python -c "
+          import json
+          with open('artifacts/bench_memory_alpha.json') as f:
+              results = json.load(f)
+
+          print('=== Memory-α Benchmark Results ===')
+          for length, data in results.items():
+              alpha = data['alpha']
+              print(f'Length {length}: α={alpha:.4f}')
+
+              if alpha > 1.0:
+                  raise ValueError(f'Alpha {alpha:.4f} exceeds 1.0 gate for length {length}')
+
+          print('\\n✅ All memory benchmarks passed (α ≤ 1.0)')
+          "
+
+      - name: Upload memory results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: memory-alpha-benchmark
+          path: artifacts/bench_memory_alpha.json
+
+  pgu-latency-benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+
+      - name: Run PGU latency benchmark
+        run: |
+          python scripts/latency_pgu_replay.py \
+            --path tests/pgu_cases \
+            --timeout-ms 120 \
+            --trials 5 \
+            --output artifacts/pgu_latency.json
+        timeout-minutes: 15
+
+      - name: Validate PGU gates
+        run: |
+          python -c "
+          import json
+          with open('artifacts/pgu_latency.json') as f:
+              results = json.load(f)
+
+          p95 = results['p95_latency_ms']
+          hit_rate = results['hit_rate']
+
+          print(f'PGU p95 latency: {p95:.1f}ms (gate: ≤200ms)')
+          print(f'PGU hit rate: {hit_rate*100:.1f}% (gate: ≥50%)')
+
+          if p95 > 200.0:
+              raise ValueError(f'PGU p95 latency {p95:.1f}ms exceeds 200ms gate')
+
+          if hit_rate < 0.50:
+              raise ValueError(f'PGU hit rate {hit_rate*100:.1f}% below 50% gate')
+
+          print('\\n✅ PGU gates passed')
+          "
+
+      - name: Upload PGU results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: pgu-latency-benchmark
+          path: artifacts/pgu_latency.json
+
+  generate-report:
+    needs: [attention-benchmark, memory-alpha-benchmark, pgu-latency-benchmark]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Generate consolidated report
+        run: |
+          python -c "
+          import json
+          from pathlib import Path
+
+          report = '# Performance Benchmark Report\\n\\n'
+
+          # Attention benchmarks
+          try:
+              with open('attention-benchmark/bench_attention.json') as f:
+                  attn = json.load(f)
+              report += '## Attention Benchmarks\\n\\n'
+              for length, data in attn.items():
+                  status = '✅' if data['speedup'] >= 3.0 else '❌'
+                  report += f'- Length {length}: {status} {data[\"speedup\"]:.2f}× speedup\\n'
+              report += '\\n'
+          except FileNotFoundError:
+              report += '## Attention Benchmarks\\n\\n❌ Not available\\n\\n'
+
+          # Memory benchmarks
+          try:
+              with open('memory-alpha-benchmark/bench_memory_alpha.json') as f:
+                  mem = json.load(f)
+              report += '## Memory-α Benchmarks\\n\\n'
+              for length, data in mem.items():
+                  status = '✅' if data['alpha'] <= 1.0 else '❌'
+                  report += f'- Length {length}: {status} α={data[\"alpha\"]:.4f}\\n'
+              report += '\\n'
+          except FileNotFoundError:
+              report += '## Memory-α Benchmarks\\n\\n❌ Not available\\n\\n'
+
+          # PGU benchmarks
+          try:
+              with open('pgu-latency-benchmark/pgu_latency.json') as f:
+                  pgu = json.load(f)
+              report += '## PGU Latency\\n\\n'
+              p95_status = '✅' if pgu['p95_latency_ms'] <= 200 else '❌'
+              hr_status = '✅' if pgu['hit_rate'] >= 0.50 else '❌'
+              report += f'- p95 latency: {p95_status} {pgu[\"p95_latency_ms\"]:.1f}ms\\n'
+              report += f'- Hit rate: {hr_status} {pgu[\"hit_rate\"]*100:.1f}%\\n'
+              report += '\\n'
+          except FileNotFoundError:
+              report += '## PGU Latency\\n\\n❌ Not available\\n\\n'
+
+          with open('$GITHUB_STEP_SUMMARY', 'a') as f:
+              f.write(report)
+
+          print(report)
+          "

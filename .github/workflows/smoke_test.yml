@@ -1,0 +1,85 @@
+name: Smoke Tests
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: |
+          python -m pytest tests/ -v --tb=short
+        timeout-minutes: 10
+
+      - name: Run smoke test (CPU)
+        run: |
+          python -m tfan.smoke --device cpu
+        timeout-minutes: 5
+
+      - name: Check smoke test results
+        run: |
+          python -c "
+          import json
+          with open('artifacts/smoke_results.json') as f:
+              results = json.load(f)
+
+          print('=== Smoke Test Results ===')
+          for test, result in results.items():
+              status = '✅' if result.get('passed', False) else '❌'
+              print(f'{status} {test}: {result.get(\"status\", \"unknown\")}')
+
+          failed = [t for t, r in results.items() if not r.get('passed', False)]
+          if failed:
+              raise ValueError(f'Smoke tests failed: {failed}')
+
+          print('\\n✅ All smoke tests passed')
+          "
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: smoke-test-results
+          path: |
+            artifacts/smoke_results.json
+            artifacts/test_output.log
+
+      - name: Generate summary
+        if: always()
+        run: |
+          python -c "
+          import json
+          try:
+              with open('artifacts/smoke_results.json') as f:
+                  results = json.load(f)
+
+              summary = '## Smoke Test Results\\n\\n'
+              for test, result in results.items():
+                  status = '✅ PASS' if result.get('passed', False) else '❌ FAIL'
+                  summary += f'- **{test}**: {status}\\n'
+
+              with open('$GITHUB_STEP_SUMMARY', 'a') as f:
+                  f.write(summary)
+          except FileNotFoundError:
+              print('No smoke test results found')
+          "
