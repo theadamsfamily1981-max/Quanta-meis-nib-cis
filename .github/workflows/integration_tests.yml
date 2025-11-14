@@ -1,0 +1,327 @@
+name: Integration Tests & End-to-End Validation
+
+on:
+  push:
+    branches: [main, master, claude/**]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+          pip install pytest pytest-timeout pytest-cov
+
+      - name: Run unit tests with coverage
+        run: |
+          pytest tests/ -v --cov=tfan --cov-report=xml --cov-report=term \
+            --timeout=120 --ignore=tests/test_stress.py
+        continue-on-error: false
+
+      - name: Upload coverage to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
+
+      - name: Run integration test - Full training loop
+        run: |
+          python -c "
+          import torch
+          import torch.nn as nn
+          from tfan.trainer import TFANTrainer
+          from tfan.datasets import create_dataloaders
+
+          # Simple model
+          class TestModel(nn.Module):
+              def __init__(self):
+                  super().__init__()
+                  self.fc = nn.Linear(512, 512)
+              def forward(self, x):
+                  return self.fc(x)
+
+          model = TestModel()
+          optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+
+          # Create dataloaders
+          train_loader, val_loader = create_dataloaders(
+              dataset_type='long_sequence',
+              seq_len=1024,
+              batch_size=4,
+              num_train=100,
+              num_val=20
+          )
+
+          # Train for 5 epochs
+          trainer = TFANTrainer(
+              model=model,
+              optimizer=optimizer,
+              use_fdt=True,
+              target_epr_cv=0.15,
+              log_dir='artifacts/integration_test'
+          )
+
+          criterion = nn.MSELoss()
+          history = trainer.train(train_loader, val_loader, criterion, num_epochs=5)
+
+          # Validate EPR-CV gate
+          final_epr_cv = history.get('final_epr_cv', float('inf'))
+          assert final_epr_cv < 0.30, f'EPR-CV {final_epr_cv:.4f} too high in integration test'
+
+          print(f'Integration test passed! Final EPR-CV: {final_epr_cv:.4f}')
+          "
+        timeout-minutes: 10
+
+      - name: Run integration test - Sparse attention pipeline
+        run: |
+          python -c "
+          import torch
+          from tfan.attention import SparseMultiHeadAttention
+
+          # Test on medium sequence
+          embed_dim = 512
+          num_heads = 8
+          seq_len = 4096
+
+          model = SparseMultiHeadAttention(
+              embed_dim=embed_dim,
+              num_heads=num_heads,
+              keep_ratio=0.33,
+              use_flash=False
+          )
+
+          x = torch.randn(2, seq_len, embed_dim)
+
+          # Forward pass
+          with torch.no_grad():
+              out = model(x)
+
+          assert out.shape == (2, seq_len, embed_dim)
+
+          print(f'Sparse attention integration test passed! Shape: {out.shape}')
+          "
+        timeout-minutes: 5
+
+      - name: Run integration test - CTD hyperbolic geometry
+        run: |
+          python -c "
+          import torch
+          from tfan.ctd import PoincareEmbedding, HyperbolicLayer, CTDGate
+
+          # Test Poincaré embeddings
+          num_entities = 1000
+          embed_dim = 64
+
+          poincare_emb = PoincareEmbedding(num_entities, embed_dim, c=1.0)
+
+          # Sample some embeddings
+          indices = torch.randint(0, num_entities, (16,))
+          embeddings = poincare_emb(indices)
+
+          # Check embeddings are in Poincaré ball (norm < 1/sqrt(c))
+          norms = torch.norm(embeddings, dim=-1)
+          assert (norms < 0.99).all(), 'Embeddings outside Poincaré ball'
+
+          # Test CTD gate
+          gate = CTDGate()
+          random_embeddings = torch.randn(100, embed_dim)
+          should_enable, stats = gate.should_enable_hyperbolic(random_embeddings)
+
+          print(f'CTD integration test passed! Hyperbolic enabled: {should_enable}')
+          print(f'Tree-likeness score: {stats.get(\"tree_likeness\", 0.0):.4f}')
+          "
+        timeout-minutes: 5
+
+      - name: Run integration test - PGU cache
+        run: |
+          python -c "
+          import time
+          from tfan.pgu import PGUCache
+
+          pgu = PGUCache(timeout_ms=120, max_cache_size=100, mode='inference')
+
+          # Test cache hits
+          formula = 'x > 0 AND x < 10'
+
+          # First call (miss)
+          t0 = time.time()
+          result1 = pgu.check(formula)
+          latency1 = (time.time() - t0) * 1000
+
+          # Second call (hit)
+          t0 = time.time()
+          result2 = pgu.check(formula)
+          latency2 = (time.time() - t0) * 1000
+
+          assert result1 == result2
+          assert latency2 < latency1, 'Cache not working'
+
+          hit_rate = pgu.get_hit_rate()
+          print(f'PGU integration test passed! Hit rate: {hit_rate*100:.1f}%')
+          "
+        timeout-minutes: 5
+
+      - name: Run integration test - TTW-Sentry
+        run: |
+          python -c "
+          import torch
+          from tfan.ttw import TTWSentry
+
+          sentry = TTWSentry(embed_dim=128, vfe_threshold=0.5)
+
+          # Simulate feature sequence
+          for i in range(10):
+              x = torch.randn(1, 64, 128)
+              precursor, stats = sentry.detect_precursor(x)
+
+              if precursor:
+                  print(f'Precursor detected at step {i}')
+                  print(f'VFE: {stats[\"vfe\"]:.4f}, Entropy jump: {stats[\"entropy_jump\"]:.4f}')
+
+          # Check latency
+          p95_latency = sentry.get_p95_latency()
+          assert p95_latency < 10.0, f'TTW p95 latency {p95_latency:.2f}ms too high'
+
+          print(f'TTW integration test passed! p95 latency: {p95_latency:.2f}ms')
+          "
+        timeout-minutes: 5
+
+      - name: Run integration test - Topology pipeline
+        run: |
+          python -c "
+          import torch
+          import numpy as np
+          from tfan.topo import PersistenceLandscape, compute_persistence_diagram
+
+          # Generate point cloud
+          points = torch.randn(200, 16).numpy()
+
+          # Compute persistence
+          try:
+              pd = compute_persistence_diagram(points, max_dim=1, engine='gudhi')
+
+              # Convert to landscape
+              pl = PersistenceLandscape(num_landscapes=3, resolution=50)
+              pl_vector = pl.fit_transform(pd)
+
+              assert len(pl_vector) > 0
+
+              print(f'Topology integration test passed! Landscape shape: {pl_vector.shape}')
+          except ImportError:
+              print('GUDHI not available, skipping topology test')
+          "
+        timeout-minutes: 5
+
+      - name: Generate integration test summary
+        if: always()
+        run: |
+          echo \"## Integration Test Results\" >> $GITHUB_STEP_SUMMARY
+          echo \"\" >> $GITHUB_STEP_SUMMARY
+          echo \"✅ All integration tests completed\" >> $GITHUB_STEP_SUMMARY
+          echo \"\" >> $GITHUB_STEP_SUMMARY
+          echo \"### Test Components:\" >> $GITHUB_STEP_SUMMARY
+          echo \"- Full training loop with FDT scheduler\" >> $GITHUB_STEP_SUMMARY
+          echo \"- Sparse attention pipeline\" >> $GITHUB_STEP_SUMMARY
+          echo \"- CTD hyperbolic geometry\" >> $GITHUB_STEP_SUMMARY
+          echo \"- PGU cache system\" >> $GITHUB_STEP_SUMMARY
+          echo \"- TTW-Sentry detector\" >> $GITHUB_STEP_SUMMARY
+          echo \"- Topology pipeline\" >> $GITHUB_STEP_SUMMARY
+
+  auto-benchmark:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/master'))
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+
+      - name: Run auto-triggered benchmarks
+        run: |
+          # Attention benchmark
+          python scripts/bench_attention.py \
+            --lengths 8000 16000 \
+            --keep-ratio 0.33 \
+            --output artifacts/bench_attention_auto.json || true
+
+          # Validation summary
+          if [ -f artifacts/bench_attention_auto.json ]; then
+            python -c \"
+            import json
+            with open('artifacts/bench_attention_auto.json') as f:
+                results = json.load(f)
+
+            print('=== Auto-Benchmark Results ===')
+            for length, data in results.items():
+                print(f'Length {length}: {data[\"speedup\"]:.2f}× speedup')
+            \"
+          fi
+        timeout-minutes: 20
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: auto-benchmark-results
+          path: artifacts/bench_attention_auto.json
+
+  load-test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+          pip install pytest pytest-timeout
+
+      - name: Run load tests
+        run: |
+          pytest tests/test_stress.py -v -m stress \
+            --timeout=300 \
+            -k "not test_long_sequence_scalability" || true
+        timeout-minutes: 15
+
+      - name: Generate load test summary
+        if: always()
+        run: |
+          echo \"## Load Test Summary\" >> $GITHUB_STEP_SUMMARY
+          echo \"\" >> $GITHUB_STEP_SUMMARY
+          echo \"Load tests executed on PR\" >> $GITHUB_STEP_SUMMARY

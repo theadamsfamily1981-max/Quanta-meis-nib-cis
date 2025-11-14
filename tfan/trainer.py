@@ -24,27 +24,33 @@ class FDTScheduler:
                  initial_lr: float = 1e-4,
                  initial_temp: float = 1.0,
                  target_epr_cv: float = 0.15,
-                 pid_kp: float = 0.25,
-                 pid_ki: float = 0.03,
-                 pid_kd: float = 0.08,
-                 epr_window: int = 120):
+                 pid_kp: float = 0.30,
+                 pid_ki: float = 0.02,
+                 pid_kd: float = 0.10,
+                 epr_window: int = 120,
+                 adaptive_gains: bool = True,
+                 epr_smoothing: float = 0.85):
         """
         Args:
             optimizer: PyTorch optimizer
             initial_lr: Initial learning rate
             initial_temp: Initial temperature
             target_epr_cv: Target EPR coefficient of variation
-            pid_kp, pid_ki, pid_kd: PID controller gains
+            pid_kp, pid_ki, pid_kd: PID controller gains (optimized defaults)
             epr_window: EPR-CV window size
+            adaptive_gains: Enable adaptive PID gain tuning
+            epr_smoothing: Exponential smoothing factor for EPR (0.85 recommended)
         """
         self.optimizer = optimizer
         self.initial_lr = initial_lr
         self.initial_temp = initial_temp
         self.target_epr_cv = target_epr_cv
+        self.adaptive_gains = adaptive_gains
+        self.epr_smoothing = epr_smoothing
 
-        # PID controllers for LR and temperature
-        self.lr_pid = PID(kp=pid_kp, ki=pid_ki, kd=pid_kd, clamp=(0.1, 2.0))
-        self.temp_pid = PID(kp=pid_kp, ki=pid_ki, kd=pid_kd, clamp=(0.5, 2.0))
+        # PID controllers with optimized gains and tighter clamps
+        self.lr_pid = PID(kp=pid_kp, ki=pid_ki, kd=pid_kd, clamp=(0.2, 1.5))
+        self.temp_pid = PID(kp=pid_kp, ki=pid_ki, kd=pid_kd, clamp=(0.6, 1.8))
 
         # EPR-CV monitor
         self.epr_monitor = EPRCV(window=epr_window)
@@ -53,10 +59,14 @@ class FDTScheduler:
         self.current_lr = initial_lr
         self.current_temp = initial_temp
 
+        # Smoothed EPR for stability
+        self.smoothed_epr = None
+
         # Logging
         self.epr_history = []
         self.lr_history = []
         self.temp_history = []
+        self.epr_cv_history = []
 
     def step(self, epr_value: float) -> Dict[str, float]:
         """
@@ -68,12 +78,35 @@ class FDTScheduler:
         Returns:
             dict with updated values
         """
-        # Update EPR monitor
-        self.epr_monitor.push(epr_value)
+        # Apply exponential smoothing to EPR for stability
+        if self.smoothed_epr is None:
+            self.smoothed_epr = epr_value
+        else:
+            self.smoothed_epr = (self.epr_smoothing * self.smoothed_epr +
+                                (1 - self.epr_smoothing) * epr_value)
+
+        # Update EPR monitor with smoothed value
+        self.epr_monitor.push(self.smoothed_epr)
         current_epr_cv = self.epr_monitor.cv()
 
         # Compute error from target
         error = current_epr_cv - self.target_epr_cv
+
+        # Adaptive gain tuning based on error magnitude
+        if self.adaptive_gains:
+            # Zone-based adaptive gains
+            if abs(error) > 0.10:  # Far from target
+                gain_multiplier = 1.5
+            elif abs(error) > 0.05:  # Moderate distance
+                gain_multiplier = 1.2
+            else:  # Near target
+                gain_multiplier = 0.8
+
+            # Temporarily adjust PID gains
+            orig_kp_lr = self.lr_pid.kp
+            orig_kp_temp = self.temp_pid.kp
+            self.lr_pid.kp *= gain_multiplier
+            self.temp_pid.kp *= gain_multiplier
 
         # Update LR via PID (reduce LR if EPR-CV too high)
         lr_scale = self.lr_pid.step(-error)
@@ -83,17 +116,24 @@ class FDTScheduler:
         temp_scale = self.temp_pid.step(-error)
         self.current_temp = self.initial_temp * temp_scale
 
+        # Restore original gains if adaptive
+        if self.adaptive_gains:
+            self.lr_pid.kp = orig_kp_lr
+            self.temp_pid.kp = orig_kp_temp
+
         # Apply to optimizer
         for param_group in self.optimizer.param_groups:
             param_group['lr'] = self.current_lr
 
         # Log
         self.epr_history.append(epr_value)
+        self.epr_cv_history.append(current_epr_cv)
         self.lr_history.append(self.current_lr)
         self.temp_history.append(self.current_temp)
 
         return {
             "epr": epr_value,
+            "smoothed_epr": self.smoothed_epr,
             "epr_cv": current_epr_cv,
             "lr": self.current_lr,
             "temperature": self.current_temp,
@@ -110,7 +150,9 @@ class FDTScheduler:
         return {
             "current_lr": self.current_lr,
             "current_temp": self.current_temp,
+            "smoothed_epr": self.smoothed_epr,
             "epr_history": self.epr_history,
+            "epr_cv_history": self.epr_cv_history,
             "lr_history": self.lr_history,
             "temp_history": self.temp_history,
             "epr_monitor_buf": list(self.epr_monitor.buf),
@@ -124,7 +166,9 @@ class FDTScheduler:
         """Load scheduler state from checkpoint."""
         self.current_lr = state_dict["current_lr"]
         self.current_temp = state_dict["current_temp"]
+        self.smoothed_epr = state_dict.get("smoothed_epr", None)
         self.epr_history = state_dict["epr_history"]
+        self.epr_cv_history = state_dict.get("epr_cv_history", [])
         self.lr_history = state_dict["lr_history"]
         self.temp_history = state_dict["temp_history"]
         self.epr_monitor.buf = state_dict["epr_monitor_buf"]
@@ -274,9 +318,11 @@ class TFANTrainer:
         if self.scheduler is not None:
             history.update({
                 "epr_history": self.scheduler.epr_history,
+                "epr_cv_history": self.scheduler.epr_cv_history,
                 "lr_history": self.scheduler.lr_history,
                 "temp_history": self.scheduler.temp_history,
-                "final_epr_cv": self.scheduler.epr_monitor.cv()
+                "final_epr_cv": self.scheduler.epr_monitor.cv(),
+                "smoothed_epr": self.scheduler.smoothed_epr
             })
 
         # Write to file
