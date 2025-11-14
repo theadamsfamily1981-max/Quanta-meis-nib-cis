@@ -1,0 +1,36 @@
+# Production config for RTX 3090 (24GB VRAM)
+model:
+  max_context: 16384
+  batch_size: 4
+
+attention:
+  keep_ratio: 0.33
+  flash_attn: true
+  persistence_weight: 0.7
+
+memory:
+  resident_pages: 4
+  page_size: 2048
+
+pgu:
+  timeout_ms: 120
+  cache_size: 10000
+
+fdt:
+  pid:
+    kp: 0.25
+    ki: 0.03
+    kd: 0.08
+  epr:
+    window: 120
+    threshold: 0.15
+
+gates:
+  alpha_max: 1.0
+  pgu_p95_max_ms: 200.0
+  epr_cv_max: 0.15
+
+dph:
+  exact_ph_nightly:
+    enable: true
+    schedule: "0 2 * * *"

@@ -1,0 +1,36 @@
+# Production config for RTX 3060 (12GB VRAM)
+model:
+  max_context: 12288
+  batch_size: 2
+
+attention:
+  keep_ratio: 0.30
+  flash_attn: false
+  persistence_weight: 0.7
+
+memory:
+  resident_pages: 3
+  page_size: 1024
+
+pgu:
+  timeout_ms: 120
+  cache_size: 5000
+
+fdt:
+  pid:
+    kp: 0.25
+    ki: 0.03
+    kd: 0.08
+  epr:
+    window: 120
+    threshold: 0.15
+
+gates:
+  alpha_max: 1.0
+  pgu_p95_max_ms: 200.0
+  epr_cv_max: 0.15
+
+dph:
+  exact_ph_nightly:
+    enable: false
+    schedule: "0 2 * * *"
