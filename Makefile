@@ -19,3 +19,14 @@ pgu-latency:
 
 epr-audit:
 	$(PY) scripts/epr_cv_monitor.py --file logs/epr.csv --col epr --window 120 --threshold 0.15 --grace 60
+
+bench-attention:
+	$(PY) scripts/bench_attention.py --lengths 8000 16000 32000 --keep-ratio 0.33
+
+nightly-ph:
+	$(PY) tools/nightly_ph_check.py --max-samples 5000 --time-cap-min 20
+
+test:
+	$(PY) -m pytest tests/ -v
+
+.PHONY: init smoke-3090 smoke-3060 bench-alpha bench-attention pgu-latency epr-audit nightly-ph test

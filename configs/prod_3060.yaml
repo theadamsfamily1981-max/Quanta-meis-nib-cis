@@ -7,6 +7,10 @@ attention:
   keep_ratio: 0.30
   flash_attn: false
   persistence_weight: 0.7
+  num_heads: 8
+  dropout: 0.1
+  radius_scale: 2.0
+  use_radial_sparse: true
 
 memory:
   resident_pages: 3
@@ -30,7 +34,17 @@ gates:
   pgu_p95_max_ms: 200.0
   epr_cv_max: 0.15
 
+topology:
+  enable: false  # Disabled on 3060 to save memory
+  num_landscapes: 5
+  resolution: 100
+  max_dim: 1
+  kl_prior_weight: 0.01
+  engine: "auto"
+
 dph:
   exact_ph_nightly:
     enable: false
     schedule: "0 2 * * *"
+    wasserstein_threshold: 0.02
+    cosine_threshold: 0.90
