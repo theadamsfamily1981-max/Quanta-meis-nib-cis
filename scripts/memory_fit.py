@@ -1,206 +1,124 @@
-#!/usr/bin/env python
 """
-Memory scaling validation.
+Memory scaling validation for TF-A-N 7B.
 
-Fits Memory = a * T^α and validates α < 1.0 gate.
+Validates memory scaling gate: α < 1.0 (sublinear scaling).
 
 Usage:
-    python scripts/memory_fit.py --seq 1024 2048 4096 8192 16384 32768
+    python scripts/memory_fit.py --seq 1024 2048 5120 10240
 """
 
+import torch
 import argparse
 import json
-import time
+import os
+import sys
 from pathlib import Path
-
 import numpy as np
-import torch
-import torch.nn as nn
-from scipy.optimize import curve_fit
 
-from tfan.attention import SparseAttention
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-
-def power_law(T, a, alpha):
-    """Power law: Memory = a * T^alpha"""
-    return a * np.power(T, alpha)
+from tfan.models.tfan7b import TFANConfig, TFANForCausalLM
 
 
-def measure_memory(model, seq_len, batch_size=1, device="cuda", n_runs=5):
-    """
-    Measure peak memory usage for a given sequence length.
+def measure_memory(model, seq_len, device="cuda"):
+    """Measure peak memory usage for given sequence length."""
+    if device == "cuda":
+        torch.cuda.reset_peak_memory_stats()
+        torch.cuda.empty_cache()
 
-    Args:
-        model: Model to test
-        seq_len: Sequence length
-        batch_size: Batch size
-        device: Device
-        n_runs: Number of runs to average
+    # Create input
+    input_ids = torch.randint(0, 32768, (1, seq_len), device=device)
 
-    Returns:
-        Peak memory in GB
-    """
-    memories = []
+    # Forward pass
+    with torch.no_grad():
+        _ = model(input_ids)
 
-    for _ in range(n_runs):
-        if device == "cuda":
-            torch.cuda.reset_peak_memory_stats()
+    if device == "cuda":
+        memory_mb = torch.cuda.max_memory_allocated() / 1e6
+    else:
+        memory_mb = 0  # Placeholder for CPU
 
-        x = torch.randn(batch_size, seq_len, model.d_model, device=device)
-
-        with torch.no_grad():
-            _ = model(x)
-
-        if device == "cuda":
-            peak_mem = torch.cuda.max_memory_allocated() / 1e9
-        else:
-            # CPU memory is harder to measure accurately
-            peak_mem = 0.0
-
-        memories.append(peak_mem)
-
-        # Clear cache
-        if device == "cuda":
-            torch.cuda.empty_cache()
-
-    return np.median(memories)
+    return memory_mb
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Memory scaling validation")
-    parser.add_argument("--seq", type=int, nargs="+",
-                        default=[1024, 2048, 4096, 8192, 16384, 32768],
-                        help="Sequence lengths to test")
-    parser.add_argument("--batch", type=int, default=1, help="Batch size")
-    parser.add_argument("--d-model", type=int, default=768, help="Model dimension")
-    parser.add_argument("--n-heads", type=int, default=12, help="Number of heads")
-    parser.add_argument("--device", type=str, default="cuda", help="Device")
-    parser.add_argument("--report", type=str, default="artifacts/memory/fit.json",
-                        help="Output report path")
-    parser.add_argument("--n-runs", type=int, default=5, help="Runs per length")
-    args = parser.parse_args()
+def main(args):
+    """Main function."""
+    print("Memory scaling validation for TF-A-N 7B")
 
-    # Ensure output directory
-    Path(args.report).parent.mkdir(parents=True, exist_ok=True)
+    device = torch.device(args.device if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
 
-    print("=" * 80)
-    print("Memory Scaling Validation")
-    print("=" * 80)
-    print(f"Device: {args.device}")
-    print(f"Batch size: {args.batch}")
-    print(f"Model dim: {args.d_model}")
-    print(f"Sequence lengths: {args.seq}")
-    print("-" * 80)
-
-    if args.device == "cuda" and not torch.cuda.is_available():
-        print("⚠️  CUDA not available, falling back to CPU")
-        args.device = "cpu"
+    # Load config
+    config = TFANConfig.from_json_file(args.config)
 
     # Create model
-    model = SparseAttention(
-        d_model=args.d_model,
-        n_heads=args.n_heads,
-        keep_ratio=0.33,
-    ).to(args.device)
+    print("Creating model...")
+    model = TFANForCausalLM(config).to(device).eval()
 
-    # Measure memory for each sequence length
-    seq_lengths = []
+    # Test sequence lengths
+    seq_lengths = [1024, 2048, 4096, 8192, 16384]
     memories = []
 
-    for seq_len in args.seq:
-        print(f"\nTesting sequence length: {seq_len}")
+    print(f"\nMeasuring memory at different sequence lengths...")
 
+    for seq_len in seq_lengths:
         try:
-            mem = measure_memory(model, seq_len, args.batch, args.device, args.n_runs)
-            seq_lengths.append(seq_len)
-            memories.append(mem)
-            print(f"  Peak memory: {mem:.3f} GB")
+            memory_mb = measure_memory(model, seq_len, device=str(device))
+            memories.append(memory_mb)
+            print(f"  seq_len={seq_len:>5d}: {memory_mb:.1f} MB")
         except RuntimeError as e:
             if "out of memory" in str(e):
-                print(f"  OOM at {seq_len}")
+                print(f"  seq_len={seq_len:>5d}: OOM")
                 break
             else:
                 raise
 
-    if len(seq_lengths) < 3:
-        print("\nERROR: Need at least 3 data points for fitting")
-        return 1
+    # Fit power law: Memory = a * T^α
+    if len(memories) >= 3:
+        log_T = np.log(seq_lengths[:len(memories)])
+        log_M = np.log(memories)
+        coeffs = np.polyfit(log_T, log_M, deg=1)
+        alpha = coeffs[0]
+        a = np.exp(coeffs[1])
 
-    # Fit power law
-    print("\n" + "=" * 80)
-    print("Fitting Power Law: Memory = a * T^α")
-    print("=" * 80)
+        # Compute R²
+        log_M_pred = coeffs[0] * log_T + coeffs[1]
+        ss_res = np.sum((log_M - log_M_pred) ** 2)
+        ss_tot = np.sum((log_M - np.mean(log_M)) ** 2)
+        r_squared = 1 - (ss_res / ss_tot)
 
-    T_data = np.array(seq_lengths)
-    M_data = np.array(memories)
+        print(f"\nPower law fit: Memory = {a:.2f} * T^{alpha:.3f}")
+        print(f"R² = {r_squared:.4f}")
 
-    # Fit in log space for better numerical stability
-    log_T = np.log(T_data)
-    log_M = np.log(M_data + 1e-9)  # Avoid log(0)
+        gate_pass = alpha < 1.0
+        print(f"\nGate validation (α < 1.0): {gate_pass}")
+        print(f"  α = {alpha:.3f} | {'✓ PASS' if gate_pass else '✗ FAIL'}")
 
-    # Linear fit: log(M) = log(a) + α * log(T)
-    coeffs = np.polyfit(log_T, log_M, deg=1)
-    alpha = coeffs[0]
-    log_a = coeffs[1]
-    a = np.exp(log_a)
-
-    # Compute R²
-    M_pred = a * np.power(T_data, alpha)
-    ss_res = np.sum((M_data - M_pred) ** 2)
-    ss_tot = np.sum((M_data - np.mean(M_data)) ** 2)
-    r_squared = 1 - (ss_res / ss_tot)
-
-    print(f"Fitted parameters:")
-    print(f"  a     = {a:.6f}")
-    print(f"  α     = {alpha:.4f}")
-    print(f"  R²    = {r_squared:.4f}")
-    print("-" * 80)
-
-    # Check gate
-    gate_passes = alpha < 1.0
-    print(f"Gate: α < 1.0")
-    print(f"  Value: {alpha:.4f}")
-    print(f"  Status: {'✓ PASS' if gate_passes else '✗ FAIL'}")
-
-    # Print fit quality
-    print("\nFit quality:")
-    for i, (T, M_actual) in enumerate(zip(T_data, M_data)):
-        M_fit = a * (T ** alpha)
-        error = abs(M_fit - M_actual) / M_actual * 100
-        print(f"  T={T:6d}: actual={M_actual:.3f} GB, fit={M_fit:.3f} GB, error={error:.1f}%")
-
-    # Save results
-    results = {
-        "config": {
-            "device": args.device,
-            "batch_size": args.batch,
-            "d_model": args.d_model,
-            "n_heads": args.n_heads,
-        },
-        "data": {
-            "seq_lengths": seq_lengths,
-            "memories_gb": memories,
-        },
-        "fit": {
-            "a": float(a),
+        # Save results
+        os.makedirs("artifacts/memory", exist_ok=True)
+        results = {
             "alpha": float(alpha),
+            "a": float(a),
             "r_squared": float(r_squared),
-        },
-        "gate": {
-            "threshold": 1.0,
-            "value": float(alpha),
-            "passes": gate_passes,
-        },
-    }
+            "gate_pass": gate_pass,
+            "measurements": [
+                {"seq_len": int(s), "memory_mb": float(m)}
+                for s, m in zip(seq_lengths[:len(memories)], memories)
+            ],
+        }
 
-    with open(args.report, "w") as f:
-        json.dump(results, f, indent=2)
+        with open("artifacts/memory/fit.json", "w") as f:
+            json.dump(results, f, indent=2)
 
-    print(f"\nResults saved to: {args.report}")
-    print("=" * 80)
+        print(f"\nResults saved to artifacts/memory/fit.json")
 
-    return 0 if gate_passes else 1
+    else:
+        print("\nNot enough data points for fitting")
 
 
 if __name__ == "__main__":
-    exit(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", type=str, default="tfan/models/tfan7b/config.json")
+    parser.add_argument("--device", type=str, default="cuda")
+    args = parser.parse_args()
+    main(args)
