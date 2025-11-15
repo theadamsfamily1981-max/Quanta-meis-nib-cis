@@ -1,0 +1,369 @@
+# TF-A-N 7B QUANTA-Focused Configuration
+#
+# Domain-specific training for QUANTA use cases:
+# - Quantum computing algorithms
+# - AI/ML systems design
+# - Neuromorphic architectures
+# - Formal verification & safety
+# - Multi-modal reasoning
+
+# Model Configuration
+model:
+  config_path: "tfan/models/tfan7b/config.json"
+  precision: "bf16"
+  gradient_checkpointing: true
+
+# Training Hyperparameters
+training:
+  # Batch & Sequence
+  batch_size: 1
+  gradient_accumulation_steps: 16
+  seq_length: 2048
+  max_steps: 100000
+
+  # Optimization
+  learning_rate: 1.0e-4
+  weight_decay: 0.1
+  adam_beta1: 0.9
+  adam_beta2: 0.95
+  adam_epsilon: 1.0e-8
+
+  # Scheduling
+  warmup_steps: 2000
+  lr_schedule: "cosine"
+  min_lr_ratio: 0.1
+
+  # Regularization
+  grad_clip: 1.0
+  dropout: 0.0
+  attention_dropout: 0.0
+
+  # Mixed Precision
+  use_amp: true
+  amp_dtype: "bfloat16"
+
+# QUANTA Domain Data Sources
+data:
+  # Primary: Quantum Computing & AI Research
+  primary_sources:
+    - name: "arxiv_quantum"
+      path: "data/arxiv/quantum_computing"
+      weight: 0.25
+      description: "Quantum computing papers and algorithms"
+
+    - name: "arxiv_ai_ml"
+      path: "data/arxiv/ai_ml"
+      weight: 0.25
+      description: "AI/ML systems, architectures, optimization"
+
+    - name: "arxiv_neuromorphic"
+      path: "data/arxiv/neuromorphic"
+      weight: 0.15
+      description: "Neuromorphic computing, SNNs, brain-inspired"
+
+    - name: "arxiv_formal_methods"
+      path: "data/arxiv/formal_methods"
+      weight: 0.15
+      description: "Formal verification, safety, theorem proving"
+
+  # Secondary: Technical Documentation
+  secondary_sources:
+    - name: "quantum_frameworks"
+      path: "data/docs/qiskit_cirq_pennylane"
+      weight: 0.05
+      description: "Qiskit, Cirq, PennyLane documentation"
+
+    - name: "ml_frameworks"
+      path: "data/docs/pytorch_jax_tf"
+      weight: 0.05
+      description: "PyTorch, JAX, TensorFlow documentation"
+
+    - name: "neuromorphic_platforms"
+      path: "data/docs/loihi_truenorth_spinnaker"
+      weight: 0.05
+      description: "Intel Loihi, IBM TrueNorth, SpiNNaker docs"
+
+    - name: "formal_tools"
+      path: "data/docs/z3_coq_lean"
+      weight: 0.05
+      description: "Z3, Coq, Lean theorem prover docs"
+
+  # Data Processing
+  tokenizer: "sentencepiece"  # Or your custom tokenizer
+  vocab_size: 32768
+  max_seq_length: 2048
+
+  # Mixing Strategy
+  mixing: "weighted_random"  # Samples from sources by weight
+  shuffle: true
+  seed: 42
+
+# TF-A-N Components (Full Stack)
+tfan:
+  # FDT Homeostasis
+  use_fdt: true
+  fdt:
+    kp: 0.30
+    ki: 0.02
+    kd: 0.10
+    ema_alpha: 0.85
+    target_epr_cv: 0.15
+    lr_range: [0.7, 1.2]
+    temp_range: [0.8, 1.3]
+
+  # PGU Formal Verification
+  use_pgu: false  # Optional: enable for safety-critical training
+  pgu:
+    mode: "soft"  # soft | hard
+    timeout_ms: 120
+    fallback_ms: 180
+    cache_size: 10000
+    verify_interval: 100  # Verify every N steps
+
+  # Topology Regularization
+  use_topology: true
+  topology:
+    lambda_topo: 0.1
+    hook_every_n_layers: 2
+    target_beta0: 1
+    target_beta1: 0
+    nightly_exact_ph: true  # Use GUDHI/Ripser nightly
+
+  # TTW-Sentry (Multi-Modal)
+  use_ttw: false  # Enable when using multi-modal data
+  ttw:
+    window_size: 64
+    p95_target_ms: 5.0
+    coverage_target: 0.9
+    vfe_threshold: 3.0
+    entropy_threshold: 0.5
+
+  # Emotion-Based Modulation
+  use_emotion: false  # Optional: enable for exploration/exploitation
+  emotion:
+    arousal_to_temp: true
+    valence_to_lr: true
+    emotion_weight: 0.3
+
+# SNN Integration (Optional)
+snn:
+  enable: false  # Set to true to use SNN instead of ANN
+  config_path: "tfan/snn/configs/snn_lif_base.json"
+  time_steps: 256
+  encoder: "rate"  # rate | latency | delta
+  neuron: "LIF"  # LIF | PLIF
+  target_sparsity: 0.75  # 75% zero spikes
+
+# Logging & Checkpointing
+logging:
+  log_interval: 100
+  eval_interval: 1000
+  save_interval: 5000
+
+  # Metrics to Track
+  metrics:
+    - "loss"
+    - "perplexity"
+    - "lr"
+    - "epr_cv"  # FDT
+    - "temperature"
+    - "grad_norm"
+    - "spike_sparsity"  # If SNN enabled
+    - "topology_wasserstein"  # If topology enabled
+
+  # Tensorboard / WandB
+  use_tensorboard: true
+  tensorboard_dir: "runs/quanta_7b"
+  use_wandb: false
+  wandb_project: "tfan-quanta-7b"
+  wandb_entity: null
+
+# Checkpointing
+checkpointing:
+  output_dir: "checkpoints/quanta_7b"
+  save_total_limit: 5  # Keep last 5 checkpoints
+  save_optimizer: true
+  save_scheduler: true
+  save_fdt_state: true
+
+# Evaluation
+evaluation:
+  datasets:
+    # Domain-Specific Benchmarks
+    - name: "quantum_reasoning"
+      path: "data/eval/quantum_qa"
+      metrics: ["accuracy", "exact_match"]
+
+    - name: "algorithm_synthesis"
+      path: "data/eval/algorithm_gen"
+      metrics: ["pass@k", "correctness"]
+
+    - name: "formal_proof"
+      path: "data/eval/theorem_proving"
+      metrics: ["proof_validity", "step_accuracy"]
+
+  # Standard Benchmarks (for comparison)
+  standard_benchmarks:
+    - "mmlu"  # Multitask Language Understanding
+    - "arc"   # AI2 Reasoning Challenge
+    - "hellaswag"  # Commonsense Reasoning
+
+# Distributed Training
+distributed:
+  backend: "deepspeed"  # deepspeed | accelerate
+  deepspeed_config: "training/deepspeed.json"
+  accelerate_config: "training/accelerate_config.yaml"
+
+  # Multi-GPU Strategy
+  num_gpus: 4
+  gradient_checkpointing: true
+  activation_checkpointing_blocks: 4
+
+  # ZeRO Configuration
+  zero_stage: 3
+  offload_optimizer: false
+  offload_param: false
+
+# Gate Validation (TF-A-N Quality Gates)
+gates:
+  check_interval: 500  # Every 500 steps
+
+  # Hard Gates (must pass)
+  hard_gates:
+    - name: "epr_cv"
+      threshold: 0.15
+      operator: "<="
+
+    - name: "ttw_p95"
+      threshold: 5.0  # ms
+      operator: "<"
+      enabled_if: "use_ttw"
+
+    - name: "pgu_p95"
+      threshold: 200.0  # ms
+      operator: "<="
+      enabled_if: "use_pgu"
+
+    - name: "topology_wasserstein"
+      threshold: 0.02
+      operator: "<="
+      enabled_if: "use_topology"
+
+    - name: "spike_sparsity"
+      threshold: 0.75
+      operator: ">="
+      enabled_if: "snn.enable"
+
+  # Soft Gates (warnings only)
+  soft_gates:
+    - name: "grad_norm"
+      threshold: 5.0
+      operator: "<"
+
+    - name: "loss_spike"
+      threshold: 2.0  # Loss increase > 2× triggers warning
+      operator: "<"
+
+# Hardware Optimization
+hardware:
+  device: "cuda"
+
+  # Memory Optimization
+  max_memory_gb: 80  # Per GPU (A100)
+  gradient_checkpointing: true
+  activation_checkpointing: true
+
+  # Compilation
+  torch_compile: false  # Enable for PyTorch 2.0+
+  compile_mode: "reduce-overhead"  # default | reduce-overhead | max-autotune
+
+  # Precision
+  use_tf32: true  # For A100
+  use_flash_attention: false  # SSA handles sparsity
+
+# QUANTA-Specific Features
+quanta:
+  # Domain Knowledge Integration
+  enable_domain_priors: true
+  domain_priors:
+    - "quantum_gates.yaml"
+    - "ml_architectures.yaml"
+    - "neuromorphic_patterns.yaml"
+    - "formal_rules.yaml"
+
+  # Specialized Tokenization
+  quantum_notation: true  # Recognize ket notation |ψ⟩, bra ⟨φ|
+  math_mode: true  # LaTeX math expressions
+  code_mode: true  # Python, Q#, Cirq syntax
+
+  # Multi-Modal Extensions (Future)
+  multi_modal:
+    enable: false
+    modalities:
+      - "circuit_diagrams"  # Quantum circuit images
+      - "architecture_graphs"  # Neural architecture diagrams
+      - "proof_trees"  # Formal proof visualizations
+
+# Experimental Features
+experimental:
+  # Adaptive Sequence Length
+  adaptive_seq_length: false
+  seq_length_schedule: [1024, 1536, 2048]
+
+  # Curriculum Learning
+  curriculum_learning: false
+  curriculum_stages:
+    - stage: "foundations"
+      data_weight: {"arxiv_ai_ml": 0.5, "arxiv_quantum": 0.5}
+      steps: 20000
+    - stage: "advanced"
+      data_weight: {"arxiv_quantum": 0.3, "arxiv_neuromorphic": 0.3, "arxiv_formal_methods": 0.4}
+      steps: 50000
+    - stage: "integration"
+      data_weight: "balanced"  # Use default weights
+      steps: 30000
+
+  # LoRA Fine-Tuning (for smaller GPUs)
+  use_lora: false
+  lora:
+    r: 8
+    alpha: 16
+    dropout: 0.05
+    target_modules: ["q_proj", "v_proj", "o_proj"]
+
+# Notes
+notes: |
+  QUANTA-Focused Configuration for TF-A-N 7B
+
+  This configuration prioritizes:
+  1. Quantum computing knowledge (algorithms, gates, circuits)
+  2. AI/ML systems architecture and optimization
+  3. Neuromorphic computing and SNNs
+  4. Formal methods and verification
+
+  Data sources should be organized in data/ directory:
+    data/
+      arxiv/
+        quantum_computing/
+        ai_ml/
+        neuromorphic/
+        formal_methods/
+      docs/
+        qiskit_cirq_pennylane/
+        pytorch_jax_tf/
+        loihi_truenorth_spinnaker/
+        z3_coq_lean/
+      eval/
+        quantum_qa/
+        algorithm_gen/
+        theorem_proving/
+
+  To use this config:
+    python training/train.py --config configs/7b/quanta_focus.yaml
+
+  Gates validated every 500 steps:
+    - EPR-CV ≤ 0.15 (FDT homeostasis)
+    - Topology Wasserstein ≤ 2%
+    - Grad norm < 5.0
+
+  For SNN mode, set snn.enable: true and adjust time_steps.
