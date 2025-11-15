@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tfan-model-pvc
+  labels:
+    app: tfan-server
+spec:
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+  # Optional: Use existing PV
+  # volumeName: tfan-model-pv

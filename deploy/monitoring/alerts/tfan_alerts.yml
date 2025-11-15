@@ -1,0 +1,72 @@
+groups:
+  - name: tfan_alerts
+    interval: 30s
+    rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: |
+          rate(tfan_requests_total{status="error"}[5m]) /
+          rate(tfan_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate on TFAN server"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+      # High latency
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95,
+            rate(tfan_request_duration_seconds_bucket[5m])
+          ) > 1.0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High request latency on TFAN server"
+          description: "95th percentile latency is {{ $value }}s (threshold: 1s)"
+
+      # Model not loaded
+      - alert: ModelNotLoaded
+        expr: up{job="tfan-server"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "TFAN server is down"
+          description: "TFAN server has been down for more than 2 minutes"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: |
+          (process_resident_memory_bytes /
+          (1024 * 1024 * 1024)) > 3.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on TFAN server"
+          description: "Memory usage is {{ $value }}GB (threshold: 3.5GB)"
+
+      # Large queue size
+      - alert: LargeQueueSize
+        expr: tfan_queue_size > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Large request queue on TFAN server"
+          description: "Queue size is {{ $value }} (threshold: 100)"
+
+      # Low cache hit rate
+      - alert: LowCacheHitRate
+        expr: |
+          rate(tfan_cache_hits_total[10m]) /
+          (rate(tfan_cache_hits_total[10m]) + rate(tfan_cache_misses_total[10m])) < 0.5
+        for: 10m
+        labels:
+          severity: info
+        annotations:
+          summary: "Low cache hit rate on TFAN server"
+          description: "Cache hit rate is {{ $value | humanizePercentage }} (threshold: 50%)"

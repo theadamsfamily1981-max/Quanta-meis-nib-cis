@@ -1,0 +1,10 @@
+# Production serving dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+prometheus-client==0.19.0
+python-multipart==0.0.6
+
+# Optional: ONNX Runtime for optimized inference
+# onnxruntime==1.16.3
+# onnxruntime-gpu==1.16.3

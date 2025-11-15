@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tfan-server
+  labels:
+    app: tfan-server
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: tfan-server
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tfan-server-loadbalancer
+  labels:
+    app: tfan-server
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: tfan-server
+  # Optional: Use specific load balancer IP
+  # loadBalancerIP: "1.2.3.4"

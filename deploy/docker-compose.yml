@@ -1,0 +1,129 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # TFAN Model Server
+  # ============================================================================
+  tfan-server:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: tfan-server:latest
+    container_name: tfan-server
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount model directory (place your model at ./models/tfan_model.pt)
+      - ./models:/app/models:ro
+      # Mount logs directory
+      - ./logs:/app/logs
+    environment:
+      - TFAN_MODEL_PATH=/app/models/tfan_model.pt
+      - LOG_LEVEL=INFO
+      # GPU support (uncomment if using NVIDIA GPU)
+      # - NVIDIA_VISIBLE_DEVICES=all
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/app/deploy/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - tfan-network
+    # Uncomment for GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # ============================================================================
+  # Prometheus - Metrics Collection
+  # ============================================================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: tfan-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+    networks:
+      - tfan-network
+
+  # ============================================================================
+  # Grafana - Metrics Visualization
+  # ============================================================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: tfan-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    networks:
+      - tfan-network
+    depends_on:
+      - prometheus
+
+  # ============================================================================
+  # Redis - Caching Layer (Optional)
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: tfan-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    networks:
+      - tfan-network
+
+  # ============================================================================
+  # Load Balancer (Optional - for multi-instance deployment)
+  # ============================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: tfan-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+    networks:
+      - tfan-network
+    depends_on:
+      - tfan-server
+
+# ============================================================================
+# Networks
+# ============================================================================
+networks:
+  tfan-network:
+    driver: bridge
+
+# ============================================================================
+# Volumes
+# ============================================================================
+volumes:
+  prometheus-data:
+  grafana-data:
+  redis-data:
