@@ -1,0 +1,154 @@
+# Multi-Modal + Emotion Integration Configuration
+# Complete setup for vision + audio + text + emotion processing
+
+modality:
+  text:
+    enabled: true
+    tokenizer: "hf:gpt2"
+    max_length: 512
+    timestamp_scale: 0.1  # seconds per token
+
+  audio:
+    enabled: true
+    sr: 16000
+    frame_hop: 0.02  # 20ms
+    n_mels: 64
+    prosody: true
+    prosody_dim: 3
+
+  video:
+    enabled: true
+    fps: 25
+    img_size: 224
+    patch_size: 16
+    channels: 3
+
+  imu:
+    enabled: false
+    rate: 100
+    features: ['accel_x', 'accel_y', 'accel_z', 'gyro_x', 'gyro_y', 'gyro_z']
+
+alignment:
+  ttw:
+    max_iter: 8
+    p95_ms_gate: 5.0  # HARD GATE: p95 < 5ms
+    coverage_target: 0.90
+    vfe_spike_threshold: 2.0
+    entropy_jump_threshold: 1.5
+    enable_fast_triggers: true
+
+fusion:
+  keep_ratio: 0.33  # SSA sparsity
+  tls_alpha: 0.7  # persistence vs. maxmin blend
+  per_head_masks: true
+  degree_aware_pruning: true
+  degree_floor: 2
+
+  cat_fallback:
+    acc_drop_pct: 2.0  # Trigger if accuracy drops > 2%
+    tls_overhead_pct: 10.0  # Trigger if TLS overhead > 10%
+
+topology:
+  gates:
+    wasserstein_pct: 2.0  # HARD GATE: Wasserstein gap ≤ 2%
+    cosine_min: 0.90  # HARD GATE: cosine ≥ 0.90
+
+  nightly_exact_ph:
+    samples_max: 5000
+    time_cap_min: 20
+
+emotion:
+  head: "VA"  # VA or PAD
+  output_dim: 2  # VA: 2, PAD: 3
+
+  loss:
+    type: "ccc"  # CCC or MSE
+    lambda_temporal: 0.1  # Temporal smoothness penalty
+    lambda_topo: 0.3  # Topological consistency (β₀=1, β₁=0 for VA trajectory)
+
+  trajectory:
+    enforce_single_component: true  # β₀=1 for VA curve
+    suppress_cycles: true  # β₁=0
+
+control:
+  fdt_pid:
+    kp: 0.30
+    ki: 0.02
+    kd: 0.10
+    ema_alpha: 0.85
+    adaptive_gains: true
+
+  # Arousal ↔ Temperature mapping
+  temp_map:
+    kA: 0.5  # Arousal sensitivity
+    T_base: 1.0
+    clamp: [0.6, 1.8]
+
+  # Valence ↔ Learning Rate mapping
+  lr_map:
+    kV: 0.3  # Valence sensitivity
+    lr_base: 1.0
+    clamp: [0.2, 1.5]
+
+  # Confidence ↔ PGU thresholds
+  confidence_map:
+    threshold_mult: 1.5  # Raise thresholds when confidence low
+
+pgu:
+  timeout_ms: 120
+  fallback_ms: 180
+  p95_ms_gate: 200  # HARD GATE: p95 ≤ 200ms
+
+  cache:
+    substitution_aware: true
+    lru_capacity: 2048
+    min_hit_rate: 0.50  # HARD GATE: ≥50% cache hit
+
+metrics:
+  gates:
+    epr_cv: 0.15  # HARD GATE: EPR-CV ≤ 0.15
+    pgu_p95_ms: 200
+    ttw_p95_ms: 5
+    ssa_speedup_x: 3.0  # HARD GATE: ≥3× speedup @ 16k/32k
+    topology_wasserstein_pct: 2.0
+    topology_cosine_min: 0.90
+    pgu_cache_hit_rate: 0.50
+
+monitoring:
+  prometheus:
+    enabled: true
+    port: 9090
+
+  grafana:
+    enabled: true
+    port: 3000
+
+  dashboards:
+    - ttw_alignment  # TTW p50/p95, trigger rate
+    - ssa_fusion  # keep_ratio, speedup, mask entropy
+    - emotion_state  # V, A, (P/D), confidence, jerk
+    - fdt_control  # EPR-CV, LR/T schedules
+    - pgu_safety  # p95, cache hit, fallback count
+    - topology_gates  # Wasserstein %, cosine, β₀/β₁
+
+training:
+  epochs: 100
+  batch_size: 32
+  gradient_clip: 1.0
+
+  losses:
+    task_weight: 1.0
+    emotion_weight: 1.0
+    topology_weight: 0.3
+    alignment_weight: 0.1
+
+evaluation:
+  metrics:
+    - task_accuracy
+    - emotion_ccc  # Concordance Correlation Coefficient
+    - emotion_rmse
+    - temporal_jerk  # ||Δ²state||
+    - alignment_coverage
+    - ssa_speedup
+    - topology_wasserstein
+    - topology_cosine
