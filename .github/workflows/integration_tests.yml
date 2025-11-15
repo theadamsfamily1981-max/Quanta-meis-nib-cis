@@ -1,0 +1,69 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip wheel
+          pip install -r requirements.txt
+          pip install -e .
+          pip install pytest pytest-cov
+
+      - name: Run Integration Tests
+        run: |
+          pytest tests/test_integration.py \
+            --cov=tfan \
+            --cov-report=xml \
+            --cov-report=term \
+            -v
+
+      - name: Test Multi-Modal Pipeline
+        run: |
+          python tests/test_mm_pipeline.py
+
+      - name: Test End-to-End Training Loop
+        run: |
+          python tests/test_e2e_training.py \
+            --steps 100 \
+            --validate-gates
+
+      - name: Test All Gates
+        run: |
+          python scripts/validate_all_gates.py \
+            --config configs/test_config.yaml
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          flags: integration
+          fail_ci_if_error: false
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integration_test_results
+          path: |
+            test-results/
+            coverage.xml
