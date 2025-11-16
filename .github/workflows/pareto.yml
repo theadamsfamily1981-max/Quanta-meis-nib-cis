@@ -1,0 +1,268 @@
+name: Pareto Auto-Runner
+
+on:
+  push:
+    branches: [ main, 'claude/**' ]
+    paths:
+      - 'tfan/pareto/**'
+      - 'scripts/pareto_eval.py'
+      - 'dashboards/pareto_app.py'
+      - '.github/workflows/pareto.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'tfan/pareto/**'
+      - 'scripts/pareto_eval.py'
+      - 'dashboards/pareto_app.py'
+      - '.github/workflows/pareto.yml'
+
+jobs:
+  test-imports:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install numpy
+
+      - name: Test Pareto imports
+        run: |
+          python -c "
+          from tfan.pareto import (
+              ParetoRunner,
+              RunConfig,
+              pareto_frontier,
+              hypervolume,
+              compute_ehvi,
+              summarize_results,
+              export_dashboard
+          )
+          print('✓ Pareto imports successful')
+          "
+
+  test-ehvi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install numpy
+
+      - name: Test EHVI computation
+        run: |
+          python -c "
+          import numpy as np
+          from tfan.pareto.ehvi import pareto_frontier_from_points, hypervolume, ParetoPoint
+
+          # Create test points
+          points = [
+              ParetoPoint('p1', {}, np.array([1.0, 2.0])),
+              ParetoPoint('p2', {}, np.array([2.0, 1.0])),
+              ParetoPoint('p3', {}, np.array([1.5, 1.5])),
+              ParetoPoint('p4', {}, np.array([3.0, 3.0]))  # Dominated
+          ]
+
+          # Compute frontier
+          frontier = pareto_frontier_from_points(points)
+
+          # p4 should be dominated
+          assert len(frontier) == 3, f'Expected 3 frontier points, got {len(frontier)}'
+
+          print('✓ EHVI computation test passed')
+          print(f'  Frontier: {len(frontier)} points')
+          "
+
+      - name: Test hypervolume
+        run: |
+          python -c "
+          import numpy as np
+          from tfan.pareto.ehvi import hypervolume, ParetoPoint
+
+          frontier = [
+              ParetoPoint('p1', {}, np.array([1.0, 2.0])),
+              ParetoPoint('p2', {}, np.array([2.0, 1.0]))
+          ]
+
+          reference = np.array([3.0, 3.0])
+
+          hv = hypervolume(frontier, reference)
+
+          assert hv > 0, 'Hypervolume should be positive'
+
+          print('✓ Hypervolume test passed')
+          print(f'  HV: {hv:.4f}')
+          "
+
+  test-runner:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install numpy
+
+      - name: Test grid search
+        run: |
+          python -c "
+          from tfan.pareto import ParetoRunner
+
+          runner = ParetoRunner(objectives=['latency', 'accuracy'])
+
+          configs = runner.grid_search({
+              'k': [32, 64],
+              'window': [128, 256]
+          })
+
+          assert len(configs) == 4, f'Expected 4 configs, got {len(configs)}'
+
+          print('✓ Grid search test passed')
+          print(f'  Configs: {len(configs)}')
+          "
+
+      - name: Test mock runner
+        run: |
+          python -c "
+          from tfan.pareto import ParetoRunner
+          from tfan.pareto.runner import mock_runner_fn
+
+          runner = ParetoRunner(objectives=['latency_ms', 'accuracy'])
+
+          configs = runner.grid_search({
+              'k_landmarks': [32, 64],
+              'local_window': [128, 256]
+          })
+
+          # Run small batch
+          results = runner.run_batch(configs[:2], runner_fn=mock_runner_fn, max_workers=1)
+
+          assert len(results) == 2
+          assert all(r.status == 'success' for r in results)
+
+          print('✓ Mock runner test passed')
+          print(f'  Results: {len(results)}')
+          "
+
+  test-pareto-eval:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install numpy
+
+      - name: Test pareto_eval script
+        run: |
+          python scripts/pareto_eval.py \
+            --mode grid \
+            --params 'k_landmarks:32,64 local_window:128,256' \
+            --objectives latency_ms,accuracy,memory_mb \
+            --minimize latency_ms,memory_mb \
+            --maximize accuracy \
+            --max-workers 1 \
+            --output-dir /tmp/pareto_test
+
+          # Check outputs
+          ls -la /tmp/pareto_test/
+
+          # Verify JSON exists
+          cat /tmp/pareto_test/pareto.json | python -m json.tool
+
+  benchmark-gates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install numpy
+
+      - name: Run Pareto benchmark
+        run: |
+          python scripts/pareto_eval.py \
+            --mode grid \
+            --params 'k_landmarks:16,32,48,64,80,96 local_window:64,128,192,256' \
+            --objectives latency_ms,accuracy,memory_mb \
+            --minimize latency_ms,memory_mb \
+            --maximize accuracy \
+            --max-workers 2 \
+            --output-dir artifacts/pareto \
+            --max-time-h 1.0
+
+      - name: Check hard gates
+        run: |
+          python -c "
+          import json
+
+          with open('artifacts/pareto/summary.json') as f:
+              summary = json.load(f)
+
+          gates = summary.get('gates', {})
+          overall_pass = gates.get('overall', {}).get('pass', False)
+
+          print('\nGate Results:')
+          for gate_name, gate_data in gates.items():
+              if gate_name == 'overall':
+                  continue
+
+              value = gate_data.get('value')
+              threshold = gate_data.get('threshold')
+              passed = gate_data.get('pass')
+
+              status = '✓' if passed else '✗'
+              print(f'{status} {gate_name}: {value} (threshold: {threshold})')
+
+          if not overall_pass:
+              print('\n✗ Hard gates FAILED')
+              exit(1)
+
+          print('\n✓ Hard gates PASSED')
+          "
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pareto-results
+          path: |
+            artifacts/pareto/pareto.json
+            artifacts/pareto/summary.json
+            artifacts/pareto/dashboard.json
+            artifacts/pareto/report.html
