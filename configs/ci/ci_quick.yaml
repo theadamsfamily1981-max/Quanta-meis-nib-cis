@@ -1,0 +1,129 @@
+# CI Quick Config - Fast Smoke Tests
+#
+# Minimal configuration for CI/CD pipeline validation.
+# Uses tiny model and public fallback data.
+
+project: tfan-ci-quick
+seed: 1337
+dtype: bf16
+
+# Data Configuration
+data:
+  # No QUANTA data in CI - use fallback
+  root: null
+  s3_bucket: null
+  manifest: null
+
+  # Fallback to tiny public dataset
+  fallback_public:
+    enabled: true
+    name: "wikitext103_tiny"
+    max_samples: 8192  # Very small for CI
+
+tokenizer:
+  name: "tiktoken-llama-compatible"
+  seq_len: 1024  # Short for CI speed
+  truncation: "right"
+  pad_to_multiple_of: 128
+
+# Minimal Model (for fast CI)
+model:
+  arch: "tfan-7b"
+  config_path: "tfan/models/tfan7b/config.json"
+
+  # Override to tiny for CI
+  override:
+    hidden_size: 512
+    num_hidden_layers: 4
+    num_attention_heads: 8
+    num_kv_heads: 4
+    intermediate_size: 1536
+
+# Attention (SSA enabled but relaxed)
+attention:
+  backend: "ssa"
+  keep_ratio: 0.50  # Less aggressive for CI
+  mask_granularity: "per_head"
+  tls:
+    method: "hybrid"
+    alpha_persistence: 0.7
+
+# Minimal TF-A-N Components
+topology:
+  dph: false  # Disabled for CI speed
+  gates:
+    wasserstein_gap_pct: 5.0  # Relaxed
+    cosine_sim_min: 0.80
+
+hyperbolic:
+  ctd_gate: false  # Disabled for CI
+
+fdt:
+  pid:
+    kp: 0.30
+    ki: 0.02
+    kd: 0.10
+  ema_alpha: 0.85
+  epr_cv_target: 0.20  # Relaxed for CI
+
+pgu:
+  enabled: false  # Disabled for CI speed
+
+ttw_sentry:
+  enabled: false  # Disabled for CI
+
+# Training (minimal for CI)
+optimizer:
+  name: "adamw"
+  lr: 3.0e-4
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  warmup_steps: 10
+
+train:
+  batch_size: 2
+  gradient_accumulation_steps: 2
+  global_batch_tokens: 4096  # Tiny
+  max_steps: 200  # Fast CI run
+  grad_clip: 1.0
+  log_interval: 10
+  save_interval_steps: 1000
+  eval_interval_steps: 100
+
+# Evaluation (disabled for CI)
+eval:
+  enabled: false
+  tasks: []
+
+# Monitoring (minimal)
+monitoring:
+  prometheus: false
+  grafana: false
+
+# Gates (relaxed for CI)
+gates:
+  check_interval: 50
+  attention_speedup_x_min: 1.1  # Very relaxed
+  epr_cv_max: 0.25
+  memory_alpha_lt: 1.5  # Relaxed
+
+# Distributed (single GPU for CI)
+distributed:
+  backend: null
+  num_gpus: 1
+  zero_stage: 0
+
+notes: |
+  CI Quick Configuration
+
+  Fast smoke test for CI/CD pipelines:
+  - Tiny model (512 hidden, 4 layers)
+  - 8k samples from WikiText-103
+  - 200 training steps
+  - All heavy TF-A-N components disabled
+  - Relaxed gates
+
+  Expected runtime: ~2-5 minutes on single GPU
+
+  Usage:
+    python training/train.py --config configs/ci/ci_quick.yaml
