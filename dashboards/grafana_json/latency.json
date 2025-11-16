@@ -1,0 +1,221 @@
+{
+  "dashboard": {
+    "title": "TF-A-N Latency Attribution Dashboard",
+    "tags": ["latency", "ebpf", "gpu", "performance"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "5s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "PGU Latency p50/p95/p99",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, rate(pgu_duration_seconds_bucket[5m]))",
+            "legendFormat": "p50",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(pgu_duration_seconds_bucket[5m]))",
+            "legendFormat": "p95",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(pgu_duration_seconds_bucket[5m]))",
+            "legendFormat": "p99",
+            "refId": "C"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "s",
+            "label": "Latency"
+          },
+          {}
+        ],
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "pointradius": 2,
+        "legend": {"show": true}
+      },
+      {
+        "id": 2,
+        "title": "TTW VFE Distribution",
+        "type": "graph",
+        "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "ttw_vfe",
+            "legendFormat": "VFE",
+            "refId": "A"
+          },
+          {
+            "expr": "ttw_threshold",
+            "legendFormat": "Threshold",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "VFE Value"
+          },
+          {}
+        ]
+      },
+      {
+        "id": 3,
+        "title": "GPU Kernel Execution Time",
+        "type": "heatmap",
+        "gridPos": {"x": 0, "y": 8, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "rate(gpu_kernel_duration_seconds_bucket[5m])",
+            "legendFormat": "{{kernel_name}}",
+            "refId": "A"
+          }
+        ],
+        "dataFormat": "tsbuckets",
+        "yAxis": {
+          "format": "s",
+          "label": "Kernel Duration"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Attribution Coverage",
+        "type": "gauge",
+        "gridPos": {"x": 12, "y": 8, "w": 6, "h": 8},
+        "targets": [
+          {
+            "expr": "sum(rate(traced_time_seconds[5m])) / sum(rate(wall_time_seconds[5m]))",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 0.90, "color": "yellow"},
+                {"value": 0.95, "color": "green"}
+              ]
+            },
+            "min": 0,
+            "max": 1,
+            "unit": "percentunit"
+          }
+        },
+        "options": {
+          "showThresholdLabels": true,
+          "showThresholdMarkers": true
+        }
+      },
+      {
+        "id": 5,
+        "title": "TTW Alert Latency",
+        "type": "stat",
+        "gridPos": {"x": 18, "y": 8, "w": 6, "h": 8},
+        "targets": [
+          {
+            "expr": "ttw_alert_latency_seconds",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 2, "color": "yellow"},
+                {"value": 3, "color": "red"}
+              ]
+            },
+            "unit": "s"
+          }
+        },
+        "options": {
+          "colorMode": "background"
+        }
+      },
+      {
+        "id": 6,
+        "title": "SSA Kernel Flamegraph",
+        "type": "flamegraph",
+        "gridPos": {"x": 0, "y": 16, "w": 24, "h": 10},
+        "targets": [
+          {
+            "expr": "gpu_kernel_time_by_name",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "PGU Cache Hit Rate",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 26, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "sum(rate(pgu_cache_hits[5m])) / sum(rate(pgu_total_lookups[5m]))",
+            "legendFormat": "Hit Rate",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percentunit",
+            "label": "Cache Hit Rate",
+            "min": 0,
+            "max": 1
+          },
+          {}
+        ]
+      },
+      {
+        "id": 8,
+        "title": "GPU Memory Bandwidth",
+        "type": "graph",
+        "gridPos": {"x": 12, "y": 26, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "rate(gpu_memory_transfer_bytes[5m])",
+            "legendFormat": "{{kind}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": "Bandwidth"
+          },
+          {}
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"]
+    },
+    "annotations": {
+      "list": [
+        {
+          "datasource": "Prometheus",
+          "enable": true,
+          "expr": "ttw_trigger_count > 0",
+          "name": "TTW Triggers",
+          "step": "5s"
+        }
+      ]
+    }
+  }
+}
