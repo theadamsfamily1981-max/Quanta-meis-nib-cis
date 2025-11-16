@@ -1,0 +1,62 @@
+name: Fused Radial Attention Kernel
+
+on:
+  push:
+    paths:
+      - 'kernels/ssa/**'
+      - 'tfan/kernels/fused_radial_attn.py'
+      - 'benchmarks/bench_fused_radial.py'
+  pull_request:
+    paths:
+      - 'kernels/ssa/**'
+      - 'tfan/kernels/fused_radial_attn.py'
+      - 'benchmarks/bench_fused_radial.py'
+
+jobs:
+  test-cuda-kernel:
+    runs-on: ubuntu-latest
+    # Note: Would require GPU runner for actual CUDA execution
+    # Using CPU for syntax/compilation checks only
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install torch numpy
+
+      # Syntax check (no GPU required)
+      - name: Check Python syntax
+        run: |
+          python -m py_compile tfan/kernels/fused_radial_attn.py
+          python -m py_compile benchmarks/bench_fused_radial.py
+
+      # Run unfused baseline (CPU)
+      - name: Run unfused baseline benchmark
+        run: |
+          python benchmarks/bench_fused_radial.py \
+            --batch-size 2 \
+            --seq-len 128 \
+            --iterations 10 \
+            --output results_cpu.json
+
+      # Would compile CUDA kernel on GPU runner:
+      # - name: Compile CUDA kernel
+      #   run: |
+      #     nvcc --version
+      #     python -c "from tfan.kernels.fused_radial_attn import CUDA_AVAILABLE; print(f'CUDA: {CUDA_AVAILABLE}')"
+      #
+      # - name: Run fused kernel benchmark
+      #   run: |
+      #     python benchmarks/bench_fused_radial.py --ci
+
+      - name: Upload results
+        uses: actions/upload-artifact@v3
+        with:
+          name: benchmark-results
+          path: results_cpu.json
