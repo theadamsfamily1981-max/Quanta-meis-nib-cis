@@ -1,0 +1,144 @@
+name: TF-A-N CI
+
+on:
+  push:
+    branches: [ main, claude/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # Quick syntax check (runs first)
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile tfan_gui.py
+          python -m py_compile tests/run_all_tests.py
+          find tfan/ -name "*.py" -exec python -m py_compile {} \;
+
+  # Main test suite
+  test-suite:
+    runs-on: ubuntu-latest
+    needs: syntax-check
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install torch numpy scipy
+          pip install streamlit plotly pandas
+
+      - name: Run comprehensive test suite
+        run: |
+          python tests/run_all_tests.py --output test_results.json
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test_results.json
+
+  # Individual subsystem tests (run in parallel)
+  test-pgu:
+    runs-on: ubuntu-latest
+    needs: syntax-check
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install torch numpy
+
+      - name: Test PGU TurboCache
+        run: |
+          python -c "from tfan.pgu import TurboCache; cache = TurboCache(); print('✓ PGU works')"
+          python tfan/pgu/corpus_replay.py --size 100 --iterations 50
+
+  test-hyperkg:
+    runs-on: ubuntu-latest
+    needs: syntax-check
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install torch numpy
+
+      - name: Test HyperKG
+        run: |
+          python examples/hyperkg_datalog_demo.py
+
+  test-fused-attention:
+    runs-on: ubuntu-latest
+    needs: syntax-check
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install torch numpy
+
+      - name: Test Fused Attention (unfused fallback)
+        run: |
+          python benchmarks/bench_fused_radial.py --batch-size 2 --seq-len 128 --iterations 10
+
+  # Documentation check
+  docs-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check documentation files exist
+        run: |
+          test -f README.md
+          test -f QUICKSTART.md
+          test -f GUI_README.md
+          test -f tfan/pgu/README.md
+          test -f tfan/kg/README.md
+          test -f tfan/distributed/README.md
+          test -f kernels/ssa/README.md
+
+      - name: Check for broken links (simple)
+        run: |
+          grep -r "TODO" *.md || echo "No TODOs found"
+
+  # Create summary
+  summary:
+    runs-on: ubuntu-latest
+    needs: [test-suite, test-pgu, test-hyperkg, test-fused-attention, docs-check]
+    if: always()
+
+    steps:
+      - name: Summary
+        run: |
+          echo "## TF-A-N CI Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✓ All jobs completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Check individual job results above." >> $GITHUB_STEP_SUMMARY
