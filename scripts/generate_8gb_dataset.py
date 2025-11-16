@@ -271,12 +271,15 @@ def create_hdf5_dataset(
     print("")
 
     with h5py.File(output_path, 'w') as f:
-        # Create datasets
+        # Create datasets with appropriate chunk sizes
+        train_chunk = min(chunk_size, num_train)
+        val_chunk = min(chunk_size, num_val)
+
         train_inputs = f.create_dataset(
             'train/inputs',
             shape=(num_train, T, N),
             dtype=np.float32,
-            chunks=(chunk_size, T, N),
+            chunks=(train_chunk, T, N),
             compression=compression,
             compression_opts=4 if compression == 'gzip' else None
         )
@@ -287,7 +290,7 @@ def create_hdf5_dataset(
                 'train/labels',
                 shape=(num_train, num_classes),
                 dtype=np.float32,
-                chunks=(chunk_size, num_classes),
+                chunks=(train_chunk, num_classes),
                 compression=compression,
                 compression_opts=4 if compression == 'gzip' else None
             )
@@ -297,7 +300,7 @@ def create_hdf5_dataset(
                 'train/labels',
                 shape=(num_train, N),
                 dtype=np.float32,
-                chunks=(chunk_size, N),
+                chunks=(train_chunk, N),
                 compression=compression,
                 compression_opts=4 if compression == 'gzip' else None
             )
@@ -306,7 +309,7 @@ def create_hdf5_dataset(
             'val/inputs',
             shape=(num_val, T, N),
             dtype=np.float32,
-            chunks=(chunk_size, T, N),
+            chunks=(val_chunk, T, N),
             compression=compression,
             compression_opts=4 if compression == 'gzip' else None
         )
@@ -316,7 +319,7 @@ def create_hdf5_dataset(
                 'val/labels',
                 shape=(num_val, num_classes),
                 dtype=np.float32,
-                chunks=(chunk_size, num_classes),
+                chunks=(val_chunk, num_classes),
                 compression=compression,
                 compression_opts=4 if compression == 'gzip' else None
             )
@@ -325,7 +328,7 @@ def create_hdf5_dataset(
                 'val/labels',
                 shape=(num_val, N),
                 dtype=np.float32,
-                chunks=(chunk_size, N),
+                chunks=(val_chunk, N),
                 compression=compression,
                 compression_opts=4 if compression == 'gzip' else None
             )
