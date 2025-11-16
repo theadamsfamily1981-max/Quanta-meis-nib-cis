@@ -176,6 +176,133 @@ def sweep_configurations(device='cpu', dtype=torch.float32, output_dir='artifact
     return results
 
 
+def roofline_sweep(device='cpu', dtype=torch.float32, output_dir='artifacts'):
+    """
+    Extended sweep for roofline analysis and kernel optimization guidance.
+
+    Sweeps:
+    - N in {2k, 4k, 8k}
+    - rank in {8, 16, 32, 64}
+    - k in {32, 64, 96}
+    - event density in {0.1%, 0.5%, 1%, 5%}
+
+    Records:
+    - Forward latency (p50, p95)
+    - Memory bandwidth utilization
+    - Throughput (events/sec)
+    - Fallback rate to dense
+
+    Saves CSV for visualization.
+    """
+    import csv
+
+    print("\n" + "="*60)
+    print("ROOFLINE SWEEP - Extended Benchmarking")
+    print("="*60)
+
+    # Sweep parameters
+    N_values = [2048, 4096, 8192]
+    rank_values = [8, 16, 32, 64]
+    k_values = [32, 64, 96]
+
+    results = []
+
+    for N in N_values:
+        for r in rank_values:
+            for k in k_values:
+                # Skip if rank or degree gates would fail
+                if r > 0.02 * N or k > 0.02 * N:
+                    continue
+
+                print(f"\nBenchmarking: N={N}, r={r}, k={k}")
+
+                try:
+                    # Build mask
+                    scores = torch.rand(N, N, device=device, dtype=dtype)
+                    mask = build_tls_mask_from_scores(scores, k_per_row=k, device=device)
+
+                    # Create synapse
+                    syn = LowRankMaskedSynapse(N=N, r=r, mask_csr=mask, dtype=dtype, device=device)
+
+                    # Benchmark forward pass
+                    batch_size = 2
+                    x = torch.randn(batch_size, N, device=device, dtype=dtype)
+
+                    # Warmup
+                    for _ in range(10):
+                        _ = syn(x)
+
+                    # Collect latency samples
+                    latencies = []
+                    num_runs = 100
+                    for _ in range(num_runs):
+                        if device == 'cuda':
+                            torch.cuda.synchronize()
+                        t0 = time.perf_counter()
+                        _ = syn(x)
+                        if device == 'cuda':
+                            torch.cuda.synchronize()
+                        t1 = time.perf_counter()
+                        latencies.append((t1 - t0) * 1000)  # ms
+
+                    # Compute percentiles
+                    latencies = np.array(latencies)
+                    p50 = np.percentile(latencies, 50)
+                    p95 = np.percentile(latencies, 95)
+                    p99 = np.percentile(latencies, 99)
+
+                    # Compute throughput (events/sec)
+                    # For sparse, events = k * batch_size
+                    events_per_forward = k * batch_size
+                    throughput = events_per_forward / (p50 / 1000)  # events/sec
+
+                    # Parameter stats
+                    param_stats = report(N=N, r=r, indptr=mask['indptr'])
+
+                    result = {
+                        'N': N,
+                        'rank': r,
+                        'k': k,
+                        'density': param_stats['density'],
+                        'param_reduction_pct': param_stats['param_reduction_pct'],
+                        'latency_p50_ms': p50,
+                        'latency_p95_ms': p95,
+                        'latency_p99_ms': p99,
+                        'throughput_events_per_sec': throughput,
+                        'device': device,
+                        'dtype': str(dtype),
+                    }
+
+                    results.append(result)
+
+                    print(f"  Latency: p50={p50:.3f}ms, p95={p95:.3f}ms, p99={p99:.3f}ms")
+                    print(f"  Throughput: {throughput:.0f} events/sec")
+
+                except Exception as e:
+                    print(f"  ✗ FAILED: {e}")
+
+    # Save CSV
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    csv_path = Path(output_dir) / 'roofline_sweep.csv'
+
+    with open(csv_path, 'w', newline='') as f:
+        if results:
+            writer = csv.DictWriter(f, fieldnames=results[0].keys())
+            writer.writeheader()
+            writer.writerows(results)
+
+    print(f"\n{'='*60}")
+    print(f"Roofline sweep complete. Results saved to {csv_path}")
+    print(f"{'='*60}")
+
+    # Also save JSON
+    json_path = Path(output_dir) / 'roofline_sweep.json'
+    with open(json_path, 'w') as f:
+        json.dump(results, f, indent=2)
+
+    return results
+
+
 def audit_default_config(output_path='artifacts/snn_audit.json'):
     """
     Audit default configuration (N=4096, r=32, k=64) and emit JSON.
@@ -214,6 +341,7 @@ def main():
     # Modes
     parser.add_argument("--audit", action="store_true", help="Run audit on default config")
     parser.add_argument("--sweep", action="store_true", help="Sweep multiple configurations")
+    parser.add_argument("--roofline", action="store_true", help="Extended roofline sweep for kernel optimization")
 
     # Output
     parser.add_argument("--emit-json", type=str, default=None, help="Save results to JSON")
@@ -242,6 +370,10 @@ def main():
     elif args.sweep:
         # Sweep mode
         sweep_configurations(device=args.device, dtype=dtype, output_dir=args.output_dir)
+
+    elif args.roofline:
+        # Roofline analysis mode
+        roofline_sweep(device=args.device, dtype=dtype, output_dir=args.output_dir)
 
     elif args.N is not None and args.r is not None and args.k is not None:
         # Single configuration
