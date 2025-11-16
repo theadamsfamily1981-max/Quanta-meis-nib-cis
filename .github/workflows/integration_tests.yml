@@ -41,16 +41,17 @@ jobs:
         run: |
           python tests/test_mm_pipeline.py
 
-      - name: Test End-to-End Training Loop
+      - name: Test End-to-End Training Loop (CI Quick)
         run: |
           python tests/test_e2e_training.py \
+            --config configs/ci/ci_quick.yaml \
             --steps 100 \
             --validate-gates
 
-      - name: Test All Gates
+      - name: Test All Gates (CI Quick Config)
         run: |
           python scripts/validate_all_gates.py \
-            --config configs/test_config.yaml
+            --config configs/ci/ci_quick.yaml
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v4

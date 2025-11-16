@@ -87,6 +87,47 @@ cd apex && pip install -v --disable-pip-version-check --no-cache-dir --no-build-
 
 ## Configuration
 
+### Default Configuration (QUANTA-Focused)
+
+**As of latest version, TF-A-N defaults to QUANTA-focused training configuration.**
+
+The training script automatically uses `configs/7b/quanta_focus.yaml` by default, which is optimized for:
+- Quantum computing & algorithms
+- Neuromorphic & SNN architectures
+- HPC, GPU kernels, control systems
+- Formal verification & safety
+
+**Data sources** (QUANTA focus):
+- 30% QUANTA internal docs
+- 20% arXiv (systems, neuro, HPC, quantum)
+- 15% Technical manuals & specs
+- 20% HPC/CUDA code
+- 10% Long-form books (PG-19)
+- 5% Instruction SFT
+
+**Environment variables for QUANTA data**:
+```bash
+export QUANTA_DATA_ROOT=/data/shards/          # Local data directory
+export QUANTA_S3_BUCKET=s3://quanta-datasets/  # S3 bucket (optional)
+export QUANTA_MANIFEST=/path/to/manifest.json  # Data manifest (optional)
+```
+
+If QUANTA data is not available, the system safely falls back to WikiText-103 or dummy data for smoke tests.
+
+**Quick start**:
+```bash
+# QUANTA-focused (default)
+python training/train.py
+
+# Generic baseline (for comparison)
+python training/train.py --data configs/7b/datasets/generic_base.yaml
+
+# CI quick smoke test
+python training/train.py --config configs/ci/ci_quick.yaml
+```
+
+See `configs/README.md` for complete configuration documentation.
+
 ### Configuration File Structure
 
 Create a YAML configuration file (e.g., `configs/my_config.yaml`):

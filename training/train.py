@@ -2,7 +2,15 @@
 Training script for TF-A-N 7B with FDT, PGU, topology, and emotion integration.
 
 Usage:
-    python training/train.py --config tfan/models/tfan7b/config.json
+    # QUANTA-focused training (default)
+    python training/train.py --config configs/7b/quanta_focus.yaml
+
+    # Generic baseline training
+    python training/train.py --config configs/7b/quanta_focus.yaml \
+                              --data configs/7b/datasets/generic_base.yaml
+
+    # CI quick smoke test
+    python training/train.py --config configs/ci/ci_quick.yaml
 """
 
 import torch
@@ -443,8 +451,8 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train TF-A-N 7B model")
 
-    # Model config
-    parser.add_argument("--config", type=str, default="tfan/models/tfan7b/config.json")
+    # Model config (defaults to QUANTA-focused training)
+    parser.add_argument("--config", type=str, default="configs/7b/quanta_focus.yaml")
 
     # Training args
     parser.add_argument("--output_dir", type=str, default="checkpoints/tfan7b")

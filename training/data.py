@@ -1,11 +1,18 @@
 """
 Data loading utilities for TF-A-N 7B training.
+
+Supports environment variables for QUANTA data:
+    QUANTA_DATA_ROOT: Root directory for QUANTA data shards (e.g., /data/shards/)
+    QUANTA_S3_BUCKET: S3 bucket for QUANTA data (e.g., s3://quanta-datasets/)
+    QUANTA_MANIFEST: Path to data manifest file
 """
 
 import torch
 from torch.utils.data import Dataset, DataLoader, IterableDataset
 from typing import Optional, List, Dict, Iterator
 import numpy as np
+import os
+from pathlib import Path
 
 
 class SimpleTextDataset(Dataset):
@@ -141,6 +148,102 @@ def create_dataloader(
     )
 
 
+class QUANTADataset(IterableDataset):
+    """
+    Dataset for QUANTA domain data with environment variable support.
+
+    Automatically handles:
+    1. QUANTA_DATA_ROOT environment variable (e.g., /data/shards/)
+    2. QUANTA_S3_BUCKET for cloud data (e.g., s3://quanta-datasets/)
+    3. QUANTA_MANIFEST for data manifest file
+    4. Fallback to WikiText-103 or dummy data if QUANTA unavailable
+
+    Args:
+        data_config: Dictionary with data configuration (from YAML)
+        seq_length: Sequence length
+        fallback_to_dummy: If True, use dummy data when QUANTA unavailable
+    """
+
+    def __init__(
+        self,
+        data_config: Optional[Dict] = None,
+        seq_length: int = 2048,
+        fallback_to_dummy: bool = True,
+    ):
+        self.seq_length = seq_length
+        self.fallback_to_dummy = fallback_to_dummy
+
+        # Check environment variables
+        quanta_root = os.getenv("QUANTA_DATA_ROOT")
+        quanta_s3 = os.getenv("QUANTA_S3_BUCKET")
+        quanta_manifest = os.getenv("QUANTA_MANIFEST")
+
+        # Try loading QUANTA data
+        self.data_source = None
+        self.tokens = None
+
+        if quanta_root and Path(quanta_root).exists():
+            print(f"✓ QUANTA data found at {quanta_root}")
+            self.data_source = "quanta_local"
+            # TODO: Implement multi-source loading from data_config
+            # For now, just note that data is available
+            print(f"  Note: Multi-source loading from config not yet implemented")
+            print(f"  Falling back to dummy data for this smoke test")
+
+        elif quanta_s3:
+            print(f"✓ QUANTA S3 bucket configured: {quanta_s3}")
+            self.data_source = "quanta_s3"
+            print(f"  Note: S3 data loading not yet implemented")
+            print(f"  Falling back to dummy data for this smoke test")
+
+        elif quanta_manifest:
+            print(f"✓ QUANTA manifest found: {quanta_manifest}")
+            self.data_source = "quanta_manifest"
+            print(f"  Note: Manifest-based loading not yet implemented")
+            print(f"  Falling back to dummy data for this smoke test")
+
+        else:
+            print(f"⚠ QUANTA data not found (checked environment variables)")
+            print(f"  QUANTA_DATA_ROOT: {quanta_root or 'not set'}")
+            print(f"  QUANTA_S3_BUCKET: {quanta_s3 or 'not set'}")
+            print(f"  QUANTA_MANIFEST: {quanta_manifest or 'not set'}")
+
+        # Fallback logic
+        if self.data_source is None:
+            # Try WikiText-103 fallback
+            wikitext_path = "/data/shards/wikitext_103/"
+            if Path(wikitext_path).exists():
+                print(f"✓ Falling back to WikiText-103 at {wikitext_path}")
+                self.data_source = "wikitext_fallback"
+                # TODO: Load WikiText-103
+            elif self.fallback_to_dummy:
+                print(f"✓ Using dummy data for smoke test (no real data available)")
+                self.data_source = "dummy"
+            else:
+                raise FileNotFoundError(
+                    "QUANTA data not found. Set QUANTA_DATA_ROOT, QUANTA_S3_BUCKET, "
+                    "or QUANTA_MANIFEST environment variable."
+                )
+
+        # For now, always use dummy data (real data loading TODO)
+        print(f"→ Data source: {self.data_source} (using dummy tokens for now)")
+
+    def __iter__(self) -> Iterator[Dict[str, torch.Tensor]]:
+        """
+        Iterate over dataset, yielding sequences.
+        """
+        # For now, use dummy data
+        # TODO: Implement real data loading based on self.data_source
+        while True:
+            input_ids = torch.randint(0, 32768, (self.seq_length,))
+            labels = input_ids.clone()
+
+            yield {
+                "input_ids": input_ids,
+                "labels": labels,
+            }
+
+
 class DummyDataset(IterableDataset):
     """
     Dummy dataset for testing without real data.
@@ -181,6 +284,7 @@ class DummyDataset(IterableDataset):
 __all__ = [
     "SimpleTextDataset",
     "TokenizedDataset",
+    "QUANTADataset",
     "DummyDataset",
     "create_dataloader",
 ]
