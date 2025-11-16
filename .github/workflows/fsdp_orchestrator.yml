@@ -1,0 +1,60 @@
+name: FSDP Orchestrator
+
+on:
+  push:
+    paths:
+      - 'tfan/distributed/**'
+      - 'benchmarks/bench_fsdp_vs_ddp.py'
+      - 'scripts/compare_fsdp_ddp.py'
+      - 'examples/train_with_fsdp.py'
+  pull_request:
+    paths:
+      - 'tfan/distributed/**'
+      - 'benchmarks/bench_fsdp_vs_ddp.py'
+      - 'scripts/compare_fsdp_ddp.py'
+      - 'examples/train_with_fsdp.py'
+
+jobs:
+  test-fsdp:
+    runs-on: ubuntu-latest
+    # Note: Would require multi-GPU runner for actual FSDP testing
+    # Using CPU for syntax/import checks only
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install torch numpy
+
+      # Syntax checks
+      - name: Check Python syntax
+        run: |
+          python -m py_compile tfan/distributed/fsdp_orchestrator.py
+          python -m py_compile benchmarks/bench_fsdp_vs_ddp.py
+          python -m py_compile scripts/compare_fsdp_ddp.py
+          python -m py_compile examples/train_with_fsdp.py
+
+      # Import test
+      - name: Test imports
+        run: |
+          python -c "from tfan.distributed import FSDPOrchestrator, FSDPConfig; print('✓ Imports successful')"
+
+      # Single GPU test (no FSDP)
+      - name: Test single GPU training
+        run: |
+          python examples/train_with_fsdp.py \
+            --epochs 1 \
+            --batch-size 2 \
+            --seq-len 128 \
+            --num-layers 2
+
+      # Would run multi-GPU benchmark on GPU runner:
+      # - name: Run FSDP vs DDP comparison
+      #   run: |
+      #     python scripts/compare_fsdp_ddp.py --model-size 1b --ci
