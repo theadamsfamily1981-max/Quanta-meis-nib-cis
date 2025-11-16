@@ -1,0 +1,64 @@
+name: HyperKG + Datalog
+
+on:
+  push:
+    paths:
+      - 'tfan/kg/**'
+      - 'benchmarks/bench_hyperkg.py'
+      - 'examples/hyperkg_datalog_demo.py'
+  pull_request:
+    paths:
+      - 'tfan/kg/**'
+      - 'benchmarks/bench_hyperkg.py'
+      - 'examples/hyperkg_datalog_demo.py'
+
+jobs:
+  test-hyperkg:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install torch numpy
+
+      # Syntax checks
+      - name: Check Python syntax
+        run: |
+          python -m py_compile tfan/kg/hyperbolic_kg.py
+          python -m py_compile tfan/kg/datalog_compiler.py
+          python -m py_compile tfan/kg/pgu_bridge.py
+          python -m py_compile benchmarks/bench_hyperkg.py
+          python -m py_compile examples/hyperkg_datalog_demo.py
+
+      # Import test
+      - name: Test imports
+        run: |
+          python -c "from tfan.kg import HyperbolicKG, DatalogCompiler, PGUBridge; print('✓ Imports successful')"
+
+      # Run demo
+      - name: Run HyperKG demo
+        run: |
+          python examples/hyperkg_datalog_demo.py
+
+      # Run benchmark
+      - name: Run HyperKG benchmark
+        run: |
+          python benchmarks/bench_hyperkg.py \
+            --dataset synthetic \
+            --depth 3 \
+            --epochs 50 \
+            --output artifacts/hyperkg_results.json
+
+      # Upload results
+      - name: Upload results
+        uses: actions/upload-artifact@v3
+        with:
+          name: hyperkg-results
+          path: artifacts/hyperkg_results.json
