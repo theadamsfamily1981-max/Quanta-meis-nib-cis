@@ -2,23 +2,46 @@
 """
 Pareto Front Visualization Dashboard
 
-Interactive dashboard for visualizing and analyzing Pareto fronts.
+Interactive dashboard for visualizing and analyzing Pareto fronts with
+full integration for auto-deployment infrastructure.
 
 Features:
 - 2D/3D scatter plots of Pareto fronts
 - Parallel coordinates plot for all objectives
 - Configuration comparison table
 - Metrics summary
+- Best config highlighting (from configs/auto/best.yaml)
+- A/B comparison mode for baseline vs current fronts
 
 Usage:
+    # Standard report
     python dashboards/pareto_app.py --results artifacts/pareto/pareto_front.json
+
+    # With best config highlighting
+    python dashboards/pareto_app.py --results artifacts/pareto/pareto_front.json --show-best
+
+    # A/B comparison mode
+    python dashboards/pareto_app.py \
+        --results run2/pareto_front.json \
+        --compare run1/pareto_front.json \
+        --output artifacts/comparison
+
+    # Custom output directory
+    python dashboards/pareto_app.py --results data.json --output reports/
 """
 
 import argparse
 import json
 import numpy as np
 from pathlib import Path
+from typing import Optional
 import sys
+
+try:
+    import yaml
+    HAS_YAML = True
+except ImportError:
+    HAS_YAML = False
 
 try:
     import matplotlib.pyplot as plt
@@ -68,6 +91,32 @@ class ParetoVisualizer:
         self.objectives_display = self.objectives.copy()
         self.objectives_display[:, 0] = -self.objectives_display[:, 0]  # Convert back to positive
 
+        # Load best config if available
+        self.best_config_idx = self._find_best_config()
+
+    def _find_best_config(self) -> Optional[int]:
+        """Find index of config matching configs/auto/best.yaml."""
+        best_config_path = Path("configs/auto/best.yaml")
+        if not best_config_path.exists() or not HAS_YAML:
+            return None
+
+        try:
+            with open(best_config_path, "r") as f:
+                best_config = yaml.safe_load(f)
+
+            # Match by key parameters
+            for i, config in enumerate(self.configs):
+                if (
+                    config.get("n_heads") == best_config.get("n_heads")
+                    and config.get("d_model") == best_config.get("d_model")
+                    and abs(config.get("keep_ratio", 1.0) - best_config.get("keep_ratio", 1.0)) < 0.01
+                ):
+                    return i
+        except Exception:
+            pass
+
+        return None
+
     def plot_2d_front(self, obj_x: int = 0, obj_y: int = 1, save_path: Optional[str] = None):
         """
         Plot 2D Pareto front.
@@ -83,6 +132,7 @@ class ParetoVisualizer:
 
         plt.figure(figsize=(10, 6))
 
+        # Plot all points
         plt.scatter(
             self.objectives_display[:, obj_x],
             self.objectives_display[:, obj_y],
@@ -91,13 +141,30 @@ class ParetoVisualizer:
             s=100,
             alpha=0.7,
             edgecolors="black",
+            label="Pareto configs"
         )
+
+        # Highlight best config if found
+        if self.best_config_idx is not None:
+            plt.scatter(
+                self.objectives_display[self.best_config_idx, obj_x],
+                self.objectives_display[self.best_config_idx, obj_y],
+                c="red",
+                s=300,
+                alpha=0.8,
+                edgecolors="darkred",
+                linewidths=3,
+                marker="*",
+                label="Selected (configs/auto/best.yaml)",
+                zorder=10
+            )
 
         plt.xlabel(self.objective_names[obj_x], fontsize=12)
         plt.ylabel(self.objective_names[obj_y], fontsize=12)
         plt.title(f"Pareto Front: {self.objective_names[obj_x]} vs {self.objective_names[obj_y]}", fontsize=14)
 
         plt.colorbar(label="Configuration Index")
+        plt.legend(loc="best")
         plt.grid(True, alpha=0.3)
 
         if save_path:
@@ -275,20 +342,157 @@ class ParetoVisualizer:
         print(f"\nReport generated successfully in: {output_path}")
 
 
+def compare_fronts(baseline_path: str, current_path: str, output_dir: str):
+    """
+    Compare two Pareto fronts (baseline vs current).
+
+    Args:
+        baseline_path: Path to baseline pareto_front.json
+        current_path: Path to current pareto_front.json
+        output_dir: Output directory for comparison plots
+    """
+    if not HAS_MATPLOTLIB:
+        print("Matplotlib not available. Comparison requires matplotlib.")
+        return
+
+    # Load both fronts
+    with open(baseline_path, "r") as f:
+        baseline = json.load(f)
+    with open(current_path, "r") as f:
+        current = json.load(f)
+
+    baseline_objs = np.array([c["objectives"] for c in baseline["configurations"]])
+    current_objs = np.array([c["objectives"] for c in current["configurations"]])
+
+    # Negate accuracy
+    baseline_objs[:, 0] = -baseline_objs[:, 0]
+    current_objs[:, 0] = -current_objs[:, 0]
+
+    objective_names = ["Accuracy", "Latency (ms)", "EPR-CV", "Topo Gap", "Energy (W)"]
+
+    output_path = Path(output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    print("=" * 70)
+    print("PARETO FRONT COMPARISON")
+    print("=" * 70)
+    print(f"Baseline: {baseline_path}")
+    print(f"  Points: {baseline['n_pareto_points']}, HV: {baseline['hypervolume']:.2f}")
+    print(f"Current: {current_path}")
+    print(f"  Points: {current['n_pareto_points']}, HV: {current['hypervolume']:.2f}")
+    print()
+
+    # Calculate improvement
+    hv_improvement = (current["hypervolume"] - baseline["hypervolume"]) / baseline["hypervolume"] * 100
+    print(f"Hypervolume improvement: {hv_improvement:+.2f}%")
+    print()
+
+    # Plot comparisons for key objective pairs
+    pairs = [(0, 1), (0, 2), (1, 4)]  # Accuracy vs Latency, Accuracy vs EPR-CV, Latency vs Energy
+
+    for obj_x, obj_y in pairs:
+        plt.figure(figsize=(10, 6))
+
+        plt.scatter(
+            baseline_objs[:, obj_x],
+            baseline_objs[:, obj_y],
+            s=100,
+            alpha=0.6,
+            c="blue",
+            edgecolors="darkblue",
+            label="Baseline",
+            marker="o"
+        )
+
+        plt.scatter(
+            current_objs[:, obj_x],
+            current_objs[:, obj_y],
+            s=100,
+            alpha=0.6,
+            c="red",
+            edgecolors="darkred",
+            label="Current",
+            marker="^"
+        )
+
+        plt.xlabel(objective_names[obj_x], fontsize=12)
+        plt.ylabel(objective_names[obj_y], fontsize=12)
+        plt.title(
+            f"Comparison: {objective_names[obj_x]} vs {objective_names[obj_y]}\n"
+            f"HV Δ: {hv_improvement:+.2f}%",
+            fontsize=14
+        )
+
+        plt.legend(loc="best")
+        plt.grid(True, alpha=0.3)
+
+        save_path = output_path / f"compare_{obj_x}_{obj_y}.png"
+        plt.savefig(save_path, dpi=150, bbox_inches="tight")
+        print(f"Saved comparison plot: {save_path}")
+
+        plt.close()
+
+    print(f"\nComparison complete. Results saved to: {output_path}")
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Visualize Pareto front")
-    parser.add_argument("--results", type=str, default="artifacts/pareto/pareto_front.json",
-                        help="Path to pareto_front.json")
-    parser.add_argument("--output", type=str, default="artifacts/pareto/report",
-                        help="Output directory for visualizations")
-    parser.add_argument("--format", type=str, default="png", choices=["png", "pdf", "svg"],
-                        help="Output format for plots")
+    parser = argparse.ArgumentParser(
+        description="Visualize Pareto front with auto-deployment integration"
+    )
+    parser.add_argument(
+        "--results",
+        type=str,
+        default="artifacts/pareto/pareto_front.json",
+        help="Path to pareto_front.json"
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="artifacts/pareto/report",
+        help="Output directory for visualizations"
+    )
+    parser.add_argument(
+        "--format",
+        type=str,
+        default="png",
+        choices=["png", "pdf", "svg"],
+        help="Output format for plots"
+    )
+    parser.add_argument(
+        "--compare",
+        type=str,
+        default=None,
+        help="Path to baseline pareto_front.json for comparison (enables A/B mode)"
+    )
+    parser.add_argument(
+        "--show-best",
+        action="store_true",
+        help="Highlight the config selected in configs/auto/best.yaml"
+    )
 
     args = parser.parse_args()
 
     try:
-        visualizer = ParetoVisualizer(args.results)
-        visualizer.generate_report(args.output)
+        # Comparison mode
+        if args.compare:
+            print("Running in comparison mode...")
+            compare_fronts(
+                baseline_path=args.compare,
+                current_path=args.results,
+                output_dir=args.output
+            )
+
+        # Standard report mode
+        else:
+            visualizer = ParetoVisualizer(args.results)
+
+            if args.show_best and visualizer.best_config_idx is not None:
+                print(f"✓ Best config found at index {visualizer.best_config_idx}")
+            elif args.show_best:
+                print("⚠ configs/auto/best.yaml not found or doesn't match any config")
+
+            visualizer.generate_report(args.output)
+
     except FileNotFoundError as e:
         print(f"Error: {e}")
         sys.exit(1)
