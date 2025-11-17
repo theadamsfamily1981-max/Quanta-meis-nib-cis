@@ -12,6 +12,7 @@ TF-A-N is a research framework for transformer models with:
 - **Homeostatic stability** via FDT (Fluctuation-Dissipation Theorem) control
 - **Neuromodulation** through emotion-aware learning rate/temperature adaptation
 - **Topological regularization** with differentiable persistent homology
+- **Adaptive tool-use control** via AEPO (Adaptive Entropy Policy Optimizer)
 
 ## Hard Gates (Non-Negotiable)
 
@@ -29,6 +30,8 @@ All components must meet these quantitative requirements:
 | **Topology** | Wasserstein gap | ≤ 2% |
 | **Topology** | Cosine similarity | ≥ 0.90 |
 | **Memory** | Scaling exponent α | < 1.0 |
+| **AEPO** | Tool-call reduction | ≥ 50% |
+| **AEPO** | Reward delta | ≤ 1% |
 
 ## Installation
 
@@ -87,6 +90,21 @@ Input → Modality Adapters → TTW Alignment → Fusion → TLS Landmarks → S
 - `tfan/trainer.py` - FDT homeostat + training loop
 - `tfan/ctd.py` - Hyperbolic geometry
 - `tfan/pareto.py` - Multi-objective optimization
+- `tfan/agent/` - AEPO tool-use policy optimization
+
+## AEPO Tool-Use Control
+
+Train adaptive policies to minimize tool calls while maintaining performance:
+
+```bash
+# Train AEPO policy
+python scripts/train_aepo.py --iterations 200 --seed 42
+
+# Evaluate trained policy
+python scripts/eval_aepo.py --checkpoint artifacts/aepo/final.pt --seeds 10
+```
+
+See [AEPO Guide](docs/AEPO_GUIDE.md) for detailed documentation.
 
 ## License
 
