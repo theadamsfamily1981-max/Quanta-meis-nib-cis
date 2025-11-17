@@ -138,13 +138,26 @@ uvicorn api.main:app --reload
 ### 5. ✅ Topology Screensaver (COMPLETE)
 
 **Module:** `tfan/viz/screensaver/`
-- `topo_screensaver.py` - Main screensaver with 4 visualization modes
-- `metrics_bridge.py` - Standalone HTTP metrics server
-- `README.md` - Comprehensive documentation with mathematical background
+
+**Python/VisPy Version (Desktop):**
+- `topo_screensaver.py` (12KB) - Main screensaver with 4 visualization modes
+- `metrics_bridge.py` (3.4KB) - Standalone HTTP metrics server
 - `install.sh` - One-click dependency installer
 - `setup-xscreensaver.sh` - Automatic xscreensaver configuration
 - `xscreensaver-wrapper.sh` - Runtime wrapper
 - `demo.py` - Interactive demo with live metrics
+
+**WebGL Version (Browser):** 🌐
+- `web/index.html` (2.7KB) - Main page with HUD overlay
+- `web/screensaver.js` (20KB) - Three.js application
+- `web/styles.css` (4.6KB) - Dark theme styling
+- `web/serve.py` (2.1KB) - HTTP server with CORS
+- `web/extension/` - Browser extension manifest
+- `web/README.md` (11KB) - Complete documentation
+- `web/QUICKSTART.md` (2.1KB) - 60-second setup
+
+**Documentation:**
+- `README.md` (10KB) - Comprehensive docs with mathematical background
 
 **Visualization Modes:**
 - ✅ **Barcode Nebula** - Animated persistence barcodes from streaming point clouds
@@ -184,11 +197,14 @@ python topo_screensaver.py --metrics http://localhost:8000/api/metrics --fullscr
 ./setup-xscreensaver.sh
 ```
 
-**Dependencies:** `requirements-viz.txt`
-- vispy>=0.14.0
-- ripser>=0.6.4
-- persim>=0.3.1
-- scipy, numpy, requests
+**Dependencies:**
+- Python version: `requirements-viz.txt` (vispy, ripser, persim, scipy, numpy, requests)
+- WebGL version: None! Pure HTML/CSS/JS with CDN libraries (Three.js from CDN)
+
+**Deployment Options:**
+- **Desktop**: xscreensaver, GNOME screensaver, live wallpaper (xwinwrap)
+- **Browser**: Static website, browser extension, embedded iframe, kiosk mode
+- **Platforms**: Linux, macOS, Windows, mobile browsers, tablets
 
 ---
 
@@ -223,23 +239,25 @@ tfan-gnome
 
 ## 📊 Statistics
 
-**Total Lines of Code:** ~9,072 lines
+**Total Lines of Code:** ~11,173 lines
 - Pareto v2 module: ~1,000 lines
 - Runtime module: ~300 lines
 - Promotion script: ~460 lines
 - REST API: ~730 lines
 - Web dashboard: ~1,130 lines
-- **Topology Screensaver: ~1,125 lines** 🌌
+- **Topology Screensaver (Python): ~1,125 lines** 🌌
+- **Topology Screensaver (WebGL): ~2,101 lines** 🌐
 - GNOME integration: ~1,500 lines
 - Tests: ~1,360 lines
 - CI workflows: ~300 lines
 - Dashboards: ~500 lines
 - Documentation: ~667 lines
 
-**Files Created:** 43 files
+**Files Created:** 51 files
 - 8 API files
-- 3 web files
-- **9 screensaver files** 🌌
+- 3 web dashboard files
+- **9 screensaver (Python) files** 🌌
+- **8 screensaver (WebGL) files** 🌐
 - 7 GNOME files
 - 4 pareto_v2 files
 - 2 runtime files

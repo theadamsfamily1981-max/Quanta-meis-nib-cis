@@ -4,6 +4,23 @@
 
 Transform your idle screen into a mesmerizing display of topological data analysis, hyperbolic geometry, and multi-objective optimization in real-time.
 
+## 🎯 Two Versions Available
+
+### Python/VisPy Version (Desktop)
+High-performance OpenGL screensaver for Linux desktops with RTX GPUs.
+- **Files**: `topo_screensaver.py`, `metrics_bridge.py`
+- **Best for**: Native Linux screensaver, maximum performance
+- **Platforms**: Linux, macOS, Windows (with OpenGL)
+
+### WebGL Version (Browser) 🌐
+Cross-platform browser-based screensaver using Three.js.
+- **Files**: `web/` directory
+- **Best for**: Any device, browser extension, web deployment
+- **Platforms**: Any modern browser (Chrome, Firefox, Safari, Edge, mobile)
+- **See**: `web/README.md` for documentation
+
+---
+
 ---
 
 ## 🎨 Visualization Modes
