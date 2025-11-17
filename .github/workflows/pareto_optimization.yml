@@ -60,13 +60,53 @@ jobs:
             --results artifacts/pareto/pareto_front.json \
             --output artifacts/pareto/report
 
+      - name: Export best config
+        run: |
+          python -c "
+          from tfan.pareto_v2 import ParetoRunner
+          from pathlib import Path
+          import yaml
+          import time
+
+          runner = ParetoRunner()
+          runner.load_results('artifacts/pareto')
+
+          # Get best config (prioritize accuracy, balance latency/energy)
+          best = runner.get_best_config({
+              'neg_accuracy': 10.0,   # maximize accuracy
+              'latency': 1.0,
+              'epr_cv': 2.0,
+              'topo_gap': 1.0,
+              'energy': 0.5,
+          })
+
+          # Export to configs/auto/
+          out_dir = Path('configs/auto')
+          out_dir.mkdir(parents=True, exist_ok=True)
+
+          timestamp = int(time.time())
+          best_path = out_dir / f'best_{timestamp}.yaml'
+          latest_path = out_dir / 'best.yaml'
+
+          with open(best_path, 'w') as f:
+              yaml.safe_dump(best, f)
+          with open(latest_path, 'w') as f:
+              yaml.safe_dump(best, f)
+
+          print(f'Exported best config to {best_path}')
+          print(f'Updated {latest_path}')
+          print(f'Config: {best}')
+          "
+
       - name: Verify hard gates
+        id: gates
         run: |
           python -c "
           import json
           from pathlib import Path
 
           results_path = Path('artifacts/pareto/pareto_front.json')
+          baseline_path = Path('artifacts/pareto/baseline_hv.json')
 
           if results_path.exists():
               with open(results_path, 'r') as f:
@@ -78,13 +118,43 @@ jobs:
               print(f'Pareto points: {n_pareto}')
               print(f'Hypervolume: {hv:.2f}')
 
-              # Hard gate: >= 6 Pareto points
+              # Gate 1: >= 6 Pareto points
               assert n_pareto >= 6, f'GATE FAILED: Expected >= 6 Pareto points, got {n_pareto}'
 
+              # Gate 2: HV >= baseline * 0.98 (allow 2% regression)
+              if baseline_path.exists():
+                  with open(baseline_path, 'r') as f:
+                      baseline = json.load(f)
+                  baseline_hv = baseline.get('hypervolume', 0)
+                  threshold = baseline_hv * 0.98
+                  assert hv >= threshold, f'GATE FAILED: HV {hv:.2f} < threshold {threshold:.2f}'
+                  print(f'✓ HV {hv:.2f} >= baseline {baseline_hv:.2f} * 0.98')
+
+              # Gate 3: Check best config metrics
+              configs = results.get('configurations', [])
+              if configs:
+                  best_config = configs[0]  # First config after sorting
+                  latency = best_config.get('latency_ms', 999)
+                  epr_cv = best_config.get('epr_cv', 1.0)
+
+                  assert latency <= 200, f'GATE FAILED: latency_p95 {latency}ms > 200ms'
+                  assert epr_cv <= 0.15, f'GATE FAILED: EPR_CV {epr_cv:.3f} > 0.15'
+
+                  print(f'✓ latency_p95: {latency}ms <= 200ms')
+                  print(f'✓ EPR_CV: {epr_cv:.3f} <= 0.15')
+
               print('✓ All hard gates passed')
+
+              # Save current HV as new baseline
+              baseline_path.parent.mkdir(parents=True, exist_ok=True)
+              with open(baseline_path, 'w') as f:
+                  json.dump({'hypervolume': hv, 'timestamp': results.get('timestamp', '')}, f)
+
+              # Set output for PR creation
+              print('GATES_PASSED=true')
           else:
               raise FileNotFoundError('Results file not found')
-          "
+          " | tee -a $GITHUB_OUTPUT
 
       - name: Upload Pareto front results
         uses: actions/upload-artifact@v3
@@ -93,8 +163,41 @@ jobs:
           path: |
             artifacts/pareto/pareto_front.json
             artifacts/pareto/pareto_objectives.npy
+            artifacts/pareto/baseline_hv.json
             artifacts/pareto/report/
+            configs/auto/
           retention-days: 30
+
+      - name: Create PR for config promotion
+        if: steps.gates.outputs.GATES_PASSED == 'true' && github.event_name == 'schedule'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(config): auto-promote Pareto-optimized config"
+          branch: auto/promote-pareto-config
+          delete-branch: true
+          title: "🎯 Auto-promote Pareto-optimized configuration"
+          body: |
+            ## Automated Pareto Config Promotion
+
+            This PR was automatically created by the weekly Pareto optimization workflow.
+
+            **Gate Status:** ✅ All gates passed
+
+            **Changes:**
+            - Updated `configs/auto/best.yaml` with new Pareto-optimal configuration
+            - See artifacts for detailed Pareto front analysis and visualizations
+
+            **Next Steps:**
+            1. Review the Pareto front results in workflow artifacts
+            2. Validate the configuration meets requirements
+            3. Merge to promote this config to production
+
+            _Automated by `.github/workflows/pareto_optimization.yml`_
+          labels: |
+            automated
+            config
+            pareto
 
       - name: Create summary
         if: always()
