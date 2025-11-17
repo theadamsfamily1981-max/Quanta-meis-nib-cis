@@ -10,7 +10,6 @@ Validates:
 
 import pytest
 import torch
-import numpy as np
 
 from tfan.mm.ingest import (
     TextAdapter,
@@ -18,7 +17,6 @@ from tfan.mm.ingest import (
     VideoAdapter,
     IMUAdapter,
     MultiModalIngestor,
-    ModalityStream,
 )
 
 

@@ -37,7 +37,7 @@ def test_forward_pass_2k(model, config):
         outputs = model(input_ids, return_dict=True)
 
     assert outputs["logits"].shape == (batch_size, seq_len, config.vocab_size)
-    print(f"✓ 2k context test passed")
+    print("✓ 2k context test passed")
 
 
 def test_forward_pass_8k(model, config):
@@ -51,7 +51,7 @@ def test_forward_pass_8k(model, config):
         outputs = model(input_ids, return_dict=True)
 
     assert outputs["logits"].shape == (batch_size, seq_len, config.vocab_size)
-    print(f"✓ 8k context test passed")
+    print("✓ 8k context test passed")
 
 
 def test_parameter_count(model):

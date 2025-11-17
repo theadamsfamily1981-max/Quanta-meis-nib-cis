@@ -18,8 +18,6 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from tfan.models.tfan7b.attention_sparse import SSAAttention, ssa_attention
-from tfan.models.tfan7b.mask_builder import TLSMaskBuilder
 import numpy as np
 
 
@@ -116,7 +114,7 @@ def main(args):
             # Benchmark (simplified version for brevity)
             result = {"seq_len": seq_len, "speedup": 3.5, "gate_pass": True}
             all_results.append(result)
-            print(f"  Speedup: 3.5×")
+            print("  Speedup: 3.5×")
         except Exception as e:
             print(f"  Error: {e}")
 

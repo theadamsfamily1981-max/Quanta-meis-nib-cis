@@ -26,8 +26,7 @@ import argparse
 import numpy as np
 import time
 import json
-from typing import List, Dict
-import requests
+from typing import Dict
 from pathlib import Path
 
 try:

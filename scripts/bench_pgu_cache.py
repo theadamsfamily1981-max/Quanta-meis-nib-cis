@@ -241,7 +241,7 @@ def main():
 
         if not Path(corpus_path).exists():
             print(f"✗ Corpus not found: {corpus_path}")
-            print(f"Generating synthetic corpus instead...")
+            print("Generating synthetic corpus instead...")
             corpus = generate_synthetic_corpus(
                 num_queries=args.num_queries,
                 similarity=args.similarity
@@ -257,7 +257,7 @@ def main():
             print(f"✓ Synthetic corpus saved to {corpus_path}")
     else:
         # Generate synthetic corpus
-        print(f"Generating synthetic corpus...")
+        print("Generating synthetic corpus...")
         corpus = generate_synthetic_corpus(
             num_queries=args.num_queries,
             similarity=args.similarity

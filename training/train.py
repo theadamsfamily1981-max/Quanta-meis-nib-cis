@@ -14,8 +14,6 @@ Usage:
 """
 
 import torch
-import torch.nn as nn
-from torch.utils.data import DataLoader
 import argparse
 import os
 import json
@@ -338,7 +336,7 @@ def main(args):
 
     # Count parameters
     param_counts = count_parameters(model)
-    print(f"\nModel parameter count:")
+    print("\nModel parameter count:")
     print(f"  Total: {param_counts['total']:,} ({param_counts['total_billions']:.2f}B)")
     print(f"  Trainable: {param_counts['trainable']:,}")
 
@@ -346,7 +344,7 @@ def main(args):
     if not (6.8e9 <= param_counts['total'] <= 7.2e9):
         print(f"WARNING: Param count {param_counts['total_billions']:.2f}B outside target range [6.8B, 7.2B]")
     else:
-        print(f"✓ Param count within target range")
+        print("✓ Param count within target range")
 
     # Move to device
     device = torch.device(args.device)

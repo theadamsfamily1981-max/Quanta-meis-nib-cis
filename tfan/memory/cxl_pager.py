@@ -41,7 +41,7 @@ Usage:
 
 import torch
 import numpy as np
-from typing import Optional, Tuple, Dict, List, Literal
+from typing import Optional, Tuple, Dict
 from dataclasses import dataclass
 from collections import OrderedDict
 import tempfile
@@ -267,7 +267,7 @@ class CXLPager:
             )
             self.bloom_prefetcher = BloomPrefetcher(bloom_config)
 
-        print(f"✓ CXL Pager initialized")
+        print("✓ CXL Pager initialized")
         print(f"  GPU blocks: {self.config.max_gpu_blocks}")
         print(f"  CPU blocks: {self.config.max_cpu_blocks}")
         print(f"  CXL blocks: {self.config.max_cxl_blocks}")
@@ -280,7 +280,7 @@ class CXLPager:
         """Initialize real CXL device."""
         # In production, open CXL device and create memory mapping
         # For now, this is a placeholder
-        print(f"⚠ CXL device support not implemented, using simulation")
+        print("⚠ CXL device support not implemented, using simulation")
         self._init_cxl_simulation()
 
     def _init_cxl_simulation(self):

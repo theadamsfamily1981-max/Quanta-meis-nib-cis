@@ -370,7 +370,7 @@ def create_data_loaders(
         num_workers=num_workers,
     )
 
-    print(f"Data loaders created:")
+    print("Data loaders created:")
     print(f"  Train: {len(train_dataset):,} samples")
     print(f"  Val: {len(val_dataset):,} samples")
     print(f"  Batch size: {batch_size}")

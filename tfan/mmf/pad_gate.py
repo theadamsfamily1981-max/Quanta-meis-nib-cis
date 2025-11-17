@@ -16,7 +16,7 @@ Hard gates:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Dict, Optional
+from typing import Dict
 from dataclasses import dataclass
 
 from .ingest import ModalityStream
@@ -25,6 +25,7 @@ from .ingest import ModalityStream
 @dataclass
 class PADState:
     """PAD emotional state."""
+
     pleasure: torch.Tensor  # (batch,) in [-1, 1]
     arousal: torch.Tensor  # (batch,) in [-1, 1]
     dominance: torch.Tensor  # (batch,) in [-1, 1]
@@ -126,11 +127,14 @@ class PADGate(nn.Module):
         gate_pass = (coherence.mean() >= self.coherence_threshold).item()
 
         # Stack PAD dimensions
-        pad_vector = torch.stack([
-            pad_state.pleasure,
-            pad_state.arousal,
-            pad_state.dominance,
-        ], dim=1)  # (batch, 3)
+        pad_vector = torch.stack(
+            [
+                pad_state.pleasure,
+                pad_state.arousal,
+                pad_state.dominance,
+            ],
+            dim=1,
+        )  # (batch, 3)
 
         # Compute raw weights for each modality
         raw_weights = {}
@@ -163,7 +167,9 @@ class PADGate(nn.Module):
         # Normalize weights
         if self.mode == "soft":
             # Softmax normalization with temperature
-            weight_tensor = torch.stack(list(raw_weights.values()), dim=1)  # (batch, n_modalities)
+            weight_tensor = torch.stack(
+                list(raw_weights.values()), dim=1
+            )  # (batch, n_modalities)
             normalized = F.softmax(weight_tensor / self.temperature, dim=1)
 
             # Apply minimum weight threshold
@@ -224,20 +230,16 @@ class PADGate(nn.Module):
 
         stats = {
             "mean_weights": {
-                modality: weight.mean().item()
-                for modality, weight in weights.items()
+                modality: weight.mean().item() for modality, weight in weights.items()
             },
             "std_weights": {
-                modality: weight.std().item()
-                for modality, weight in weights.items()
+                modality: weight.std().item() for modality, weight in weights.items()
             },
             "min_weights": {
-                modality: weight.min().item()
-                for modality, weight in weights.items()
+                modality: weight.min().item() for modality, weight in weights.items()
             },
             "max_weights": {
-                modality: weight.max().item()
-                for modality, weight in weights.items()
+                modality: weight.max().item() for modality, weight in weights.items()
             },
             "coherence_mean": gate_decisions["coherence"].mean().item(),
             "gate_pass": gate_decisions["gate_pass"],

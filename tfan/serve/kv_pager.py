@@ -38,7 +38,6 @@ from typing import Optional, Tuple, Dict, List, Literal
 from dataclasses import dataclass
 from collections import OrderedDict
 import tempfile
-import mmap
 import struct
 import zstd
 import time
@@ -201,7 +200,7 @@ class KVPager:
         # Prefetch queue
         self.prefetch_queue: List[Tuple[int, int]] = []
 
-        print(f"✓ KV Pager initialized")
+        print("✓ KV Pager initialized")
         print(f"  GPU blocks: {self.config.max_gpu_blocks}")
         print(f"  CPU blocks: {self.config.max_cpu_blocks}")
         print(f"  Block size: {self.config.block_size} tokens")

@@ -65,7 +65,7 @@ def main():
     with open("tfan/models/tfan7b/config.json") as f:
         config = json.load(f)
 
-    print(f"\nConfiguration:")
+    print("\nConfiguration:")
     print(f"  Layers (L): {config['num_hidden_layers']}")
     print(f"  Hidden size (d): {config['hidden_size']}")
     print(f"  Attention heads (H): {config['num_attention_heads']}")
@@ -76,7 +76,7 @@ def main():
     # Calculate
     counts = calculate_params(config)
 
-    print(f"\nParameter breakdown:")
+    print("\nParameter breakdown:")
     print(f"  Embeddings (tied): {counts['embeddings']:,}")
     print(f"  Per layer: {counts['per_layer']:,}")
     print(f"  Total layers: {counts['total_layers']:,}")
@@ -112,7 +112,7 @@ def main():
     with open("artifacts/reports/param_count.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\nResults saved to artifacts/reports/param_count.json")
+    print("\nResults saved to artifacts/reports/param_count.json")
 
     return 0 if within_range else 1
 

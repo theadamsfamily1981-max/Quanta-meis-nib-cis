@@ -27,8 +27,12 @@ from typing import Dict
 import numpy as np
 import torch
 
-from tfan.mmf import MMFBus, MMFBusConfig, PADState
-from tfan.mmf.adapters import AudioProsodyAdapter, VideoOpticalAdapter, TextEntityAdapter
+from tfan.mmf import MMFBus, MMFBusConfig
+from tfan.mmf.adapters import (
+    AudioProsodyAdapter,
+    VideoOpticalAdapter,
+    TextEntityAdapter,
+)
 
 
 def generate_synthetic_inputs(
@@ -99,7 +103,7 @@ def evaluate_ttw_latency(
             latencies.append(output.profiling["align_ms"])
 
         if (i + 1) % 20 == 0:
-            print(f"  Iteration {i+1}/{num_iterations}")
+            print(f"  Iteration {i + 1}/{num_iterations}")
 
     latencies = np.array(latencies)
 
@@ -158,7 +162,7 @@ def evaluate_pad_coherence(
         coherences.append(coherence)
 
         if (i + 1) % 20 == 0:
-            print(f"  Iteration {i+1}/{num_iterations}")
+            print(f"  Iteration {i + 1}/{num_iterations}")
 
     coherences = np.array(coherences)
 
@@ -228,7 +232,7 @@ def evaluate_fusion_overhead(
         single_modal_times.append(single_time)
 
         if (i + 1) % 10 == 0:
-            print(f"  Iteration {i+1}/{num_iterations}")
+            print(f"  Iteration {i + 1}/{num_iterations}")
 
     multimodal_times = np.array(multimodal_times)
     single_modal_times = np.array(single_modal_times)
@@ -257,9 +261,15 @@ def evaluate_fusion_overhead(
 def main():
     parser = argparse.ArgumentParser(description="Evaluate MMF Bus")
     parser.add_argument("--batch-size", type=int, default=8, help="Batch size")
-    parser.add_argument("--iterations", type=int, default=100, help="Number of iterations")
-    parser.add_argument("--output", type=str, default="artifacts/mmf/eval_results.json",
-                        help="Output JSON file")
+    parser.add_argument(
+        "--iterations", type=int, default=100, help="Number of iterations"
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="artifacts/mmf/eval_results.json",
+        help="Output JSON file",
+    )
 
     args = parser.parse_args()
 
@@ -294,10 +304,14 @@ def main():
     results["ttw_latency"] = evaluate_ttw_latency(bus, args.iterations, args.batch_size)
 
     # 2. PAD Coherence
-    results["pad_coherence"] = evaluate_pad_coherence(bus, args.iterations, args.batch_size)
+    results["pad_coherence"] = evaluate_pad_coherence(
+        bus, args.iterations, args.batch_size
+    )
 
     # 3. Fusion Overhead
-    results["fusion_overhead"] = evaluate_fusion_overhead(bus, args.iterations // 2, args.batch_size)
+    results["fusion_overhead"] = evaluate_fusion_overhead(
+        bus, args.iterations // 2, args.batch_size
+    )
 
     # Summary
     print("=" * 70)
@@ -310,11 +324,19 @@ def main():
         and results["fusion_overhead"]["gate_pass"]
     )
 
-    print(f"TTW Latency: {'PASS ✓' if results['ttw_latency']['gate_pass'] else 'FAIL ✗'}")
-    print(f"PAD Coherence: {'PASS ✓' if results['pad_coherence']['gate_pass'] else 'FAIL ✗'}")
-    print(f"Fusion Overhead: {'PASS ✓' if results['fusion_overhead']['gate_pass'] else 'FAIL ✗'}")
+    print(
+        f"TTW Latency: {'PASS ✓' if results['ttw_latency']['gate_pass'] else 'FAIL ✗'}"
+    )
+    print(
+        f"PAD Coherence: {'PASS ✓' if results['pad_coherence']['gate_pass'] else 'FAIL ✗'}"
+    )
+    print(
+        f"Fusion Overhead: {'PASS ✓' if results['fusion_overhead']['gate_pass'] else 'FAIL ✗'}"
+    )
     print()
-    print(f"Overall: {'ALL GATES PASSED ✓✓✓' if all_gates_pass else 'SOME GATES FAILED ✗✗✗'}")
+    print(
+        f"Overall: {'ALL GATES PASSED ✓✓✓' if all_gates_pass else 'SOME GATES FAILED ✗✗✗'}"
+    )
     print()
 
     # Save results

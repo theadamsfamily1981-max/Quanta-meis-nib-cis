@@ -5,7 +5,6 @@ Dense baseline backend (standard transformers).
 
 import torch
 from torch import nn
-from typing import Dict, Any
 
 from .base import Backend, BackendHooks
 

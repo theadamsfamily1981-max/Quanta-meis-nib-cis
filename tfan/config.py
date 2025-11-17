@@ -5,7 +5,7 @@ All hard gates, thresholds, and system parameters are defined here.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 import yaml
 
 

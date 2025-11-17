@@ -11,7 +11,7 @@ Implements:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple
 from .neuron import LIF, PLIF, NeuronState
 
 

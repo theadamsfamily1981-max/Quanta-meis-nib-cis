@@ -4,7 +4,7 @@ Encoders for converting TF-A-N metrics to visualization formats.
 
 import numpy as np
 import torch
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional
 
 
 def encode_pd(

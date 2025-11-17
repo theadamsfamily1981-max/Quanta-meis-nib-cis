@@ -11,7 +11,6 @@ Hard gates:
 - Rule coverage logged
 """
 
-import torch
 import time
 import hashlib
 import json

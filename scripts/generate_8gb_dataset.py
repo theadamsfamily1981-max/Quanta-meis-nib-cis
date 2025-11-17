@@ -466,7 +466,7 @@ def main():
         T=args.T
     )
 
-    print(f"\nDataset Parameters:")
+    print("\nDataset Parameters:")
     print(f"{'='*60}")
     for key, value in params.items():
         if isinstance(value, float):

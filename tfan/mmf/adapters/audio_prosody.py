@@ -19,6 +19,7 @@ import warnings
 
 try:
     import librosa
+
     HAS_LIBROSA = True
 except ImportError:
     HAS_LIBROSA = False
@@ -214,7 +215,9 @@ class AudioProsodyAdapter(ModalityAdapter):
                 prosody = self.extract_prosody(audio_np[i], mel_spec)
 
                 # Concatenate mel + prosody
-                features = np.concatenate([mel_spec, prosody], axis=0)  # (n_mels + 4, n_frames)
+                features = np.concatenate(
+                    [mel_spec, prosody], axis=0
+                )  # (n_mels + 4, n_frames)
             else:
                 features = mel_spec  # (n_mels, n_frames)
 
@@ -231,8 +234,8 @@ class AudioProsodyAdapter(ModalityAdapter):
         for features, ts in zip(all_features, all_timestamps):
             if features.shape[0] < max_len:
                 pad_len = max_len - features.shape[0]
-                features = np.pad(features, ((0, pad_len), (0, 0)), mode='constant')
-                ts = np.pad(ts, (0, pad_len), mode='edge')
+                features = np.pad(features, ((0, pad_len), (0, 0)), mode="constant")
+                ts = np.pad(ts, (0, pad_len), mode="edge")
 
             padded_features.append(features)
             padded_timestamps.append(ts)

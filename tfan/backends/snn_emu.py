@@ -12,7 +12,6 @@ Achieves 97-99% parameter reduction via:
 import torch
 from torch import nn
 from typing import Dict, Any
-import numpy as np
 
 from .base import Backend, BackendHooks
 
@@ -275,7 +274,7 @@ class SNNBackend(Backend):
         # Print summary
         summary = lif.summary()
         print(f"\n{'='*60}")
-        print(f"SNN Model Summary")
+        print("SNN Model Summary")
         print(f"{'='*60}")
         print(f"N: {summary['N']}")
         print(f"Rank: {summary['rank']}")

@@ -21,7 +21,7 @@ def main():
     # Load config
     config = TFANConfig.from_json_file("tfan/models/tfan7b/config.json")
 
-    print(f"\nModel configuration (PROFILE-A):")
+    print("\nModel configuration (PROFILE-A):")
     print(f"  Layers: {config.num_hidden_layers}")
     print(f"  Hidden size: {config.hidden_size}")
     print(f"  Attention heads: {config.num_attention_heads}")
@@ -32,13 +32,13 @@ def main():
     print(f"  Max position embeddings: {config.max_position_embeddings}")
 
     # Create model
-    print(f"\nCreating model...")
+    print("\nCreating model...")
     model = TFANForCausalLM(config)
 
     # Count parameters
     counts = count_parameters(model)
 
-    print(f"\nParameter counts:")
+    print("\nParameter counts:")
     print(f"  Total: {counts['total']:,}")
     print(f"  Trainable: {counts['trainable']:,}")
     print(f"  Non-trainable: {counts['non_trainable']:,}")
@@ -88,7 +88,7 @@ def main():
     with open("artifacts/reports/param_count.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\nResults saved to artifacts/reports/param_count.json")
+    print("\nResults saved to artifacts/reports/param_count.json")
 
     return 0 if within_range else 1
 

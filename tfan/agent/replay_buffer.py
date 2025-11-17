@@ -15,7 +15,7 @@ Usage:
 """
 
 import numpy as np
-from typing import Dict, Tuple, NamedTuple
+from typing import Dict, NamedTuple
 from collections import deque
 import random
 

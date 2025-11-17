@@ -102,7 +102,7 @@ class TritonPythonModel:
         # Request state
         self.request_kv_caches: Dict[str, tuple] = {}
 
-        print(f"✓ TF-A-N Triton backend initialized")
+        print("✓ TF-A-N Triton backend initialized")
         print(f"  Device: {self.device}")
         print(f"  SSA config: k={k_landmarks}, window={local_window}")
         print(f"  KV paging: {enable_kv_paging}")

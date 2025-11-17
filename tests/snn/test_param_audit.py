@@ -3,7 +3,6 @@ Unit tests for parameter auditing and gate validation.
 """
 
 import pytest
-import torch
 
 from tfan.snn.auditors import (
     dense_params,

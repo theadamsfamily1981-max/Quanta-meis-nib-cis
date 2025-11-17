@@ -13,7 +13,6 @@ Usage:
 import argparse
 import json
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class GateValidator:
@@ -187,7 +186,7 @@ class GateValidator:
         print(f"Total: {passed}/{total} gates passing")
 
         if self.violations:
-            print(f"\nViolations:")
+            print("\nViolations:")
             for v in self.violations:
                 print(f"  - {v}")
 

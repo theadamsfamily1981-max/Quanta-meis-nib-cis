@@ -17,10 +17,9 @@ import torch.nn.functional as F
 from typing import Optional, Tuple, Union, List, Dict
 from dataclasses import dataclass
 import json
-import math
 
 # Import local modules
-from .rope import RotaryEmbedding, apply_rotary_pos_emb
+from .rope import RotaryEmbedding
 from .norm import RMSNorm
 from .mlp_glu import SwiGLUFused
 from .attention_sparse import SSAAttention

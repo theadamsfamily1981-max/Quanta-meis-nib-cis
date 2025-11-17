@@ -7,7 +7,7 @@ Integrates with TLS for per-head landmark selection.
 
 import torch
 import torch.nn as nn
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from dataclasses import dataclass
 
 from .ingest import ModalityStream

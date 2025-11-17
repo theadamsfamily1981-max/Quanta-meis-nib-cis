@@ -11,8 +11,7 @@ Extracts text features with entity linking and sentiment:
 
 import torch
 import torch.nn as nn
-from typing import Optional, List
-import warnings
+from typing import Optional
 
 from ..ingest import ModalityAdapter, ModalityStream
 
@@ -167,7 +166,9 @@ class TextEntityAdapter(ModalityAdapter):
                 entity_types.append(self.extract_entities(token_ids[i]))
 
             entity_types_tensor = torch.stack(entity_types, dim=0)  # (batch, seq_len)
-            entity_embeds = self.entity_embeddings(entity_types_tensor)  # (batch, seq_len, 64)
+            entity_embeds = self.entity_embeddings(
+                entity_types_tensor
+            )  # (batch, seq_len, 64)
 
             features_list.append(entity_embeds)
 
@@ -178,19 +179,27 @@ class TextEntityAdapter(ModalityAdapter):
                 sentiments.append(self.extract_sentiment(token_ids[i]))
 
             sentiments_tensor = torch.stack(sentiments, dim=0)  # (batch, seq_len)
-            sentiment_embeds = self.sentiment_embeddings(sentiments_tensor)  # (batch, seq_len, 32)
+            sentiment_embeds = self.sentiment_embeddings(
+                sentiments_tensor
+            )  # (batch, seq_len, 32)
 
             features_list.append(sentiment_embeds)
 
         # Concatenate all features
-        combined_features = torch.cat(features_list, dim=2)  # (batch, seq_len, total_dim)
+        combined_features = torch.cat(
+            features_list, dim=2
+        )  # (batch, seq_len, total_dim)
 
         # Project to output_dim
-        features_projected = self.proj(combined_features)  # (batch, seq_len, output_dim)
+        features_projected = self.proj(
+            combined_features
+        )  # (batch, seq_len, output_dim)
 
         # Generate timestamps if not provided (word position as time)
         if timestamps is None:
-            timestamps = torch.arange(seq_len).unsqueeze(0).expand(batch_size, -1).float()
+            timestamps = (
+                torch.arange(seq_len).unsqueeze(0).expand(batch_size, -1).float()
+            )
             timestamps = timestamps / seq_len  # Normalize to [0, 1]
 
         return ModalityStream(

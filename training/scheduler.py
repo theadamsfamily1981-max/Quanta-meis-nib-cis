@@ -5,7 +5,6 @@ Learning rate schedulers for TF-A-N 7B training.
 import math
 import torch
 from torch.optim.lr_scheduler import LambdaLR
-from typing import Optional
 
 
 def get_cosine_schedule_with_warmup(

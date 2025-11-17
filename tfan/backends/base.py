@@ -4,7 +4,7 @@ Base backend class defining the interface for all model backends.
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Tuple, Optional
+from typing import Dict, Any
 import torch
 from torch import nn
 

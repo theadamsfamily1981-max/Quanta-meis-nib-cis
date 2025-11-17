@@ -15,7 +15,6 @@ Usage:
 """
 
 import argparse
-import yaml
 from pathlib import Path
 
 import torch
@@ -23,9 +22,6 @@ import torch.nn as nn
 
 from tfan import TFANConfig, TFANTrainer
 from tfan.attention import SparseAttention
-from tfan.topo import TopologyRegularizer
-from tfan.emotion import EmotionHead
-from tfan.mm import MultiModalIngestor, align_streams, pack_and_mask
 
 
 class SimpleTransformer(nn.Module):
@@ -219,7 +215,7 @@ def main():
     print(f"  EPR-CV: {final_results['epr_cv']['value']:.4f} {'✓' if final_results['epr_cv']['passes'] else '✗'}")
     print(f"  PGU: {'✓' if final_results['pgu']['passes'] else '✗'}")
 
-    print(f"\nFinal Metrics:")
+    print("\nFinal Metrics:")
     recent_metrics = trainer.metrics_history[-100:]
     print(f"  Avg Loss (last 100): {sum(m['loss'] for m in recent_metrics) / len(recent_metrics):.4f}")
     print(f"  Avg EPR-CV (last 100): {sum(m['epr_cv'] for m in recent_metrics) / len(recent_metrics):.4f}")

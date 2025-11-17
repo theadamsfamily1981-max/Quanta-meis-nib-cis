@@ -20,7 +20,7 @@ import time
 import torch
 import numpy as np
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 from tfan.backends import build_backend
 
@@ -359,7 +359,7 @@ def compare_backends(
         snn_vram = all_results['snn_emu'].get('vram_mb', 1)
         vram_reduction = (1 - snn_vram / dense_vram) * 100 if dense_vram > 0 else 0
 
-        print(f"\nSNN vs Dense:")
+        print("\nSNN vs Dense:")
         print(f"  Parameter reduction: {param_reduction:.1f}%")
         print(f"  VRAM reduction: {vram_reduction:.1f}%")
 
@@ -389,7 +389,7 @@ def main():
 
     num_steps = 100 if args.quick else args.steps
 
-    print(f"Running accuracy/energy benchmark:")
+    print("Running accuracy/energy benchmark:")
     print(f"  Steps: {num_steps}")
     print(f"  Device: {args.device}")
     print(f"  Output: {args.output}")

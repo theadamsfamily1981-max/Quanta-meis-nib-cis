@@ -10,9 +10,7 @@ Extracts visual features with motion information:
 
 import torch
 import torch.nn as nn
-import numpy as np
 from typing import Optional
-import warnings
 
 from ..ingest import ModalityAdapter, ModalityStream
 
@@ -178,14 +176,18 @@ class VideoOpticalAdapter(ModalityAdapter):
             all_features.append(combined_features)
 
         # Stack batch
-        features_tensor = torch.stack(all_features, dim=0)  # (batch, n_frames, total_dim)
+        features_tensor = torch.stack(
+            all_features, dim=0
+        )  # (batch, n_frames, total_dim)
 
         # Project to output_dim
         features_projected = self.proj(features_tensor)  # (batch, n_frames, output_dim)
 
         # Generate timestamps if not provided
         if timestamps is None:
-            timestamps = torch.arange(n_frames).unsqueeze(0).expand(batch_size, -1).float()
+            timestamps = (
+                torch.arange(n_frames).unsqueeze(0).expand(batch_size, -1).float()
+            )
             timestamps = timestamps / self.frame_rate
 
         return ModalityStream(

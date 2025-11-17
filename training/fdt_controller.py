@@ -4,7 +4,6 @@ FDT (Fluctuation-Dissipation Theorem) PI-D Controller for TF-A-N training.
 Maintains EPR-CV ≤ 0.15 through adaptive LR/temperature modulation.
 """
 
-import torch
 import numpy as np
 from typing import Dict, Optional, Tuple
 from collections import deque

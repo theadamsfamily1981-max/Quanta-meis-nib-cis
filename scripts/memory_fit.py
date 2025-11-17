@@ -59,7 +59,7 @@ def main(args):
     seq_lengths = [1024, 2048, 4096, 8192, 16384]
     memories = []
 
-    print(f"\nMeasuring memory at different sequence lengths...")
+    print("\nMeasuring memory at different sequence lengths...")
 
     for seq_len in seq_lengths:
         try:
@@ -110,7 +110,7 @@ def main(args):
         with open("artifacts/memory/fit.json", "w") as f:
             json.dump(results, f, indent=2)
 
-        print(f"\nResults saved to artifacts/memory/fit.json")
+        print("\nResults saved to artifacts/memory/fit.json")
 
     else:
         print("\nNot enough data points for fitting")

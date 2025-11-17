@@ -16,18 +16,12 @@ Usage:
 
 import argparse
 import json
-import sys
 import torch
 import numpy as np
 from pathlib import Path
 from typing import Dict, Any
 
 from tfan.backends import build_backend
-from tfan.snn import (
-    verify_all_gates,
-    mask_density,
-    degree_from_csr,
-)
 
 
 def validate_snn_gates(config: Dict[str, Any], verbose: bool = False) -> Dict[str, bool]:
@@ -68,7 +62,7 @@ def validate_snn_gates(config: Dict[str, Any], verbose: bool = False) -> Dict[st
     sparsity = summary['sparsity']
 
     if verbose:
-        print(f"\nConfiguration:")
+        print("\nConfiguration:")
         print(f"  N: {N}")
         print(f"  Rank: {r}")
         print(f"  Avg degree: {avg_degree:.1f}")
@@ -83,15 +77,15 @@ def validate_snn_gates(config: Dict[str, Any], verbose: bool = False) -> Dict[st
         'sparsity >= 0.98': sparsity >= 0.98,
     }
 
-    print(f"\nGate Results:")
+    print("\nGate Results:")
     for gate_name, passed in gates.items():
         status = '✓ PASS' if passed else '✗ FAIL'
         print(f"  {status}: {gate_name}")
 
     if all(gates.values()):
-        print(f"\n✅ All SNN gates passed!")
+        print("\n✅ All SNN gates passed!")
     else:
-        print(f"\n❌ Some SNN gates failed!")
+        print("\n❌ Some SNN gates failed!")
 
     print(f"{'='*60}\n")
 
@@ -193,15 +187,15 @@ def validate_fdt_gates(
         f'epr_cv <= {target_epr_cv}': final_epr_cv <= target_epr_cv,
     }
 
-    print(f"\nGate Results:")
+    print("\nGate Results:")
     for gate_name, passed in gates.items():
         status = '✓ PASS' if passed else '✗ FAIL'
         print(f"  {status}: {gate_name}")
 
     if all(gates.values()):
-        print(f"\n✅ All FDT gates passed!")
+        print("\n✅ All FDT gates passed!")
     else:
-        print(f"\n❌ Some FDT gates failed!")
+        print("\n❌ Some FDT gates failed!")
 
     print(f"{'='*60}\n")
 

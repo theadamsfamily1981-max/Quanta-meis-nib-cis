@@ -111,7 +111,7 @@ class TTWHook:
         else:
             self.logger = None
 
-        print(f"✓ TTW Hook initialized")
+        print("✓ TTW Hook initialized")
         print(f"  VFE threshold: {self.config.vfe_threshold}")
         print(f"  Window size: {self.config.window_size}")
         print(f"  Action: {self.config.action}")

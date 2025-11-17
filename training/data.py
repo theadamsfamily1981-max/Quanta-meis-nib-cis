@@ -187,23 +187,23 @@ class QUANTADataset(IterableDataset):
             self.data_source = "quanta_local"
             # TODO: Implement multi-source loading from data_config
             # For now, just note that data is available
-            print(f"  Note: Multi-source loading from config not yet implemented")
-            print(f"  Falling back to dummy data for this smoke test")
+            print("  Note: Multi-source loading from config not yet implemented")
+            print("  Falling back to dummy data for this smoke test")
 
         elif quanta_s3:
             print(f"✓ QUANTA S3 bucket configured: {quanta_s3}")
             self.data_source = "quanta_s3"
-            print(f"  Note: S3 data loading not yet implemented")
-            print(f"  Falling back to dummy data for this smoke test")
+            print("  Note: S3 data loading not yet implemented")
+            print("  Falling back to dummy data for this smoke test")
 
         elif quanta_manifest:
             print(f"✓ QUANTA manifest found: {quanta_manifest}")
             self.data_source = "quanta_manifest"
-            print(f"  Note: Manifest-based loading not yet implemented")
-            print(f"  Falling back to dummy data for this smoke test")
+            print("  Note: Manifest-based loading not yet implemented")
+            print("  Falling back to dummy data for this smoke test")
 
         else:
-            print(f"⚠ QUANTA data not found (checked environment variables)")
+            print("⚠ QUANTA data not found (checked environment variables)")
             print(f"  QUANTA_DATA_ROOT: {quanta_root or 'not set'}")
             print(f"  QUANTA_S3_BUCKET: {quanta_s3 or 'not set'}")
             print(f"  QUANTA_MANIFEST: {quanta_manifest or 'not set'}")
@@ -217,7 +217,7 @@ class QUANTADataset(IterableDataset):
                 self.data_source = "wikitext_fallback"
                 # TODO: Load WikiText-103
             elif self.fallback_to_dummy:
-                print(f"✓ Using dummy data for smoke test (no real data available)")
+                print("✓ Using dummy data for smoke test (no real data available)")
                 self.data_source = "dummy"
             else:
                 raise FileNotFoundError(

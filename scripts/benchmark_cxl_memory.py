@@ -38,13 +38,13 @@ import numpy as np
 import time
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 import sys
 
 # Add tfan to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from tfan.memory import CXLPager, CXLPageConfig, BloomPrefetcher, BloomConfig
+from tfan.memory import CXLPager, CXLPageConfig
 
 
 def create_dummy_kv_block(

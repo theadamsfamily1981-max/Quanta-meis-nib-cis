@@ -25,15 +25,10 @@ import numpy as np
 # Import SNN modules
 from tfan.snn import (
     LowRankMaskedSynapse,
-    LIFLayerLowRank,
     build_tls_mask_from_scores,
-    build_uniform_random_mask,
     report,
     verify_all_gates,
     print_report,
-    dense_params,
-    lowrank_params,
-    param_reduction_pct,
 )
 
 
@@ -102,13 +97,13 @@ def benchmark_config(N, r, k_per_row, device='cpu', dtype=torch.float32):
 
     avg_latency_ms = (t1 - t0) / num_runs * 1000
 
-    print(f"\nLATENCY:")
+    print("\nLATENCY:")
     print(f"  Forward pass: {avg_latency_ms:.3f} ms (avg over {num_runs} runs)")
 
     # Memory footprint
     param_bytes = sum(p.numel() * p.element_size() for p in syn.parameters())
     param_mb = param_bytes / (1024 * 1024)
-    print(f"\nMEMORY:")
+    print("\nMEMORY:")
     print(f"  Parameters: {param_mb:.2f} MB")
 
     return {

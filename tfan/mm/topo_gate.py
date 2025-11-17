@@ -5,7 +5,6 @@ Rejects landmark masks that break structural constraints.
 Falls back to CAT (denser attention) when topology is violated.
 """
 
-import torch
 import torch.nn as nn
 from typing import Dict, Tuple, Optional
 import warnings

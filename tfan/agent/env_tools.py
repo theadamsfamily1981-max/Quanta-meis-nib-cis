@@ -21,7 +21,7 @@ Usage:
 """
 
 import numpy as np
-from typing import Dict, Tuple, Optional
+from typing import Dict, Tuple
 from dataclasses import dataclass
 from enum import IntEnum
 

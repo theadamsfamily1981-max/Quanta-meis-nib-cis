@@ -12,7 +12,6 @@ Tests:
 
 import pytest
 import torch
-import numpy as np
 
 from tfan.mmf import (
     MMFBus,
@@ -212,9 +211,7 @@ class TestMMFBus:
         bus.register_adapter("text", TextEntityAdapter(output_dim=256))
 
         # Create input
-        inputs = {
-            "text": torch.randint(0, 50000, (2, 30))
-        }
+        inputs = {"text": torch.randint(0, 50000, (2, 30))}
 
         # Forward
         output = bus(inputs)

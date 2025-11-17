@@ -13,9 +13,8 @@ Hard gate:
 - ≥ 6 non-dominated points on Pareto front
 """
 
-import torch
 import numpy as np
-from typing import Dict, List, Tuple, Callable, Optional
+from typing import Dict, List, Tuple, Callable
 from dataclasses import dataclass
 import warnings
 import json

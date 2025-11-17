@@ -8,7 +8,6 @@ Modulates learning parameters based on predicted emotional state:
 All modulations are bounded and can be vetoed by PGU.
 """
 
-import torch
 from typing import Dict, Tuple, Optional
 from dataclasses import dataclass
 import warnings

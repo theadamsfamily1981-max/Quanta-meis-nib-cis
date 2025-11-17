@@ -7,7 +7,7 @@ Integrates with the existing tfan/topo.py TopologyRegularizer.
 
 import torch
 import torch.nn as nn
-from typing import Optional, List, Dict, Tuple
+from typing import Optional, Dict
 
 
 class TopologyHook(nn.Module):

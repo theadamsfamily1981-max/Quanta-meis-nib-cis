@@ -316,7 +316,7 @@ class SSARunner:
         self.stats_history.append(stats)
 
         if self.config.profile_latency:
-            print(f"SSA Prefill Stats:")
+            print("SSA Prefill Stats:")
             print(f"  Tokens: {seq_len:,}")
             print(f"  Landmarks: {stats.num_landmarks}")
             print(f"  Sparsity: {stats.sparsity:.2%}")

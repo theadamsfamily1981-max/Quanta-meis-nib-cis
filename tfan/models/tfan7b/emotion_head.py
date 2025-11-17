@@ -8,7 +8,7 @@ Integrates with FDT controller for emotion-modulated training.
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional
 
 
 class EmotionHead(nn.Module):

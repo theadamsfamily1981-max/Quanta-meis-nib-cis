@@ -34,7 +34,7 @@ from typing import Dict, List, Optional, Callable
 from pathlib import Path
 from dataclasses import dataclass, field
 
-from .cache import TurboCache, CacheStats
+from .cache import TurboCache
 
 
 @dataclass
@@ -147,7 +147,7 @@ class CorpusReplayer:
         results = self._compute_stats(total_time)
 
         print(f"\n{'='*60}")
-        print(f"Replay Results:")
+        print("Replay Results:")
         print(f"{'='*60}")
         print(f"  Queries: {results.num_queries}")
         print(f"  Hit rate: {results.hit_rate:.2%}")

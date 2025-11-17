@@ -23,7 +23,6 @@ from tfan.snn import (
     build_tls_mask_from_scores,
     build_uniform_random_mask,
     build_local_plus_random_mask,
-    degree_from_csr,
     mask_density,
 )
 

@@ -18,7 +18,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from tfan.ctd import HyperbolicEmbedding, TreeLikenessDetector, HyperbolicGate
+from tfan.ctd import HyperbolicEmbedding, HyperbolicGate
 
 
 def compute_ndcg_at_k(predictions, targets, k=10):
@@ -244,8 +244,8 @@ def main():
 
     passes, metrics = gate.validate()
 
-    print(f"Gate: NDCG improvement ≥ +5%")
-    print(f"  Required: +5%")
+    print("Gate: NDCG improvement ≥ +5%")
+    print("  Required: +5%")
     print(f"  Actual: {improvement_pct:+.1%}")
     print(f"  Status: {'✓ PASS' if passes else '✗ FAIL'}")
     print("=" * 80)

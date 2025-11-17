@@ -11,12 +11,10 @@ Tests:
 
 import pytest
 import torch
-from torch import nn
 import numpy as np
 
 from tfan.snn import (
     LIFLayerLowRank,
-    LowRankMaskedSynapse,
     build_uniform_random_mask,
 )
 from tfan.backends import build_backend

@@ -184,7 +184,7 @@ class BloomPrefetcher:
         self.num_correct_predictions = 0
         self.num_accesses = 0
 
-        print(f"✓ Bloom Prefetcher initialized")
+        print("✓ Bloom Prefetcher initialized")
         print(f"  Capacity: {self.config.capacity:,}")
         print(f"  Error rate: {self.config.error_rate:.2%}")
         print(f"  Lookahead: {self.config.lookahead}")
@@ -301,7 +301,7 @@ class BloomPrefetcher:
 
     def _periodic_reset(self):
         """Reset filters periodically to adapt to changing patterns."""
-        print(f"🔄 Bloom filter periodic reset (adapting to new patterns)")
+        print("🔄 Bloom filter periodic reset (adapting to new patterns)")
 
         # Keep some recent patterns by replaying recent history
         recent_history = self.history[-100:] if len(self.history) > 100 else self.history

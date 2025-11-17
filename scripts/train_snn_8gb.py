@@ -16,13 +16,10 @@ Usage:
 
 import argparse
 import yaml
-import time
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from pathlib import Path
 from tqdm import tqdm
-import numpy as np
 import json
 from typing import Dict, Any
 
@@ -375,7 +372,7 @@ def main():
     # Print model summary
     if hasattr(backend.model, 'lif'):
         summary = backend.model.lif.summary()
-        print(f"\nSNN Model Summary:")
+        print("\nSNN Model Summary:")
         print(f"  N: {summary['N']:,}")
         print(f"  Rank: {summary['rank']}")
         print(f"  Avg degree: {summary['avg_degree']:.1f}")

@@ -40,8 +40,8 @@ import hashlib
 import json
 import time
 import sqlite3
-from typing import Optional, Dict, List, Tuple, Any
-from dataclasses import dataclass, asdict
+from typing import Optional, Dict, List, Tuple
+from dataclasses import dataclass
 from pathlib import Path
 from collections import OrderedDict
 
@@ -116,7 +116,7 @@ class TurboCache:
         else:
             raise ValueError(f"Unknown backend: {backend}")
 
-        print(f"✓ TurboCache initialized")
+        print("✓ TurboCache initialized")
         print(f"  Backend: {backend}")
         print(f"  Max entries: {max_entries:,}")
         print(f"  DB path: {db_path or 'in-memory'}")
@@ -461,7 +461,7 @@ class CacheOracle:
 
             if not match:
                 self.num_mismatches += 1
-                print(f"⚠ Cache mismatch detected!")
+                print("⚠ Cache mismatch detected!")
                 print(f"  Cached: {cached}")
                 print(f"  Cold: {cold_result}")
 

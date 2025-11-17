@@ -17,7 +17,7 @@ Hard gates:
 
 import torch
 import torch.nn as nn
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from dataclasses import dataclass
 import time
 
@@ -31,6 +31,7 @@ from ..emotion import EmotionHead
 @dataclass
 class MMFBusConfig:
     """Configuration for MMF Bus."""
+
     d_model: int = 768
     modalities: List[str] = None  # Will default to ["text", "audio", "video"]
 
@@ -57,6 +58,7 @@ class MMFBusConfig:
 @dataclass
 class MMFBusOutput:
     """Output from MMF Bus."""
+
     fused: FusedRepresentation
     pad_state: PADState
     alignment_metrics: Dict
@@ -226,15 +228,16 @@ class MMFBus(nn.Module):
                 rep_features.append(pooled)
 
             # Average across modalities
-            combined_features = torch.stack(rep_features).mean(dim=0)  # (batch, feat_dim)
+            combined_features = torch.stack(rep_features).mean(
+                dim=0
+            )  # (batch, feat_dim)
 
             # Project to d_model if needed
             if combined_features.shape[-1] != self.config.d_model:
                 # Simple linear projection
-                if not hasattr(self, 'pad_projection'):
+                if not hasattr(self, "pad_projection"):
                     self.pad_projection = nn.Linear(
-                        combined_features.shape[-1],
-                        self.config.d_model
+                        combined_features.shape[-1], self.config.d_model
                     ).to(combined_features.device)
                 combined_features = self.pad_projection(combined_features)
 
@@ -242,10 +245,14 @@ class MMFBus(nn.Module):
             emotion_pred = self.emotion_head(combined_features.unsqueeze(1))
 
             pad_state = PADState(
-                pleasure=emotion_pred.pleasure.squeeze(1) if emotion_pred.pleasure is not None else emotion_pred.valence.squeeze(1),
+                pleasure=emotion_pred.pleasure.squeeze(1)
+                if emotion_pred.pleasure is not None
+                else emotion_pred.valence.squeeze(1),
                 arousal=emotion_pred.arousal.squeeze(1),
                 dominance=emotion_pred.dominance.squeeze(1),
-                confidence=emotion_pred.confidence.squeeze(1) if emotion_pred.confidence is not None else torch.ones_like(emotion_pred.arousal.squeeze(1)),
+                confidence=emotion_pred.confidence.squeeze(1)
+                if emotion_pred.confidence is not None
+                else torch.ones_like(emotion_pred.arousal.squeeze(1)),
             )
 
         # Apply PAD gate to select/weight modalities
@@ -304,13 +311,13 @@ class MMFBus(nn.Module):
         """Get bus performance metrics."""
         return {
             "total_calls": self.total_calls.item(),
-            "avg_latency_ms": (
-                self.total_latency_ms / self.total_calls
-            ).item() if self.total_calls > 0 else 0.0,
+            "avg_latency_ms": (self.total_latency_ms / self.total_calls).item()
+            if self.total_calls > 0
+            else 0.0,
             "ttw_violations": self.ttw_violations.item(),
-            "ttw_violation_rate": (
-                self.ttw_violations / self.total_calls
-            ).item() if self.total_calls > 0 else 0.0,
+            "ttw_violation_rate": (self.ttw_violations / self.total_calls).item()
+            if self.total_calls > 0
+            else 0.0,
         }
 
     def reset_metrics(self):
