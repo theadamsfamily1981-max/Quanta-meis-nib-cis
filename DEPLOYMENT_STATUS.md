@@ -135,7 +135,64 @@ uvicorn api.main:app --reload
 
 ---
 
-### 5. ✅ GNOME Desktop Integration (COMPLETE)
+### 5. ✅ Topology Screensaver (COMPLETE)
+
+**Module:** `tfan/viz/screensaver/`
+- `topo_screensaver.py` - Main screensaver with 4 visualization modes
+- `metrics_bridge.py` - Standalone HTTP metrics server
+- `README.md` - Comprehensive documentation with mathematical background
+- `install.sh` - One-click dependency installer
+- `setup-xscreensaver.sh` - Automatic xscreensaver configuration
+- `xscreensaver-wrapper.sh` - Runtime wrapper
+- `demo.py` - Interactive demo with live metrics
+
+**Visualization Modes:**
+- ✅ **Barcode Nebula** - Animated persistence barcodes from streaming point clouds
+- ✅ **Landscape Waterfall** - Stacked persistence landscapes (λ₁, λ₂, ...) flowing in time
+- ✅ **Poincaré Orbits** - Hyperbolic embeddings on Poincaré disk with geodesic drift
+- ✅ **Pareto Galaxy** - Non-dominated configs as stars in objective space
+
+**Features:**
+- Real-time topology computation (Ripser + persistence landscapes)
+- Live telemetry integration (EPR-CV drives tension, topo metrics affect visuals)
+- 60 FPS VisPy rendering with OpenGL acceleration
+- Keyboard controls (M=cycle modes, P=pause, Q=quit)
+- HTTP metrics polling from T-FAN API or standalone bridge
+- Full xscreensaver integration with auto-setup scripts
+
+**Mathematical Foundations:**
+- Vietoris-Rips filtration for persistence diagrams
+- Persistence landscapes (Bubenik 2015)
+- Poincaré disk model of hyperbolic space
+- Pareto optimality visualization
+
+**Quick Start:**
+```bash
+# Install dependencies
+cd tfan/viz/screensaver && ./install.sh
+
+# Run demo with live metrics
+python demo.py
+
+# Run standalone
+python topo_screensaver.py --fullscreen
+
+# With live API metrics
+python topo_screensaver.py --metrics http://localhost:8000/api/metrics --fullscreen
+
+# Setup xscreensaver integration
+./setup-xscreensaver.sh
+```
+
+**Dependencies:** `requirements-viz.txt`
+- vispy>=0.14.0
+- ripser>=0.6.4
+- persim>=0.3.1
+- scipy, numpy, requests
+
+---
+
+### 6. ✅ GNOME Desktop Integration (COMPLETE)
 
 **Directory:** `gnome-tfan/`
 - `extension/extension.js` - GNOME Shell extension (system tray)
@@ -166,21 +223,23 @@ tfan-gnome
 
 ## 📊 Statistics
 
-**Total Lines of Code:** ~7,947 lines
+**Total Lines of Code:** ~9,072 lines
 - Pareto v2 module: ~1,000 lines
 - Runtime module: ~300 lines
 - Promotion script: ~460 lines
 - REST API: ~730 lines
 - Web dashboard: ~1,130 lines
+- **Topology Screensaver: ~1,125 lines** 🌌
 - GNOME integration: ~1,500 lines
 - Tests: ~1,360 lines
 - CI workflows: ~300 lines
 - Dashboards: ~500 lines
-- Documentation: ~500 lines
+- Documentation: ~667 lines
 
-**Files Created:** 34 files
+**Files Created:** 43 files
 - 8 API files
 - 3 web files
+- **9 screensaver files** 🌌
 - 7 GNOME files
 - 4 pareto_v2 files
 - 2 runtime files
@@ -188,7 +247,7 @@ tfan-gnome
 - 1 promotion script
 - 1 CI workflow
 - 1 dashboard
-- 4 documentation files
+- 5 documentation files
 
 ---
 
@@ -207,6 +266,9 @@ tfan-gnome
 - [x] GNOME integration files complete
 - [x] Promotion script ready
 - [x] Dashboard visualization app ready
+- [x] **Topology screensaver with 4 modes complete** 🌌
+- [x] **Metrics bridge server operational**
+- [x] **xscreensaver integration scripts ready**
 - [x] All dependencies installed
 
 ---
