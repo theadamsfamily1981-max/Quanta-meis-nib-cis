@@ -63,3 +63,7 @@ artifacts/memory/*.json
 *.tmp
 tmp/
 temp/
+
+# Generated test data
+data/pgu_corpus_*.json
+data/test_corpus.json
