@@ -214,7 +214,7 @@ python topo_screensaver.py --metrics http://localhost:8000/api/metrics --fullscr
 **Directory:** `gnome-tfan/`
 - `extension/extension.js` - GNOME Shell extension (system tray)
 - `extension/metadata.json` - Extension metadata
-- `app/tfan_gnome.py` - GTK4/libadwaita dashboard (800+ lines)
+- `app/tfan_gnome.py` - GTK4/libadwaita dashboard (1,000+ lines)
 - `install.sh` - One-click installation
 - `com.quanta.tfan.desktop` - Desktop entry
 - `README.md` - Full documentation
@@ -223,7 +223,13 @@ python topo_screensaver.py --metrics http://localhost:8000/api/metrics --fullscr
 **Features:**
 - GNOME Shell extension with system tray indicator
 - Live metrics display (accuracy, latency, HV)
-- GTK4 dashboard with 5 views (Overview, Training, Pareto, Configs, System)
+- GTK4 dashboard with **6 views**: Dashboard, Pareto, Training, **Screensaver** 🌌, Config, Repository
+- **WebGL Screensaver Integration** - Embedded Three.js visualization with WebKit WebView
+  - 4 interactive modes (Barcode, Landscape, Poincaré, Pareto)
+  - Real-time controls (mode selector, particle count slider, auto-rotate)
+  - Fullscreen support with keyboard shortcuts
+  - Hardware-accelerated WebGL rendering
+  - Accessible from sidebar navigation or extension menu
 - GitHub auto-loader (paste URL, auto-clone, auto-install)
 - Gradient cards with glassmorphism
 - One-click training controls
@@ -236,11 +242,18 @@ gnome-extensions enable tfan@quanta-meis-nib-cis
 tfan-gnome
 ```
 
+**Launch Screensaver View:**
+```bash
+tfan-gnome --view=screensaver
+# Or click "Screensaver" in sidebar
+# Or GNOME panel menu → "🌌 Topology Screensaver"
+```
+
 ---
 
 ## 📊 Statistics
 
-**Total Lines of Code:** ~12,201 lines
+**Total Lines of Code:** ~12,427 lines
 - Pareto v2 module: ~1,000 lines
 - Runtime module: ~300 lines
 - Promotion script: ~460 lines
@@ -249,7 +262,7 @@ tfan-gnome
 - **Topology Screensaver (Python): ~1,125 lines** 🌌
 - **Topology Screensaver (WebGL): ~2,101 lines** 🌐
 - **Google Colab notebooks: ~1,028 lines** 📓
-- GNOME integration: ~1,500 lines
+- **GNOME integration: ~1,726 lines** (includes screensaver WebView integration)
 - Tests: ~1,360 lines
 - CI workflows: ~300 lines
 - Dashboards: ~500 lines
