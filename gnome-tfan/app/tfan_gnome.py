@@ -25,6 +25,15 @@ from typing import Optional
 import threading
 import time
 
+# Import workspace theming and D-Bus service
+try:
+    from workspace_themes import get_theme, generate_css, get_random_ara_outfit, get_ara_personality_config
+    from dbus_service import TFANDBusService
+    DBUS_AVAILABLE = True
+except ImportError:
+    DBUS_AVAILABLE = False
+    print("⚠ D-Bus service or workspace themes not available")
+
 
 class TFANWindow(Adw.ApplicationWindow):
     """Main T-FAN dashboard window."""
@@ -34,6 +43,17 @@ class TFANWindow(Adw.ApplicationWindow):
 
         self.set_title("T-FAN Neural Optimizer")
         self.set_default_size(1400, 900)
+
+        # Workspace mode ('work' or 'relax')
+        self.workspace_mode = 'work'
+        self.current_theme = get_theme('work') if DBUS_AVAILABLE else None
+
+        # Initialize D-Bus service for Ara control
+        if DBUS_AVAILABLE:
+            self.dbus_service = TFANDBusService(self)
+            self.dbus_service.register()
+        else:
+            self.dbus_service = None
 
         # Apply custom CSS
         self._load_custom_css()
@@ -52,9 +72,15 @@ class TFANWindow(Adw.ApplicationWindow):
         self._start_monitoring()
 
     def _load_custom_css(self):
-        """Load custom CSS for sick styling."""
+        """Load custom CSS based on workspace theme."""
         css_provider = Gtk.CssProvider()
-        css = """
+
+        # Use theme-generated CSS if available
+        if DBUS_AVAILABLE and self.current_theme:
+            css = generate_css(self.current_theme)
+        else:
+            # Fallback CSS
+            css = """
         .tfan-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 12px;
@@ -153,6 +179,25 @@ class TFANWindow(Adw.ApplicationWindow):
         pareto_button = Gtk.Button(label="🎯 Optimize")
         pareto_button.connect("clicked", self._on_run_pareto)
         header.pack_start(pareto_button)
+
+        # Workspace mode switcher
+        if DBUS_AVAILABLE:
+            mode_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+            mode_box.add_css_class("mode-badge")
+
+            self.mode_icon = Gtk.Image.new_from_icon_name("weather-clear-night-symbolic")
+            self.mode_label = Gtk.Label(label="⚡ Work")
+            self.mode_label.add_css_class("heading")
+
+            mode_box.append(self.mode_icon)
+            mode_box.append(self.mode_label)
+
+            mode_switch_button = Gtk.Button()
+            mode_switch_button.set_child(mode_box)
+            mode_switch_button.connect("clicked", self._on_toggle_workspace_mode)
+            mode_switch_button.set_tooltip_text("Switch between Work and Relaxation modes")
+
+            header.pack_end(mode_switch_button)
 
         self.main_box.append(header)
 
@@ -1031,6 +1076,67 @@ print(f"{front.n_dominated},{front.hypervolume:.0f}")
         self.status_label.set_label(f"✗ Pareto failed: {error}")
         self.pareto_results_label.set_label(f"✗ Error: {error}")
 
+    def _on_toggle_workspace_mode(self, button):
+        """Toggle between work and relaxation workspace modes."""
+        if not DBUS_AVAILABLE:
+            return
+
+        # Switch mode
+        self.workspace_mode = 'relax' if self.workspace_mode == 'work' else 'work'
+        self.apply_workspace_theme(self.workspace_mode)
+
+        # Update mode indicator
+        if self.workspace_mode == 'work':
+            self.mode_label.set_label("⚡ Work")
+            self.mode_icon.set_from_icon_name("weather-clear-symbolic")
+        else:
+            self.mode_label.set_label("🌙 Relax")
+            self.mode_icon.set_from_icon_name("weather-clear-night-symbolic")
+
+        # Notify Ara via D-Bus
+        if self.dbus_service:
+            # Get personality config for Ara
+            personality = get_ara_personality_config(self.current_theme)
+            print(f"[Workspace] Switched to {self.workspace_mode} mode")
+            print(f"[Ara] Personality config: {personality}")
+
+            # Ara can randomize outfit in relax mode
+            if self.workspace_mode == 'relax':
+                outfit = get_random_ara_outfit('relax')
+                print(f"[Ara] Random outfit suggestion: {outfit}")
+
+    def apply_workspace_theme(self, mode):
+        """
+        Apply workspace theme (work or relax).
+
+        Args:
+            mode: 'work' or 'relax'
+        """
+        if not DBUS_AVAILABLE:
+            return
+
+        # Get theme
+        self.current_theme = get_theme(mode)
+        self.workspace_mode = mode
+
+        # Regenerate CSS
+        css_provider = Gtk.CssProvider()
+        css = generate_css(self.current_theme)
+        css_provider.load_from_data(css.encode())
+
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        print(f"✓ Applied {self.current_theme['display_name']} theme")
+
+    def close_dbus_service(self):
+        """Clean up D-Bus service on shutdown."""
+        if self.dbus_service:
+            self.dbus_service.unregister()
+
     def _start_monitoring(self):
         """Start background monitoring of metrics."""
         def update_metrics():
@@ -1095,6 +1201,14 @@ class TFANApplication(Adw.Application):
         if not win:
             win = TFANWindow(application=self)
         win.present()
+
+    def do_shutdown(self):
+        """Cleanup on shutdown."""
+        # Close D-Bus service
+        win = self.props.active_window
+        if win and hasattr(win, 'close_dbus_service'):
+            win.close_dbus_service()
+        Adw.Application.do_shutdown(self)
 
     def create_action(self, name, callback, shortcuts=None):
         """Create application action."""
