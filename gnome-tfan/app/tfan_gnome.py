@@ -580,24 +580,131 @@ class TFANWindow(Adw.ApplicationWindow):
             self.screensaver_webview.load_html(html_content, "about:blank")
 
     def _generate_screensaver_html(self, mode, particle_count, auto_rotate):
-        """Generate inline HTML for screensaver."""
+        """Generate inline HTML for screensaver with live metrics integration."""
         return f"""
 <!DOCTYPE html>
 <html>
 <head>
     <style>
-        body {{ margin: 0; overflow: hidden; background: #020306; }}
+        body {{ margin: 0; overflow: hidden; background: #020306; font-family: monospace; color: #fff; }}
         canvas {{ display: block; width: 100%; height: 100vh; }}
+        #hud {{
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+        }}
+        .metric-row {{
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }}
+        .metric-label {{ color: #888; }}
+        .metric-value {{ color: #667eea; font-weight: bold; }}
+        .status-connected {{ color: #00ff00; }}
+        .status-disconnected {{ color: #ff4444; }}
     </style>
 </head>
 <body>
+    <div id="hud">
+        <div style="font-size: 14px; margin-bottom: 10px; color: #667eea;">⚛️ T-FAN Topology</div>
+        <div class="metric-row">
+            <span class="metric-label">Mode:</span>
+            <span class="metric-value" id="mode">{mode}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">EPR-CV:</span>
+            <span class="metric-value" id="epr-cv">--</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Topo Gap:</span>
+            <span class="metric-value" id="topo-gap">--</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Accuracy:</span>
+            <span class="metric-value" id="accuracy">--</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Status:</span>
+            <span id="status" class="status-disconnected">⚫ Searching...</span>
+        </div>
+    </div>
     <canvas id="canvas"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
     <script>
+        // Live metrics from model's topology computation
+        let metrics = {{
+            epr_cv: 0.10,
+            topo_gap: 0.015,
+            accuracy: 0.0,
+            latency_ms: 0.0,
+            training_active: false
+        }};
+
+        // Try to connect to T-FAN API
+        async function pollMetrics() {{
+            try {{
+                const response = await fetch('http://localhost:8000/api/metrics');
+                if (response.ok) {{
+                    const data = await response.json();
+                    metrics = data;
+                    updateHUD(true);
+                }} else {{
+                    // Fallback: try metrics.json file via file:// (won't work in WebView, but try anyway)
+                    tryLocalMetrics();
+                }}
+            }} catch (e) {{
+                tryLocalMetrics();
+            }}
+        }}
+
+        async function tryLocalMetrics() {{
+            try {{
+                // Try metrics bridge on alternate port
+                const response = await fetch('http://localhost:9101/metrics');
+                if (response.ok) {{
+                    const data = await response.json();
+                    metrics = data;
+                    updateHUD(true);
+                }} else {{
+                    updateHUD(false);
+                }}
+            }} catch (e) {{
+                updateHUD(false);
+            }}
+        }}
+
+        function updateHUD(connected) {{
+            document.getElementById('epr-cv').textContent = metrics.epr_cv?.toFixed(3) || '--';
+            document.getElementById('topo-gap').textContent = metrics.topo_gap?.toFixed(4) || '--';
+            document.getElementById('accuracy').textContent = metrics.accuracy?.toFixed(3) || '--';
+
+            const statusEl = document.getElementById('status');
+            if (connected) {{
+                statusEl.textContent = metrics.training_active ? '🟢 Training Live' : '🟡 Connected';
+                statusEl.className = 'status-connected';
+            }} else {{
+                statusEl.textContent = '⚫ Demo Mode';
+                statusEl.className = 'status-disconnected';
+            }}
+        }}
+
+        // Poll every 2 seconds
+        setInterval(pollMetrics, 2000);
+        pollMetrics();
+
+        // Three.js scene setup
         const canvas = document.getElementById('canvas');
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x020306);
+        scene.fog = new THREE.Fog(0x020306, 10, 50);
 
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 5, 10);
@@ -610,32 +717,89 @@ class TFANWindow(Adw.ApplicationWindow):
         controls.autoRotate = {str(auto_rotate).lower()};
         controls.autoRotateSpeed = 0.5;
 
+        // Lights
         scene.add(new THREE.AmbientLight(0x404040, 1.0));
-        const light = new THREE.PointLight(0x667eea, 2.0);
-        light.position.set(10, 10, 10);
-        scene.add(light);
+        const light1 = new THREE.PointLight(0x667eea, 2.0);
+        light1.position.set(10, 10, 10);
+        scene.add(light1);
 
-        // Simple {mode} visualization
+        const light2 = new THREE.PointLight(0x764ba2, 1.5);
+        light2.position.set(-10, 5, -10);
+        scene.add(light2);
+
+        // Create {mode} visualization
         const geometry = new THREE.BufferGeometry();
         const positions = [];
         const colors = [];
+        const velocities = [];
 
         for (let i = 0; i < {particle_count}; i++) {{
-            positions.push((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
-            const color = new THREE.Color().setHSL(0.5 + Math.random() * 0.3, 0.8, 0.6);
+            positions.push(
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10
+            );
+
+            // Color based on mode
+            const hue = 0.55 + Math.random() * 0.2; // Purple-blue range
+            const color = new THREE.Color().setHSL(hue, 0.8, 0.6);
             colors.push(color.r, color.g, color.b);
+
+            // Random velocities for organic motion
+            velocities.push(
+                (Math.random() - 0.5) * 0.02,
+                (Math.random() - 0.5) * 0.02,
+                (Math.random() - 0.5) * 0.02
+            );
         }}
 
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
         geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
-        const material = new THREE.PointsMaterial({{ size: 0.1, vertexColors: true }});
+        const material = new THREE.PointsMaterial({{
+            size: 0.15,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        }});
         const points = new THREE.Points(geometry, material);
         scene.add(points);
 
+        // Animation driven by live topology metrics
+        let time = 0;
         function animate() {{
             requestAnimationFrame(animate);
-            points.rotation.y += 0.001;
+            time += 0.016; // ~60fps
+
+            // EPR-CV drives the "tension" - how much the topology is fluctuating
+            const tension = 0.4 + (metrics.epr_cv || 0.10) * 2.0;
+
+            // Topo gap affects particle size (smaller gap = more coherent = bigger particles)
+            const gapFactor = 1.0 - (metrics.topo_gap || 0.015) * 20.0;
+            material.size = 0.15 * Math.max(0.5, Math.min(1.5, gapFactor));
+
+            // Organic particle motion influenced by topology
+            const posArray = geometry.attributes.position.array;
+            for (let i = 0; i < posArray.length; i += 3) {{
+                // Apply velocity
+                posArray[i] += velocities[i] * tension;
+                posArray[i + 1] += velocities[i + 1] * tension;
+                posArray[i + 2] += velocities[i + 2] * tension;
+
+                // Boundary wrapping
+                if (Math.abs(posArray[i]) > 8) velocities[i] *= -1;
+                if (Math.abs(posArray[i + 1]) > 8) velocities[i + 1] *= -1;
+                if (Math.abs(posArray[i + 2]) > 8) velocities[i + 2] *= -1;
+
+                // Add topology-driven wave motion
+                posArray[i + 1] += Math.sin(time * tension + posArray[i]) * 0.01;
+            }}
+            geometry.attributes.position.needsUpdate = true;
+
+            // Rotate entire system based on tension
+            points.rotation.y += 0.001 * tension;
+
             controls.update();
             renderer.render(scene, camera);
         }}
