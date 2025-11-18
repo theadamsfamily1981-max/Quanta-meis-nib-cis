@@ -108,6 +108,34 @@ Or click the T-FAN icon in your application menu!
 - Click "🎯 Run Optimization"
 - View results in dashboard
 
+### Watch Your Model's Topology in Real-Time 🌌
+
+The **Screensaver** view visualizes your model's internal topological features as they evolve during training:
+
+**Setup:**
+1. Start the T-FAN API server:
+   ```bash
+   uvicorn api.main:app --reload
+   ```
+
+2. Launch training (in another terminal):
+   ```bash
+   python training/train.py
+   ```
+
+3. Open screensaver:
+   - Click T-FAN indicator → "🌌 Topology Screensaver"
+   - Or open dashboard → "Screensaver" tab
+   - Or run: `tfan-gnome --view=screensaver`
+
+**What You'll See:**
+- **EPR-CV drives motion** - Higher entanglement fluctuation = faster, more chaotic particles
+- **Topo Gap affects size** - Smaller gap (better topology preservation) = larger, more coherent particles
+- **Live HUD overlay** - Real-time metrics from your training session
+- **Connection status** - 🟢 Training Live (active training) / 🟡 Connected (API running) / ⚫ Demo Mode
+
+**No training running?** The screensaver works in demo mode with simulated metrics. Start training to see your actual model's topology!
+
 ## Interface Guide
 
 ### Top Bar Indicator
@@ -119,6 +147,7 @@ The T-FAN icon in your top bar shows:
 Click the indicator to access:
 - 📊 Open Dashboard
 - 🎯 Pareto Optimization
+- 🌌 Topology Screensaver (NEW!)
 - 🚀 Start Training
 - 📈 Live Metrics (accuracy, latency, hypervolume)
 - ⚙️ Settings
@@ -140,12 +169,25 @@ Click the indicator to access:
    - Monitor training logs
    - Real-time metrics
 
-4. **Config** ⚙️
+4. **Screensaver** 🌌
+   - **Live topology visualization** - Watch your model's internal geometry in real-time
+   - **Metrics-driven animation** - Particle behavior reflects actual topology computations
+   - 4 visualization modes (Barcode, Landscape, Poincaré, Pareto)
+   - Interactive controls (mode, particle count, rotation)
+   - HUD overlay showing live metrics:
+     - **EPR-CV** → drives particle "tension" (motion speed)
+     - **Topo Gap** → affects particle size (coherence indicator)
+     - **Accuracy** → training progress
+     - **Connection status** → Training Live / Connected / Demo Mode
+   - Hardware-accelerated WebGL rendering
+   - Fullscreen mode for immersive viewing
+
+5. **Config** ⚙️
    - Edit training configs
    - Model architecture settings
    - Gate thresholds
 
-5. **Repository** 📦
+6. **Repository** 📦
    - Load from GitHub
    - Auto-clone and configure
    - One-click setup
