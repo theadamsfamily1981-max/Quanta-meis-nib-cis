@@ -204,7 +204,8 @@ python topo_screensaver.py --metrics http://localhost:8000/api/metrics --fullscr
 **Deployment Options:**
 - **Desktop**: xscreensaver, GNOME screensaver, live wallpaper (xwinwrap)
 - **Browser**: Static website, browser extension, embedded iframe, kiosk mode
-- **Platforms**: Linux, macOS, Windows, mobile browsers, tablets
+- **Google Colab**: Zero-installation notebooks with one-click launch 📓
+- **Platforms**: Linux, macOS, Windows, mobile browsers, tablets, Colab
 
 ---
 
@@ -239,7 +240,7 @@ tfan-gnome
 
 ## 📊 Statistics
 
-**Total Lines of Code:** ~11,173 lines
+**Total Lines of Code:** ~12,201 lines
 - Pareto v2 module: ~1,000 lines
 - Runtime module: ~300 lines
 - Promotion script: ~460 lines
@@ -247,17 +248,19 @@ tfan-gnome
 - Web dashboard: ~1,130 lines
 - **Topology Screensaver (Python): ~1,125 lines** 🌌
 - **Topology Screensaver (WebGL): ~2,101 lines** 🌐
+- **Google Colab notebooks: ~1,028 lines** 📓
 - GNOME integration: ~1,500 lines
 - Tests: ~1,360 lines
 - CI workflows: ~300 lines
 - Dashboards: ~500 lines
 - Documentation: ~667 lines
 
-**Files Created:** 51 files
+**Files Created:** 54 files
 - 8 API files
 - 3 web dashboard files
 - **9 screensaver (Python) files** 🌌
 - **8 screensaver (WebGL) files** 🌐
+- **3 Colab notebooks** 📓
 - 7 GNOME files
 - 4 pareto_v2 files
 - 2 runtime files
