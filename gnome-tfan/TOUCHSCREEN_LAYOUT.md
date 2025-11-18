@@ -466,15 +466,15 @@ Status Bar     | 100px       | 135px
 - [x] HUD strip with button grid
 - [x] Content area with scroll
 - [x] Status bar
-- [ ] Video background layer
-- [ ] Scanline/vignette overlays
+- [x] Video background layer
+- [x] Scanline/vignette overlays
 
 ### Touch Interactions
 - [x] Tap to switch views
-- [ ] Swipe to scroll
-- [ ] Pinch to zoom (topology)
-- [ ] Long press for options
-- [ ] Ripple feedback effect
+- [x] Swipe to scroll
+- [x] Pinch to zoom (topology)
+- [x] Long press for options
+- [x] Ripple feedback effect
 
 ### Views
 - [x] Overview (mission status)
@@ -486,21 +486,23 @@ Status Bar     | 100px       | 135px
 - [x] Avatar controls
 
 ### Polish
-- [ ] Smooth animations
-- [ ] Loading states
-- [ ] Error states
-- [ ] Empty states
-- [ ] Transition effects
+- [x] Smooth animations
+- [x] Loading states
+- [x] Error states
+- [x] Empty states
+- [x] Transition effects
 
 ---
 
-## Files to Create/Modify
+## Files Created/Modified
 
-1. **`cockpit_hud.py`** - Main app (done)
-2. **`cockpit_theme.css`** - Extract CSS to file
-3. **`video_background.py`** - GStreamer video player
-4. **`touch_gestures.py`** - Gesture recognizers
-5. **`assets/hologram_loop.webm`** - Background video
+1. **`app/cockpit_hud.py`** - Main cockpit HUD app (updated with video/gestures)
+2. **`app/cockpit_theme.css`** - External CSS theme file
+3. **`app/video_background.py`** - GStreamer video player
+4. **`app/touch_gestures.py`** - Gesture recognizers (swipe/pinch/long-press)
+5. **`app/ara_avatar_client.py`** - D-Bus client for avatar control
+6. **`assets/`** - Directory for video backgrounds
+7. **`assets/README.md`** - Asset specifications guide
 
 ---
 

@@ -24,6 +24,13 @@ from pathlib import Path
 from typing import Optional
 import psutil
 import time
+import logging
+
+# Local modules
+from video_background import create_background
+from touch_gestures import GestureHandler, RippleEffect, setup_touch_feedback, get_ripple_css
+
+logger = logging.getLogger(__name__)
 
 # Try to import GPUtil for GPU monitoring
 try:
@@ -187,12 +194,27 @@ class CockpitHUDWindow(Adw.ApplicationWindow):
         }
         self.history_max_length = 60  # Keep 60 data points
 
+        # Video background reference
+        self.video_bg = None
+
         # Apply cockpit theme
         self._load_cockpit_css()
 
-        # Main layout
+        # Root overlay for layering video, content, and effects
+        root_overlay = Gtk.Overlay()
+        root_overlay.add_css_class('cockpit-window')
+        self.set_content(root_overlay)
+
+        # Layer 0: Video background
+        video_widget, self.video_bg = create_background()
+        video_widget.set_hexpand(True)
+        video_widget.set_vexpand(True)
+        root_overlay.set_child(video_widget)
+
+        # Layer 1: Main content
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        self.set_content(main_box)
+        main_box.add_css_class('cockpit-content')
+        root_overlay.add_overlay(main_box)
 
         # HUD control strip (top)
         hud_strip = self._build_hud_strip()
@@ -201,12 +223,30 @@ class CockpitHUDWindow(Adw.ApplicationWindow):
         # Content area (scrollable)
         scroll = Gtk.ScrolledWindow()
         scroll.set_vexpand(True)
+        scroll.set_kinetic_scrolling(True)  # Touch-friendly scrolling
 
         self.content_stack = Gtk.Stack()
-        self.content_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        self.content_stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+        self.content_stack.set_transition_duration(300)
         scroll.set_child(self.content_stack)
 
         main_box.append(scroll)
+
+        # Status bar (bottom)
+        self.status_bar = self._build_status_bar()
+        main_box.append(self.status_bar)
+
+        # Layer 2: Overlay effects (scanlines, vignette)
+        overlay_effects = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        overlay_effects.add_css_class('cockpit-overlay')
+        overlay_effects.add_css_class('cockpit-scanlines')
+        overlay_effects.add_css_class('cockpit-vignette')
+        overlay_effects.set_hexpand(True)
+        overlay_effects.set_vexpand(True)
+        root_overlay.add_overlay(overlay_effects)
+
+        # Add touch gestures for swipe navigation
+        self._setup_touch_gestures(scroll)
 
         # Build all views
         self._build_all_views()
@@ -214,177 +254,150 @@ class CockpitHUDWindow(Adw.ApplicationWindow):
         # Start metrics monitoring
         self._start_monitoring()
 
+        # Start video background
+        if self.video_bg and hasattr(self.video_bg, 'play'):
+            self.video_bg.play()
+            self.video_bg.fade_in(1500)
+
+        logger.info("[HUD] Cockpit initialized with video background and overlays")
+
     def _load_cockpit_css(self):
-        """Load futuristic cockpit theme CSS."""
-        css_provider = Gtk.CssProvider()
-        css = """
-        /* T-FAN Cockpit HUD Theme */
+        """Load futuristic cockpit theme CSS from external file."""
+        display = Gdk.Display.get_default()
 
-        window {
-            background: #020306;
-            color: #ffffff;
-        }
+        # Load main theme CSS file
+        css_file = Path(__file__).parent / 'cockpit_theme.css'
+        if css_file.exists():
+            css_provider = Gtk.CssProvider()
+            css_provider.load_from_path(str(css_file))
+            Gtk.StyleContext.add_provider_for_display(
+                display,
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+            logger.info(f"[HUD] Loaded theme from {css_file}")
+        else:
+            logger.warning(f"[HUD] Theme file not found: {css_file}")
 
-        /* HUD Control Strip */
-        .hud-strip {
-            background: linear-gradient(180deg, #0a0e1a 0%, #020306 100%);
-            border-bottom: 2px solid #667eea;
-            padding: 12px;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        /* HUD Mode Buttons */
-        .hud-button {
-            min-width: 100px;
-            min-height: 80px;
-            margin: 6px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border: 2px solid #00d4ff;
-            border-radius: 12px;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-            box-shadow:
-                inset 0 0 20px rgba(0, 212, 255, 0.2),
-                0 0 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .hud-button:hover {
-            background: linear-gradient(135deg, #764ba2, #667eea);
-            border-color: #00ffff;
-            box-shadow:
-                inset 0 0 30px rgba(0, 255, 255, 0.3),
-                0 0 40px rgba(0, 212, 255, 0.8);
-        }
-
-        .hud-button:active,
-        .hud-button.active {
-            background: linear-gradient(135deg, #00d4ff, #667eea);
-            border-color: #00ffff;
-            box-shadow:
-                inset 0 0 40px rgba(0, 255, 255, 0.5),
-                0 0 60px rgba(0, 255, 255, 1.0);
-        }
-
-        /* Metrics Cards */
-        .metric-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-            border: 2px solid rgba(0, 212, 255, 0.4);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 12px;
-            box-shadow:
-                inset 0 0 20px rgba(0, 212, 255, 0.1),
-                0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .metric-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #00d4ff;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-            margin-bottom: 12px;
-        }
-
-        .metric-value-huge {
-            font-size: 64px;
-            font-weight: bold;
-            color: #00ffff;
-            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-        }
-
-        .metric-value-large {
-            font-size: 48px;
-            font-weight: bold;
-            color: #667eea;
-            text-shadow: 0 0 15px rgba(102, 126, 234, 0.8);
-        }
-
-        .metric-value-medium {
-            font-size: 32px;
-            font-weight: bold;
-            color: #764ba2;
-        }
-
-        .metric-label {
-            font-size: 18px;
-            color: #b0c4de;
-            opacity: 0.8;
-        }
-
-        /* Progress Bars */
-        .metric-progress {
-            min-height: 24px;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-        }
-
-        .metric-progress > trough > progress {
-            background: linear-gradient(90deg, #00ff88, #00d4ff);
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
-        }
-
-        /* Warning/Error States */
-        .metric-warning {
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-        }
-
-        .metric-error {
-            color: #ff4444;
-            text-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
-        }
-
-        /* Holographic Effect */
-        .holographic {
-            background: linear-gradient(135deg,
-                rgba(102, 126, 234, 0.1) 0%,
-                rgba(118, 75, 162, 0.1) 25%,
-                rgba(0, 212, 255, 0.1) 50%,
-                rgba(118, 75, 162, 0.1) 75%,
-                rgba(102, 126, 234, 0.1) 100%);
-            background-size: 200% 200%;
-            animation: hologram 4s ease infinite;
-        }
-
-        @keyframes hologram {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Scanlines */
-        .scanlines {
-            position: relative;
-        }
-
-        .scanlines::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 212, 255, 0.03) 2px,
-                rgba(0, 212, 255, 0.03) 4px
-            );
-            pointer-events: none;
-        }
-        """
-
-        css_provider.load_from_data(css.encode())
+        # Load ripple effect CSS
+        ripple_provider = Gtk.CssProvider()
+        ripple_provider.load_from_string(get_ripple_css())
         Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
-            css_provider,
+            display,
+            ripple_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
+
+    def _build_status_bar(self):
+        """Build bottom status bar."""
+        status_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
+        status_box.add_css_class('status-bar')
+        status_box.set_halign(Gtk.Align.CENTER)
+
+        # Connection status
+        self.connection_status = Gtk.Label(label="🟢 Connected")
+        self.connection_status.add_css_class('status-indicator')
+        self.connection_status.add_css_class('status-nominal')
+        status_box.append(self.connection_status)
+
+        # Separator
+        sep = Gtk.Label(label="|")
+        sep.add_css_class('status-indicator')
+        status_box.append(sep)
+
+        # Mode indicator
+        self.mode_indicator = Gtk.Label(label="⚡ Work Mode")
+        self.mode_indicator.add_css_class('status-indicator')
+        status_box.append(self.mode_indicator)
+
+        # Separator
+        sep2 = Gtk.Label(label="|")
+        sep2.add_css_class('status-indicator')
+        status_box.append(sep2)
+
+        # GPU temp
+        self.gpu_temp_status = Gtk.Label(label="GPU: --°C")
+        self.gpu_temp_status.add_css_class('status-indicator')
+        status_box.append(self.gpu_temp_status)
+
+        # Separator
+        sep3 = Gtk.Label(label="|")
+        sep3.add_css_class('status-indicator')
+        status_box.append(sep3)
+
+        # Time
+        self.time_label = Gtk.Label(label="--:--")
+        self.time_label.add_css_class('status-indicator')
+        status_box.append(self.time_label)
+
+        # Update time every second
+        GLib.timeout_add_seconds(1, self._update_time)
+
+        return status_box
+
+    def _update_time(self):
+        """Update time display."""
+        from datetime import datetime
+        now = datetime.now()
+        self.time_label.set_text(now.strftime("%I:%M %p"))
+        return True  # Continue timer
+
+    def _setup_touch_gestures(self, scroll_widget):
+        """Set up touch gesture handlers."""
+        # Create gesture handler for swipe navigation
+        handler = GestureHandler(scroll_widget)
+
+        def on_swipe(direction, vx, vy):
+            """Handle swipe gestures for view navigation."""
+            from touch_gestures import SwipeDirection
+
+            # Get current view index
+            view_order = ['overview', 'gpu', 'cpu', 'network', 'storage', 'topology', 'avatar']
+            current_idx = view_order.index(self.current_view)
+
+            if direction == SwipeDirection.LEFT and current_idx < len(view_order) - 1:
+                # Swipe left -> next view
+                next_view = view_order[current_idx + 1]
+                self._switch_to_view(next_view)
+            elif direction == SwipeDirection.RIGHT and current_idx > 0:
+                # Swipe right -> previous view
+                prev_view = view_order[current_idx - 1]
+                self._switch_to_view(prev_view)
+
+        def on_long_press(x, y):
+            """Handle long press for options menu."""
+            logger.debug(f"[HUD] Long press at ({x}, {y})")
+            # Could show context menu here
+
+        handler.on_swipe = on_swipe
+        handler.on_long_press = on_long_press
+
+    def _switch_to_view(self, view_name):
+        """Switch to specified view."""
+        if view_name == self.current_view:
+            return
+
+        # Update button states
+        for mode_id, btn in self.mode_buttons.items():
+            if mode_id == view_name:
+                btn.add_css_class('active')
+                btn.add_css_class('selected')
+            else:
+                btn.remove_css_class('active')
+                btn.remove_css_class('selected')
+
+        # Switch view
+        self.current_view = view_name
+        self.content_stack.set_visible_child_name(view_name)
+
+        # Pause video for topology view (performance)
+        if self.video_bg and hasattr(self.video_bg, 'pause'):
+            if view_name == 'topology':
+                self.video_bg.pause()
+            elif hasattr(self.video_bg, 'play'):
+                self.video_bg.play()
+
+        logger.info(f"[HUD] Switched to {view_name} view")
 
     def _build_hud_strip(self):
         """Build top HUD control strip with mode buttons."""
@@ -420,12 +433,16 @@ class CockpitHUDWindow(Adw.ApplicationWindow):
         for mode_id, label, row, col in modes:
             button = Gtk.Button(label=label)
             button.add_css_class('hud-button')
+            button.add_css_class('ripple-effect')
             button.connect('clicked', self._on_mode_button_clicked, mode_id)
+            # Add touch feedback
+            setup_touch_feedback(button)
             grid.attach(button, col, row, 1, 1)
             self.mode_buttons[mode_id] = button
 
         # Mark overview as active initially
         self.mode_buttons['overview'].add_css_class('active')
+        self.mode_buttons['overview'].add_css_class('selected')
 
         strip_box.append(grid)
 
@@ -433,18 +450,12 @@ class CockpitHUDWindow(Adw.ApplicationWindow):
 
     def _on_mode_button_clicked(self, button, mode_id):
         """Handle HUD mode button click."""
-        # Remove active class from all buttons
-        for btn in self.mode_buttons.values():
-            btn.remove_css_class('active')
+        # Trigger ripple effect
+        button.add_css_class('ripple-active')
+        GLib.timeout_add(400, lambda: button.remove_css_class('ripple-active'))
 
-        # Add active class to clicked button
-        button.add_css_class('active')
-
-        # Switch view
-        self.current_view = mode_id
-        self.content_stack.set_visible_child_name(mode_id)
-
-        print(f"[HUD] Switched to {mode_id} view")
+        # Use centralized switch method
+        self._switch_to_view(mode_id)
 
     def _build_all_views(self):
         """Build all metric view pages."""
