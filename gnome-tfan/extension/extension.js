@@ -94,6 +94,12 @@ class TFANIndicator extends PanelMenu.Button {
         });
         this.menu.addMenuItem(paretoItem);
 
+        let screensaverItem = new PopupMenu.PopupMenuItem('🌌 Topology Screensaver');
+        screensaverItem.connect('activate', () => {
+            this._launchApp('screensaver');
+        });
+        this.menu.addMenuItem(screensaverItem);
+
         let trainingItem = new PopupMenu.PopupMenuItem('🚀 Start Training');
         trainingItem.connect('activate', () => {
             this._launchTraining();

@@ -14,8 +14,9 @@ Usage:
 import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
+gi.require_version('WebKit', '6.0')
 
-from gi.repository import Gtk, Adw, Gio, GLib, Gdk
+from gi.repository import Gtk, Adw, Gio, GLib, Gdk, WebKit
 import sys
 import json
 import subprocess
@@ -184,6 +185,11 @@ class TFANWindow(Adw.ApplicationWindow):
             "Training Monitor"
         )
         self.content_stack.add_titled(
+            self._build_screensaver_view(),
+            "screensaver",
+            "Topology Screensaver"
+        )
+        self.content_stack.add_titled(
             self._build_config_view(),
             "config",
             "Configuration"
@@ -219,6 +225,7 @@ class TFANWindow(Adw.ApplicationWindow):
             ("📊", "Dashboard", "dashboard"),
             ("🎯", "Pareto", "pareto"),
             ("🚀", "Training", "training"),
+            ("🌌", "Screensaver", "screensaver"),
             ("⚙️", "Config", "config"),
             ("📦", "Repository", "repo"),
         ]
@@ -450,6 +457,218 @@ class TFANWindow(Adw.ApplicationWindow):
 
         scroll.set_child(box)
         return scroll
+
+    def _build_screensaver_view(self):
+        """Build topology screensaver view with WebGL visualization."""
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+
+        # Controls header
+        header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        header_box.set_margin_start(20)
+        header_box.set_margin_end(20)
+        header_box.set_margin_top(12)
+        header_box.set_margin_bottom(12)
+
+        # Mode selector
+        mode_label = Gtk.Label(label="Mode:")
+        header_box.append(mode_label)
+
+        self.screensaver_mode_combo = Gtk.ComboBoxText()
+        self.screensaver_mode_combo.append_text("Barcode Nebula 🌠")
+        self.screensaver_mode_combo.append_text("Landscape Waterfall 🌊")
+        self.screensaver_mode_combo.append_text("Poincaré Orbits 🪐")
+        self.screensaver_mode_combo.append_text("Pareto Galaxy ⭐")
+        self.screensaver_mode_combo.set_active(1)  # Default to Landscape
+        self.screensaver_mode_combo.connect("changed", self._on_screensaver_mode_changed)
+        header_box.append(self.screensaver_mode_combo)
+
+        header_box.append(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL))
+
+        # Particle count slider
+        particles_label = Gtk.Label(label="Particles:")
+        header_box.append(particles_label)
+
+        self.particles_scale = Gtk.Scale.new_with_range(
+            Gtk.Orientation.HORIZONTAL, 200, 2000, 100
+        )
+        self.particles_scale.set_value(800)
+        self.particles_scale.set_size_request(150, -1)
+        self.particles_scale.connect("value-changed", self._on_screensaver_setting_changed)
+        header_box.append(self.particles_scale)
+
+        header_box.append(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL))
+
+        # Auto-rotate toggle
+        self.autorotate_switch = Gtk.Switch()
+        self.autorotate_switch.set_active(True)
+        self.autorotate_switch.connect("notify::active", self._on_screensaver_setting_changed)
+        autorotate_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        autorotate_box.append(Gtk.Label(label="Auto-Rotate:"))
+        autorotate_box.append(self.autorotate_switch)
+        header_box.append(autorotate_box)
+
+        header_box.append(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL))
+
+        # Fullscreen button
+        fullscreen_btn = Gtk.Button(label="⛶ Fullscreen")
+        fullscreen_btn.connect("clicked", self._on_screensaver_fullscreen)
+        header_box.append(fullscreen_btn)
+
+        # Reload button
+        reload_btn = Gtk.Button(label="🔄")
+        reload_btn.connect("clicked", self._on_screensaver_reload)
+        header_box.append(reload_btn)
+
+        box.append(header_box)
+
+        # WebView for screensaver
+        try:
+            self.screensaver_webview = WebKit.WebView()
+
+            # Enable WebGL and other features
+            settings = self.screensaver_webview.get_settings()
+            settings.set_enable_webgl(True)
+            settings.set_enable_accelerated_2d_canvas(True)
+            settings.set_hardware_acceleration_policy(WebKit.HardwareAccelerationPolicy.ALWAYS)
+            settings.set_javascript_can_access_clipboard(False)
+
+            # Load the screensaver HTML
+            self._load_screensaver_content()
+
+            # Expand to fill space
+            self.screensaver_webview.set_vexpand(True)
+            self.screensaver_webview.set_hexpand(True)
+
+            box.append(self.screensaver_webview)
+
+        except Exception as e:
+            # Fallback if WebKit not available
+            error_status = Adw.StatusPage()
+            error_status.set_icon_name("dialog-error-symbolic")
+            error_status.set_title("WebKit Not Available")
+            error_status.set_description(
+                f"Install WebKitGTK 6.0 to view the screensaver:\n"
+                f"sudo apt install gir1.2-webkit-6.0\n\n"
+                f"Error: {e}"
+            )
+            box.append(error_status)
+
+        return box
+
+    def _load_screensaver_content(self):
+        """Load WebGL screensaver HTML into WebView."""
+        # Get mode index (0-3)
+        mode_idx = self.screensaver_mode_combo.get_active()
+        modes = ['barcode', 'landscape', 'poincare', 'pareto']
+        mode = modes[mode_idx] if 0 <= mode_idx < len(modes) else 'landscape'
+
+        # Get settings
+        particle_count = int(self.particles_scale.get_value())
+        auto_rotate = self.autorotate_switch.get_active()
+
+        # Path to screensaver web files
+        repo_root = Path(__file__).parent.parent.parent
+        web_dir = repo_root / "tfan" / "viz" / "screensaver" / "web"
+
+        if web_dir.exists() and (web_dir / "index.html").exists():
+            # Load from file system
+            html_path = f"file://{web_dir / 'index.html'}"
+            self.screensaver_webview.load_uri(html_path)
+        else:
+            # Embed the screensaver inline
+            html_content = self._generate_screensaver_html(mode, particle_count, auto_rotate)
+            self.screensaver_webview.load_html(html_content, "about:blank")
+
+    def _generate_screensaver_html(self, mode, particle_count, auto_rotate):
+        """Generate inline HTML for screensaver."""
+        return f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {{ margin: 0; overflow: hidden; background: #020306; }}
+        canvas {{ display: block; width: 100%; height: 100vh; }}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x020306);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 5, 10);
+
+        const renderer = new THREE.WebGLRenderer({{ canvas, antialias: true }});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const controls = new THREE.OrbitControls(camera, canvas);
+        controls.enableDamping = true;
+        controls.autoRotate = {str(auto_rotate).lower()};
+        controls.autoRotateSpeed = 0.5;
+
+        scene.add(new THREE.AmbientLight(0x404040, 1.0));
+        const light = new THREE.PointLight(0x667eea, 2.0);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+
+        // Simple {mode} visualization
+        const geometry = new THREE.BufferGeometry();
+        const positions = [];
+        const colors = [];
+
+        for (let i = 0; i < {particle_count}; i++) {{
+            positions.push((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
+            const color = new THREE.Color().setHSL(0.5 + Math.random() * 0.3, 0.8, 0.6);
+            colors.push(color.r, color.g, color.b);
+        }}
+
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({{ size: 0.1, vertexColors: true }});
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        function animate() {{
+            requestAnimationFrame(animate);
+            points.rotation.y += 0.001;
+            controls.update();
+            renderer.render(scene, camera);
+        }}
+        animate();
+
+        window.addEventListener('resize', () => {{
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }});
+    </script>
+</body>
+</html>
+"""
+
+    def _on_screensaver_mode_changed(self, combo):
+        """Handle screensaver mode change."""
+        self._load_screensaver_content()
+
+    def _on_screensaver_setting_changed(self, *args):
+        """Handle screensaver setting change."""
+        self._load_screensaver_content()
+
+    def _on_screensaver_fullscreen(self, button):
+        """Toggle fullscreen for screensaver."""
+        if self.is_fullscreen():
+            self.unfullscreen()
+        else:
+            self.fullscreen()
+
+    def _on_screensaver_reload(self, button):
+        """Reload screensaver."""
+        self._load_screensaver_content()
 
     def _build_config_view(self):
         """Build configuration editor."""
