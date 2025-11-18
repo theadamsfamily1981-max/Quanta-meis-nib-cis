@@ -166,33 +166,33 @@ def check_gates(cached_results: dict, baseline_results: dict = None) -> dict:
     gates = {}
 
     # Gate 1: p95 latency
-    p95 = cached_results['p95_latency_ms']
+    p95 = float(cached_results['p95_latency_ms'])
     gates['p95_latency'] = {
         'value': p95,
         'threshold': 120.0,
-        'pass': p95 <= 120.0
+        'pass': bool(p95 <= 120.0)
     }
 
     status = '✓' if p95 <= 120.0 else '✗'
     print(f"\n{status} p95 latency: {p95:.1f}ms (target: ≤120ms)")
 
     # Gate 2: Hit rate
-    hit_rate = cached_results['hit_rate']
+    hit_rate = float(cached_results['hit_rate'])
     gates['hit_rate'] = {
         'value': hit_rate,
         'threshold': 0.60,
-        'pass': hit_rate >= 0.60
+        'pass': bool(hit_rate >= 0.60)
     }
 
     status = '✓' if hit_rate >= 0.60 else '✗'
     print(f"{status} Hit rate: {hit_rate:.2%} (target: ≥60%)")
 
     # Gate 3: Correctness
-    mismatches = cached_results.get('num_mismatches', 0)
+    mismatches = int(cached_results.get('num_mismatches', 0))
     gates['correctness'] = {
         'value': mismatches,
         'threshold': 0,
-        'pass': mismatches == 0
+        'pass': bool(mismatches == 0)
     }
 
     status = '✓' if mismatches == 0 else '✗'
@@ -200,14 +200,14 @@ def check_gates(cached_results: dict, baseline_results: dict = None) -> dict:
 
     # Speedup vs baseline (if available)
     if baseline_results:
-        baseline_qps = baseline_results['queries_per_second']
-        cached_qps = cached_results['queries_per_second']
+        baseline_qps = float(baseline_results['queries_per_second'])
+        cached_qps = float(cached_results['queries_per_second'])
         speedup = cached_qps / baseline_qps
 
         gates['speedup'] = {
-            'value': speedup,
+            'value': float(speedup),
             'threshold': 2.0,  # Expect at least 2× speedup
-            'pass': speedup >= 2.0
+            'pass': bool(speedup >= 2.0)
         }
 
         status = '✓' if speedup >= 2.0 else '✗'
@@ -215,7 +215,7 @@ def check_gates(cached_results: dict, baseline_results: dict = None) -> dict:
 
     # Overall pass
     all_pass = all(g['pass'] for g in gates.values())
-    gates['overall'] = {'pass': all_pass}
+    gates['overall'] = {'pass': bool(all_pass)}
 
     return gates
 

@@ -14,7 +14,7 @@ Hard gates:
 
 from .normalizer import alpha_rename, normalize_formula
 from .cache import TurboCache, CacheStats
-from .corpus_replay import CorpusReplayer, replay_corpus
+from .corpus_replay import CorpusReplayer, replay_corpus, generate_synthetic_corpus
 
 __all__ = [
     'alpha_rename',
@@ -22,5 +22,6 @@ __all__ = [
     'TurboCache',
     'CacheStats',
     'CorpusReplayer',
-    'replay_corpus'
+    'replay_corpus',
+    'generate_synthetic_corpus'
 ]
