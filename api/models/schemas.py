@@ -67,3 +67,58 @@ class ParetoFrontResponse(BaseModel):
     hypervolume: float
     configurations: List[ParetoConfig]
     timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+
+
+# ============================================================================
+# Ara Avatar System Schemas
+# ============================================================================
+
+class AraCommand(BaseModel):
+    """Voice command from Ara."""
+    command: str = Field(..., description="Natural language voice command")
+    context: Optional[Dict] = Field(None, description="Additional context (e.g., current view)")
+    timestamp: Optional[str] = Field(default_factory=lambda: datetime.now().isoformat())
+
+
+class AraCommandResponse(BaseModel):
+    """Response to Ara command."""
+    success: bool
+    action: str
+    params: Dict = {}
+    response: str = Field(..., description="Text for Ara to speak")
+    original_command: str
+
+
+class AraAvatarConfig(BaseModel):
+    """Avatar appearance configuration."""
+    profile: str = Field("Default", description="Avatar profile name")
+    style: str = Field("Realistic", description="Visual style")
+    mood: str = Field("Neutral", description="Current mood/expression")
+
+
+class AraSystemState(BaseModel):
+    """Current system state for Ara."""
+    workspace_mode: str = "work"
+    current_view: str = "dashboard"
+    training_active: bool = False
+    topology_visible: bool = False
+    fullscreen: bool = False
+    cockpit_active: bool = False
+    mode: str = "work"
+    avatar: AraAvatarConfig
+    personality: Dict = {}
+    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+
+
+class AraEvent(BaseModel):
+    """Event pushed to Ara via WebSocket."""
+    type: str = Field(..., description="Event type (e.g., 'training_started', 'metrics_update')")
+    data: Dict = {}
+    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+
+
+class AraStatusReport(BaseModel):
+    """Status report for Ara to speak."""
+    report_text: str = Field(..., description="Natural language status report")
+    mode: str = Field(..., description="Personality mode used")
+    system_state: AraSystemState
