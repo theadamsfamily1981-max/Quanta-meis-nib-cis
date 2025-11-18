@@ -1,10 +1,21 @@
 """
 Encoders for converting TF-A-N metrics to visualization formats.
 """
+from __future__ import annotations
 
 import numpy as np
-import torch
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple, TYPE_CHECKING
+
+# Optional torch import for functions that need it
+try:
+    import torch
+    TORCH_AVAILABLE = True
+except ImportError:
+    TORCH_AVAILABLE = False
+    torch = None
+
+if TYPE_CHECKING:
+    import torch
 
 
 def encode_pd(

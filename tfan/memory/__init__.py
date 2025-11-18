@@ -13,7 +13,21 @@ Hard gates:
 - Prefetch accuracy ≥80%
 """
 
-from .cxl_pager import CXLPager, CXLPageConfig
-from .bloom import BloomPrefetcher, BloomConfig
+__all__ = ['CXLPager', 'CXLPageConfig', 'BloomPrefetcher', 'BloomConfig', 'BloomFilter']
 
-__all__ = ['CXLPager', 'CXLPageConfig', 'BloomPrefetcher', 'BloomConfig']
+
+def __getattr__(name):
+    """Lazy import to avoid requiring torch for bloom-only imports."""
+    if name in ('CXLPager', 'CXLPageConfig'):
+        from .cxl_pager import CXLPager, CXLPageConfig
+        if name == 'CXLPager':
+            return CXLPager
+        return CXLPageConfig
+    elif name in ('BloomPrefetcher', 'BloomConfig', 'BloomFilter'):
+        from .bloom import BloomPrefetcher, BloomConfig, BloomFilter
+        if name == 'BloomPrefetcher':
+            return BloomPrefetcher
+        elif name == 'BloomConfig':
+            return BloomConfig
+        return BloomFilter
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
