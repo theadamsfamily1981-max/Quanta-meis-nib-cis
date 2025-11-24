@@ -1,0 +1,23 @@
+{
+  "num_tasks": 2,
+  "average_eval_accuracy": 0.75,
+  "average_train_accuracy": 0.5,
+  "best_task": {
+    "name": "sst2",
+    "eval_accuracy": 1.0
+  },
+  "tasks": {
+    "sst2": {
+      "eval_accuracy": 1.0,
+      "train_accuracy": 0.5,
+      "eval_loss": 0.6834840324310831,
+      "num_eval_examples": 2.0
+    },
+    "mrpc": {
+      "eval_accuracy": 0.5,
+      "train_accuracy": 0.5,
+      "eval_loss": 0.6931471805579453,
+      "num_eval_examples": 2.0
+    }
+  }
+}

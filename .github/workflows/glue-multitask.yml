@@ -1,0 +1,54 @@
+name: GLUE Multitask Runner
+
+on:
+  push:
+    branches: ["main", "work", "feat/**"]
+  pull_request:
+
+jobs:
+  glue-multitask:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r experiments/2025-11-07_glue_multitask/requirements.txt
+
+      - name: Run multitask experiment
+        run: |
+          python experiments/2025-11-07_glue_multitask/glue_multitask_runner.py \
+            --model bert-base-uncased --tasks sst2,mrpc --epochs 1 --batch 16 --ci --device cpu
+
+      - name: Analyze metrics
+        run: |
+          python experiments/2025-11-07_glue_multitask/analyze_results.py \
+            experiments/2025-11-07_glue_multitask/results_glue_multitask.json
+          python experiments/2025-11-07_glue_multitask/compare_improvements.py \
+            experiments/2025-11-07_glue_multitask/results_glue_multitask.json
+
+      - name: Validate results artifacts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          base = Path('experiments/2025-11-07_glue_multitask')
+          results = base / 'results_glue_multitask.json'
+          analysis = base / 'results_glue_multitask_analysis.json'
+          improvements = base / 'results_glue_multitask_improvements.json'
+
+          for path in (results, analysis, improvements):
+              if not path.exists():
+                  raise SystemExit(f"{path.name} is missing")
+              data = json.loads(path.read_text())
+              if not isinstance(data, dict) or not data:
+                  raise SystemExit(f"{path.name} is empty")
+          PY
