@@ -1,0 +1,39 @@
+version: 1
+experiment:
+  name: "t2_acrw_v1_1c"
+  description: |
+    T2 retune with adaptive cosine ramp warmup (ACR-W) tuned for v1.1c.
+    Targets O(t^-0.5) convergence with gradient norm below 0.5 and
+    minimum stability of 0.90 on at least 70% of runs.
+model:
+  family: "t2"
+  variant: "retune-v1.1c"
+  loss: "acr-w"
+training:
+  total_steps: 20000
+  batch_size: 512
+  gradient_norm_cap: 0.5
+  stochastic_weight_noise: 0.8  # ρ parameter
+optimizer:
+  name: "sgld"
+  base_learning_rate: 0.5
+  warmup:
+    strategy: "adaptive_cosine_ramp"
+    steps: 1500
+    minimum_lr: 0.05
+  schedule:
+    type: "cosine"
+    cycle_steps: 5000
+    min_lr: 0.05
+  noise:
+    type: "isotropic"
+    rho: 0.8
+metrics:
+  - name: "stability"
+    target: 0.9
+    threshold_fraction: 0.7
+  - name: "gradient_norm"
+    target: 0.5
+notes:
+  - "Validated against v1.1 execution synthesis benchmarks."
+  - "Ensure monitoring of stability metric per run."

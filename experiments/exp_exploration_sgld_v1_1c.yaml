@@ -1,0 +1,30 @@
+version: 1
+experiment:
+  name: "exploration_sgld_v1_1c"
+  description: |
+    Exploration sweep for SGLD hyper-parameters under the v1.1c retune
+    settings. Designed to validate cosine decay with adaptive warmup and
+    noise scaling ρ=0.8.
+search:
+  seeds: 5
+  variations:
+    - parameter: "optimizer.base_learning_rate"
+      values: [0.45, 0.5, 0.55]
+    - parameter: "optimizer.warmup.steps"
+      values: [1000, 1500, 2000]
+    - parameter: "optimizer.schedule.cycle_steps"
+      values: [4000, 5000]
+    - parameter: "training.gradient_norm_cap"
+      values: [0.45, 0.5]
+  constraints:
+    - metric: "stability"
+      operator: ">="
+      value: 0.9
+    - metric: "stability_coverage"
+      operator: ">="
+      value: 0.7
+baseline:
+  config: "experiments/exp_t2_acrw_v1_1c.yaml"
+notes:
+  - "Focus on convergence rates matching O(t^-0.5)."
+  - "Log gradient norm statistics for comparative analysis."
