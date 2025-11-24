@@ -1,0 +1,21 @@
+{
+  "codex_manifest_version": "1.0",
+  "project": "CyPhar-10 + MAR Extended Network Analysis",
+  "author": "Croft (AI Research Architect)",
+  "description": "Placeholder manifest for simulation.",
+  "tracked_folders": [
+    "cyphar10/outputs",
+    "cyphar10/proofs",
+    "mar_network_analysis"
+  ],
+  "auto_commit": true,
+  "commit_message_template": "Auto-update: {file_name} regenerated.",
+  "export_targets": {
+    "github_repo": "user/repo",
+    "branch": "main"
+  },
+  "notifications": {
+    "on_success": "\u2705 Simulation sync complete for {file_count} files.",
+    "on_error": "\u26a0\ufe0f Simulation sync failed."
+  }
+}
