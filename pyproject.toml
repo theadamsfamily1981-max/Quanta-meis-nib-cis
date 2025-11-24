@@ -1,0 +1,15 @@
+[project]
+name = "tfan"
+version = "0.1.0"
+description = "Topology-first attention network utilities"
+requires-python = ">=3.9"
+authors = [
+  {name = "Quanta Research"}
+]
+dependencies = [
+  "pyyaml>=6.0",
+]
+
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"

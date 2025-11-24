@@ -1,0 +1,9 @@
+# Default experiment configuration for TFAN utilities.
+seed: 0
+telemetry:
+  path: runs/default.jsonl
+  schema:
+    run_name: default
+pareto:
+  reference: [0.0, 0.0]
+  sample_candidates: 16

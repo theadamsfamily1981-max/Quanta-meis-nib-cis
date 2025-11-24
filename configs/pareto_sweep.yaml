@@ -1,0 +1,9 @@
+# Configuration for the Pareto sweep benchmark.
+objectives:
+  - [0.2, 0.9]
+  - [0.7, 0.3]
+  - [0.5, 0.5]
+candidates:
+  - [0.6, 0.6]
+  - [0.3, 0.8]
+reference: [0.0, 0.0]
