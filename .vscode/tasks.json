@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Dev: Setup (venv + deps)",
+      "type": "shell",
+      "command": "make dev",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: PyTest",
+      "type": "shell",
+      "command": "make test",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint: Ruff check",
+      "type": "shell",
+      "command": "make lint",
+      "problemMatcher": []
+    },
+    {
+      "label": "Format: Ruff fix",
+      "type": "shell",
+      "command": "make fmt",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Experiments",
+      "type": "shell",
+      "command": "make experiments",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}

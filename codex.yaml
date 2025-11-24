@@ -1,0 +1,70 @@
+project:
+  name: quanta-meis-nib-cis
+  repo_root: .
+  visibility: private
+
+# ---- Guardrails -----------------------------------------------------------
+policies:
+  # Expand as needed; keep least-privilege by default
+  allowed_commands:
+    # --- Git basics (no force pushes) ---
+    - "git status"
+    - "git checkout -b codex/*"
+    - "git add -A"
+    - "git commit -m '{{message}}'"
+    - "git push -u origin HEAD"
+
+    # --- Python toolchain ---
+    - "python -m venv .venv || true"
+    - "python -m pip install -U pip || true"
+    - "pip install -r requirements.txt || true"
+    - "pip install -r dev-requirements.txt || true"
+    - "pip install pyyaml pytest ruff || true"
+    - "pytest -q --maxfail=1 --disable-warnings || true"
+    - "pytest -q -k '{{pattern}}' --maxfail=1 --disable-warnings || true"
+    - "ruff check --fix . || true"
+
+    # --- Poetry (optional) ---
+    - "poetry --version || true"
+    - "poetry install --no-root || true"
+    - "poetry run pytest -q --maxfail=1 --disable-warnings || true"
+
+    # --- Node toolchain (for KDP dashboard / GUI, optional) ---
+    - "node -v || true"
+    - "npm -v || true"
+    - "npm ci || npm i || true"
+    - "npm run build || true"
+    - "npm run test || true"
+
+    # --- CUDA/GPU diagnostics (read-only) ---
+    - "nvidia-smi || true"
+    - "python -c 'import torch,sys;print(torch.__version__, torch.cuda.is_available())' || true"
+
+    # --- Hugging Face cache (optional; read-only network) ---
+    - "python -c 'import os,torch; print(os.getenv(\"HF_HOME\", \"~/.cache/huggingface\"))' || true"
+
+    # --- Experiment runner ---
+    - "python experiments/run_experiments.py --all --out artifacts/summary.json"
+    - "python experiments/run_experiments.py --config {{config}} --out artifacts/summary.json"
+
+  protected_paths:
+    - ".env"
+    - "secrets/**"
+    - ".github/workflows/release.yml"
+    - "data/private/**"
+    - "**/*.pem"
+    - "**/*.key"
+  read_only_paths:
+    - "LICENSE"
+    - "SECURITY.md"
+
+# ---- Context used by tasks -----------------------------------------------
+context:
+  default_branch: "main"
+  test_command: "pytest -q --maxfail=1 --disable-warnings || true"
+  test_command_pattern: "pytest -q -k '{{pattern}}' --maxfail=1 --disable-warnings || true"
+  lint_command: "ruff check --fix . || true"
+  node_test_command: "npm run test || true"
+
+# Where task markdown files live
+tasks_dir: codex_tasks

@@ -1,0 +1,4 @@
+name: nib_gate_example
+experiment: nib_gate_smoke
+threshold: 0.3
+notes: "Placeholder config for NIB EVNI gate smoke test"

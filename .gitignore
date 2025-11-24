@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Artifacts
+artifacts/
+.coverage
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+build/

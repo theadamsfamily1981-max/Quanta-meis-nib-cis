@@ -1,0 +1,4 @@
+name: mam_smoke_example
+experiment: mam_smoke
+batch_size: 2
+notes: "Placeholder config for MAM smoke test"
