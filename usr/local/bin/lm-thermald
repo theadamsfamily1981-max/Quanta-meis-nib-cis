@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Simple: if any GPU hits 85C, mark it "hot" for the agent/scheduler.
+set -euo pipefail
+HOT_FILE=/run/lanemax.hot
+while :; do
+  hot=""
+  while read -r idx temp; do
+    t=${temp%%C}
+    [[ "$t" -ge 85 ]] && hot+="$idx "
+  done < <(nvidia-smi --query-gpu=index,temperature.gpu --format=csv,noheader)
+  printf "%s\n" "$hot" > "$HOT_FILE"
+  sleep 2
+
+done
