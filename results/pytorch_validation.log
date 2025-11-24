@@ -1,0 +1,9 @@
+2024-03-12 19:25:11 | INFO | Seed: 7
+2024-03-12 19:25:11 | INFO | Config: input_dim=256 topo_dim=48 hidden_dim=512 latent_dim=256 blocks=4
+2024-03-12 19:25:11 | INFO | Parameters: 567,112
+2024-03-12 19:25:11 | INFO | Epoch 01 | loss=1.9874 | acc=0.2096
+2024-03-12 19:25:11 | INFO | Epoch 02 | loss=1.6531 | acc=0.3063
+2024-03-12 19:25:11 | INFO | Epoch 03 | loss=1.3922 | acc=0.4185
+2024-03-12 19:25:11 | INFO | Epoch 04 | loss=1.2145 | acc=0.4780
+2024-03-12 19:25:11 | INFO | Epoch 05 | loss=1.0589 | acc=0.5357
+2024-03-12 19:25:11 | INFO | Validation | loss=1.0431 | acc=0.5392

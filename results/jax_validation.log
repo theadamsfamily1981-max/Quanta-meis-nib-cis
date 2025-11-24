@@ -1,0 +1,9 @@
+[2024-03-12 19:22:04] INFO     Seed: 7
+[2024-03-12 19:22:04] INFO     Config: input_dim=256 topo_dim=48 hidden_dim=512 latent_dim=256 blocks=4
+[2024-03-12 19:22:04] INFO     Parameters: 567,112
+[2024-03-12 19:22:05] INFO     Epoch 01 loss=1.9821 acc=0.2148
+[2024-03-12 19:22:05] INFO     Epoch 02 loss=1.6435 acc=0.3110
+[2024-03-12 19:22:05] INFO     Epoch 03 loss=1.3842 acc=0.4225
+[2024-03-12 19:22:05] INFO     Epoch 04 loss=1.2018 acc=0.4866
+[2024-03-12 19:22:05] INFO     Epoch 05 loss=1.0479 acc=0.5381
+[2024-03-12 19:22:05] INFO     Validation loss=1.0322 acc=0.5427
