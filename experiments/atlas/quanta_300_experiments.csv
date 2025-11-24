@@ -1,0 +1,301 @@
+experiment_id,domain,subdomain,model,dataset,metric_primary,metric_secondary,inference_time_ms
+QEXP-001,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.65,0.6,50
+QEXP-002,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.67,0.618,53
+QEXP-003,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.69,0.636,56
+QEXP-004,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.71,0.654,59
+QEXP-005,Robotics,Control,HelixBoost,robo_gym,0.73,0.672,62
+QEXP-006,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.75,0.65,65
+QEXP-007,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.77,0.668,68
+QEXP-008,Financial Modeling,Risk,LumiGraph,quant_risk,0.72,0.686,71
+QEXP-009,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.74,0.704,74
+QEXP-010,Energy Systems,Grid Optimization,PulseNet,gridflex,0.76,0.722,77
+QEXP-011,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.78,0.7,80
+QEXP-012,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.8,0.718,83
+QEXP-013,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.82,0.736,86
+QEXP-014,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.84,0.754,89
+QEXP-015,Robotics,Control,HelixBoost,robo_gym,0.79,0.772,92
+QEXP-016,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.81,0.75,95
+QEXP-017,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.83,0.768,98
+QEXP-018,Financial Modeling,Risk,LumiGraph,quant_risk,0.85,0.786,101
+QEXP-019,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.87,0.804,104
+QEXP-020,Energy Systems,Grid Optimization,PulseNet,gridflex,0.89,0.822,107
+QEXP-021,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.91,0.8,110
+QEXP-022,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.86,0.818,113
+QEXP-023,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.88,0.836,116
+QEXP-024,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.9,0.854,119
+QEXP-025,Robotics,Control,HelixBoost,robo_gym,0.92,0.872,122
+QEXP-026,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.94,0.85,125
+QEXP-027,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.96,0.868,128
+QEXP-028,Financial Modeling,Risk,LumiGraph,quant_risk,0.98,0.886,131
+QEXP-029,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.93,0.904,134
+QEXP-030,Energy Systems,Grid Optimization,PulseNet,gridflex,0.95,0.922,137
+QEXP-031,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.97,0.9,140
+QEXP-032,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.99,0.918,143
+QEXP-033,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.01,0.936,146
+QEXP-034,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.03,0.954,149
+QEXP-035,Robotics,Control,HelixBoost,robo_gym,1.05,0.972,152
+QEXP-036,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.0,0.95,155
+QEXP-037,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.02,0.968,158
+QEXP-038,Financial Modeling,Risk,LumiGraph,quant_risk,1.04,0.986,161
+QEXP-039,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.06,1.004,164
+QEXP-040,Energy Systems,Grid Optimization,PulseNet,gridflex,1.08,1.022,167
+QEXP-041,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.1,1.0,170
+QEXP-042,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.12,1.018,173
+QEXP-043,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.07,1.036,176
+QEXP-044,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.09,1.054,179
+QEXP-045,Robotics,Control,HelixBoost,robo_gym,1.11,1.072,182
+QEXP-046,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.13,1.05,185
+QEXP-047,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.15,1.068,188
+QEXP-048,Financial Modeling,Risk,LumiGraph,quant_risk,1.17,1.086,191
+QEXP-049,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.19,1.104,194
+QEXP-050,Energy Systems,Grid Optimization,PulseNet,gridflex,1.14,1.122,197
+QEXP-051,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.66,0.6,200
+QEXP-052,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.68,0.618,203
+QEXP-053,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.7,0.636,206
+QEXP-054,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.72,0.654,209
+QEXP-055,Robotics,Control,HelixBoost,robo_gym,0.74,0.672,212
+QEXP-056,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.76,0.65,215
+QEXP-057,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.71,0.668,218
+QEXP-058,Financial Modeling,Risk,LumiGraph,quant_risk,0.73,0.686,221
+QEXP-059,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.75,0.704,224
+QEXP-060,Energy Systems,Grid Optimization,PulseNet,gridflex,0.77,0.722,227
+QEXP-061,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.79,0.7,50
+QEXP-062,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.81,0.718,53
+QEXP-063,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.83,0.736,56
+QEXP-064,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.78,0.754,59
+QEXP-065,Robotics,Control,HelixBoost,robo_gym,0.8,0.772,62
+QEXP-066,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.82,0.75,65
+QEXP-067,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.84,0.768,68
+QEXP-068,Financial Modeling,Risk,LumiGraph,quant_risk,0.86,0.786,71
+QEXP-069,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.88,0.804,74
+QEXP-070,Energy Systems,Grid Optimization,PulseNet,gridflex,0.9,0.822,77
+QEXP-071,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.85,0.8,80
+QEXP-072,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.87,0.818,83
+QEXP-073,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.89,0.836,86
+QEXP-074,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.91,0.854,89
+QEXP-075,Robotics,Control,HelixBoost,robo_gym,0.93,0.872,92
+QEXP-076,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.95,0.85,95
+QEXP-077,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.97,0.868,98
+QEXP-078,Financial Modeling,Risk,LumiGraph,quant_risk,0.92,0.886,101
+QEXP-079,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.94,0.904,104
+QEXP-080,Energy Systems,Grid Optimization,PulseNet,gridflex,0.96,0.922,107
+QEXP-081,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.98,0.9,110
+QEXP-082,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.0,0.918,113
+QEXP-083,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.02,0.936,116
+QEXP-084,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.04,0.954,119
+QEXP-085,Robotics,Control,HelixBoost,robo_gym,0.99,0.972,122
+QEXP-086,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.01,0.95,125
+QEXP-087,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.03,0.968,128
+QEXP-088,Financial Modeling,Risk,LumiGraph,quant_risk,1.05,0.986,131
+QEXP-089,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.07,1.004,134
+QEXP-090,Energy Systems,Grid Optimization,PulseNet,gridflex,1.09,1.022,137
+QEXP-091,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.11,1.0,140
+QEXP-092,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.06,1.018,143
+QEXP-093,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.08,1.036,146
+QEXP-094,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.1,1.054,149
+QEXP-095,Robotics,Control,HelixBoost,robo_gym,1.12,1.072,152
+QEXP-096,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.14,1.05,155
+QEXP-097,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.16,1.068,158
+QEXP-098,Financial Modeling,Risk,LumiGraph,quant_risk,1.18,1.086,161
+QEXP-099,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.13,1.104,164
+QEXP-100,Energy Systems,Grid Optimization,PulseNet,gridflex,1.15,1.122,167
+QEXP-101,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.67,0.6,170
+QEXP-102,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.69,0.618,173
+QEXP-103,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.71,0.636,176
+QEXP-104,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.73,0.654,179
+QEXP-105,Robotics,Control,HelixBoost,robo_gym,0.75,0.672,182
+QEXP-106,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.7,0.65,185
+QEXP-107,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.72,0.668,188
+QEXP-108,Financial Modeling,Risk,LumiGraph,quant_risk,0.74,0.686,191
+QEXP-109,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.76,0.704,194
+QEXP-110,Energy Systems,Grid Optimization,PulseNet,gridflex,0.78,0.722,197
+QEXP-111,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.8,0.7,200
+QEXP-112,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.82,0.718,203
+QEXP-113,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.77,0.736,206
+QEXP-114,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.79,0.754,209
+QEXP-115,Robotics,Control,HelixBoost,robo_gym,0.81,0.772,212
+QEXP-116,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.83,0.75,215
+QEXP-117,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.85,0.768,218
+QEXP-118,Financial Modeling,Risk,LumiGraph,quant_risk,0.87,0.786,221
+QEXP-119,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.89,0.804,224
+QEXP-120,Energy Systems,Grid Optimization,PulseNet,gridflex,0.84,0.822,227
+QEXP-121,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.86,0.8,50
+QEXP-122,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.88,0.818,53
+QEXP-123,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.9,0.836,56
+QEXP-124,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.92,0.854,59
+QEXP-125,Robotics,Control,HelixBoost,robo_gym,0.94,0.872,62
+QEXP-126,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.96,0.85,65
+QEXP-127,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.91,0.868,68
+QEXP-128,Financial Modeling,Risk,LumiGraph,quant_risk,0.93,0.886,71
+QEXP-129,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.95,0.904,74
+QEXP-130,Energy Systems,Grid Optimization,PulseNet,gridflex,0.97,0.922,77
+QEXP-131,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.99,0.9,80
+QEXP-132,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.01,0.918,83
+QEXP-133,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.03,0.936,86
+QEXP-134,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.98,0.954,89
+QEXP-135,Robotics,Control,HelixBoost,robo_gym,1.0,0.972,92
+QEXP-136,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.02,0.95,95
+QEXP-137,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.04,0.968,98
+QEXP-138,Financial Modeling,Risk,LumiGraph,quant_risk,1.06,0.986,101
+QEXP-139,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.08,1.004,104
+QEXP-140,Energy Systems,Grid Optimization,PulseNet,gridflex,1.1,1.022,107
+QEXP-141,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.05,1.0,110
+QEXP-142,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.07,1.018,113
+QEXP-143,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.09,1.036,116
+QEXP-144,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.11,1.054,119
+QEXP-145,Robotics,Control,HelixBoost,robo_gym,1.13,1.072,122
+QEXP-146,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.15,1.05,125
+QEXP-147,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.17,1.068,128
+QEXP-148,Financial Modeling,Risk,LumiGraph,quant_risk,1.12,1.086,131
+QEXP-149,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.14,1.104,134
+QEXP-150,Energy Systems,Grid Optimization,PulseNet,gridflex,1.16,1.122,137
+QEXP-151,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.68,0.6,140
+QEXP-152,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.7,0.618,143
+QEXP-153,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.72,0.636,146
+QEXP-154,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.74,0.654,149
+QEXP-155,Robotics,Control,HelixBoost,robo_gym,0.69,0.672,152
+QEXP-156,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.71,0.65,155
+QEXP-157,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.73,0.668,158
+QEXP-158,Financial Modeling,Risk,LumiGraph,quant_risk,0.75,0.686,161
+QEXP-159,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.77,0.704,164
+QEXP-160,Energy Systems,Grid Optimization,PulseNet,gridflex,0.79,0.722,167
+QEXP-161,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.81,0.7,170
+QEXP-162,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.76,0.718,173
+QEXP-163,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.78,0.736,176
+QEXP-164,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.8,0.754,179
+QEXP-165,Robotics,Control,HelixBoost,robo_gym,0.82,0.772,182
+QEXP-166,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.84,0.75,185
+QEXP-167,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.86,0.768,188
+QEXP-168,Financial Modeling,Risk,LumiGraph,quant_risk,0.88,0.786,191
+QEXP-169,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.83,0.804,194
+QEXP-170,Energy Systems,Grid Optimization,PulseNet,gridflex,0.85,0.822,197
+QEXP-171,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.87,0.8,200
+QEXP-172,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.89,0.818,203
+QEXP-173,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.91,0.836,206
+QEXP-174,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.93,0.854,209
+QEXP-175,Robotics,Control,HelixBoost,robo_gym,0.95,0.872,212
+QEXP-176,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.9,0.85,215
+QEXP-177,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.92,0.868,218
+QEXP-178,Financial Modeling,Risk,LumiGraph,quant_risk,0.94,0.886,221
+QEXP-179,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.96,0.904,224
+QEXP-180,Energy Systems,Grid Optimization,PulseNet,gridflex,0.98,0.922,227
+QEXP-181,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.0,0.9,50
+QEXP-182,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.02,0.918,53
+QEXP-183,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.97,0.936,56
+QEXP-184,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.99,0.954,59
+QEXP-185,Robotics,Control,HelixBoost,robo_gym,1.01,0.972,62
+QEXP-186,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.03,0.95,65
+QEXP-187,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.05,0.968,68
+QEXP-188,Financial Modeling,Risk,LumiGraph,quant_risk,1.07,0.986,71
+QEXP-189,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.09,1.004,74
+QEXP-190,Energy Systems,Grid Optimization,PulseNet,gridflex,1.04,1.022,77
+QEXP-191,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.06,1.0,80
+QEXP-192,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.08,1.018,83
+QEXP-193,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.1,1.036,86
+QEXP-194,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.12,1.054,89
+QEXP-195,Robotics,Control,HelixBoost,robo_gym,1.14,1.072,92
+QEXP-196,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.16,1.05,95
+QEXP-197,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.11,1.068,98
+QEXP-198,Financial Modeling,Risk,LumiGraph,quant_risk,1.13,1.086,101
+QEXP-199,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.15,1.104,104
+QEXP-200,Energy Systems,Grid Optimization,PulseNet,gridflex,1.17,1.122,107
+QEXP-201,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.69,0.6,110
+QEXP-202,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.71,0.618,113
+QEXP-203,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.73,0.636,116
+QEXP-204,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.68,0.654,119
+QEXP-205,Robotics,Control,HelixBoost,robo_gym,0.7,0.672,122
+QEXP-206,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.72,0.65,125
+QEXP-207,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.74,0.668,128
+QEXP-208,Financial Modeling,Risk,LumiGraph,quant_risk,0.76,0.686,131
+QEXP-209,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.78,0.704,134
+QEXP-210,Energy Systems,Grid Optimization,PulseNet,gridflex,0.8,0.722,137
+QEXP-211,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.75,0.7,140
+QEXP-212,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.77,0.718,143
+QEXP-213,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.79,0.736,146
+QEXP-214,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.81,0.754,149
+QEXP-215,Robotics,Control,HelixBoost,robo_gym,0.83,0.772,152
+QEXP-216,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.85,0.75,155
+QEXP-217,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.87,0.768,158
+QEXP-218,Financial Modeling,Risk,LumiGraph,quant_risk,0.82,0.786,161
+QEXP-219,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.84,0.804,164
+QEXP-220,Energy Systems,Grid Optimization,PulseNet,gridflex,0.86,0.822,167
+QEXP-221,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.88,0.8,170
+QEXP-222,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.9,0.818,173
+QEXP-223,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.92,0.836,176
+QEXP-224,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.94,0.854,179
+QEXP-225,Robotics,Control,HelixBoost,robo_gym,0.89,0.872,182
+QEXP-226,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.91,0.85,185
+QEXP-227,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.93,0.868,188
+QEXP-228,Financial Modeling,Risk,LumiGraph,quant_risk,0.95,0.886,191
+QEXP-229,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.97,0.904,194
+QEXP-230,Energy Systems,Grid Optimization,PulseNet,gridflex,0.99,0.922,197
+QEXP-231,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.01,0.9,200
+QEXP-232,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.96,0.918,203
+QEXP-233,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.98,0.936,206
+QEXP-234,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.0,0.954,209
+QEXP-235,Robotics,Control,HelixBoost,robo_gym,1.02,0.972,212
+QEXP-236,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.04,0.95,215
+QEXP-237,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.06,0.968,218
+QEXP-238,Financial Modeling,Risk,LumiGraph,quant_risk,1.08,0.986,221
+QEXP-239,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.03,1.004,224
+QEXP-240,Energy Systems,Grid Optimization,PulseNet,gridflex,1.05,1.022,227
+QEXP-241,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.07,1.0,50
+QEXP-242,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.09,1.018,53
+QEXP-243,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.11,1.036,56
+QEXP-244,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.13,1.054,59
+QEXP-245,Robotics,Control,HelixBoost,robo_gym,1.15,1.072,62
+QEXP-246,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.1,1.05,65
+QEXP-247,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.12,1.068,68
+QEXP-248,Financial Modeling,Risk,LumiGraph,quant_risk,1.14,1.086,71
+QEXP-249,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.16,1.104,74
+QEXP-250,Energy Systems,Grid Optimization,PulseNet,gridflex,1.18,1.122,77
+QEXP-251,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.7,0.6,80
+QEXP-252,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.72,0.618,83
+QEXP-253,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.67,0.636,86
+QEXP-254,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.69,0.654,89
+QEXP-255,Robotics,Control,HelixBoost,robo_gym,0.71,0.672,92
+QEXP-256,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.73,0.65,95
+QEXP-257,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.75,0.668,98
+QEXP-258,Financial Modeling,Risk,LumiGraph,quant_risk,0.77,0.686,101
+QEXP-259,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.79,0.704,104
+QEXP-260,Energy Systems,Grid Optimization,PulseNet,gridflex,0.74,0.722,107
+QEXP-261,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.76,0.7,110
+QEXP-262,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.78,0.718,113
+QEXP-263,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.8,0.736,116
+QEXP-264,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.82,0.754,119
+QEXP-265,Robotics,Control,HelixBoost,robo_gym,0.84,0.772,122
+QEXP-266,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.86,0.75,125
+QEXP-267,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.81,0.768,128
+QEXP-268,Financial Modeling,Risk,LumiGraph,quant_risk,0.83,0.786,131
+QEXP-269,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.85,0.804,134
+QEXP-270,Energy Systems,Grid Optimization,PulseNet,gridflex,0.87,0.822,137
+QEXP-271,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.89,0.8,140
+QEXP-272,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.91,0.818,143
+QEXP-273,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.93,0.836,146
+QEXP-274,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,0.88,0.854,149
+QEXP-275,Robotics,Control,HelixBoost,robo_gym,0.9,0.872,152
+QEXP-276,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,0.92,0.85,155
+QEXP-277,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,0.94,0.868,158
+QEXP-278,Financial Modeling,Risk,LumiGraph,quant_risk,0.96,0.886,161
+QEXP-279,Healthcare,Diagnostics,CatalystRL,clinical_synth,0.98,0.904,164
+QEXP-280,Energy Systems,Grid Optimization,PulseNet,gridflex,1.0,0.922,167
+QEXP-281,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,0.95,0.9,170
+QEXP-282,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,0.97,0.918,173
+QEXP-283,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,0.99,0.936,176
+QEXP-284,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.01,0.954,179
+QEXP-285,Robotics,Control,HelixBoost,robo_gym,1.03,0.972,182
+QEXP-286,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.05,0.95,185
+QEXP-287,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.07,0.968,188
+QEXP-288,Financial Modeling,Risk,LumiGraph,quant_risk,1.02,0.986,191
+QEXP-289,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.04,1.004,194
+QEXP-290,Energy Systems,Grid Optimization,PulseNet,gridflex,1.06,1.022,197
+QEXP-291,Quantum Simulation,Lattice Gauge,AtlasNet-Q,qsim_majestic,1.08,1.0,200
+QEXP-292,Materials Science,Battery Chemistry,QuantaFormer,matbench_xl,1.1,1.018,203
+QEXP-293,Biological Modeling,Protein Folding,NovaGraph,biofold_2024,1.12,1.036,206
+QEXP-294,Climate Modeling,Atmospheric,SpectraNet,atm_reanalysis,1.14,1.054,209
+QEXP-295,Robotics,Control,HelixBoost,robo_gym,1.09,1.072,212
+QEXP-296,Natural Language,Semantic Parsing,AeroFlow,semparse_corpus,1.11,1.05,215
+QEXP-297,Computer Vision,Remote Sensing,TerraSeq,orbit_vision,1.13,1.068,218
+QEXP-298,Financial Modeling,Risk,LumiGraph,quant_risk,1.15,1.086,221
+QEXP-299,Healthcare,Diagnostics,CatalystRL,clinical_synth,1.17,1.104,224
+QEXP-300,Energy Systems,Grid Optimization,PulseNet,gridflex,1.19,1.122,227

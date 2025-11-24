@@ -1,0 +1,3004 @@
+{
+  "experiments": [
+    {
+      "experiment_id": "QEXP-001",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.65,
+      "metric_secondary": 0.6,
+      "inference_time_ms": 50
+    },
+    {
+      "experiment_id": "QEXP-002",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.67,
+      "metric_secondary": 0.618,
+      "inference_time_ms": 53
+    },
+    {
+      "experiment_id": "QEXP-003",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.69,
+      "metric_secondary": 0.636,
+      "inference_time_ms": 56
+    },
+    {
+      "experiment_id": "QEXP-004",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.71,
+      "metric_secondary": 0.654,
+      "inference_time_ms": 59
+    },
+    {
+      "experiment_id": "QEXP-005",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.73,
+      "metric_secondary": 0.672,
+      "inference_time_ms": 62
+    },
+    {
+      "experiment_id": "QEXP-006",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.75,
+      "metric_secondary": 0.65,
+      "inference_time_ms": 65
+    },
+    {
+      "experiment_id": "QEXP-007",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.77,
+      "metric_secondary": 0.668,
+      "inference_time_ms": 68
+    },
+    {
+      "experiment_id": "QEXP-008",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.72,
+      "metric_secondary": 0.686,
+      "inference_time_ms": 71
+    },
+    {
+      "experiment_id": "QEXP-009",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.74,
+      "metric_secondary": 0.704,
+      "inference_time_ms": 74
+    },
+    {
+      "experiment_id": "QEXP-010",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.76,
+      "metric_secondary": 0.722,
+      "inference_time_ms": 77
+    },
+    {
+      "experiment_id": "QEXP-011",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.78,
+      "metric_secondary": 0.7,
+      "inference_time_ms": 80
+    },
+    {
+      "experiment_id": "QEXP-012",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.8,
+      "metric_secondary": 0.718,
+      "inference_time_ms": 83
+    },
+    {
+      "experiment_id": "QEXP-013",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.82,
+      "metric_secondary": 0.736,
+      "inference_time_ms": 86
+    },
+    {
+      "experiment_id": "QEXP-014",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.84,
+      "metric_secondary": 0.754,
+      "inference_time_ms": 89
+    },
+    {
+      "experiment_id": "QEXP-015",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.79,
+      "metric_secondary": 0.772,
+      "inference_time_ms": 92
+    },
+    {
+      "experiment_id": "QEXP-016",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.81,
+      "metric_secondary": 0.75,
+      "inference_time_ms": 95
+    },
+    {
+      "experiment_id": "QEXP-017",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.83,
+      "metric_secondary": 0.768,
+      "inference_time_ms": 98
+    },
+    {
+      "experiment_id": "QEXP-018",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.85,
+      "metric_secondary": 0.786,
+      "inference_time_ms": 101
+    },
+    {
+      "experiment_id": "QEXP-019",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.87,
+      "metric_secondary": 0.804,
+      "inference_time_ms": 104
+    },
+    {
+      "experiment_id": "QEXP-020",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.89,
+      "metric_secondary": 0.822,
+      "inference_time_ms": 107
+    },
+    {
+      "experiment_id": "QEXP-021",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.91,
+      "metric_secondary": 0.8,
+      "inference_time_ms": 110
+    },
+    {
+      "experiment_id": "QEXP-022",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.86,
+      "metric_secondary": 0.818,
+      "inference_time_ms": 113
+    },
+    {
+      "experiment_id": "QEXP-023",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.88,
+      "metric_secondary": 0.836,
+      "inference_time_ms": 116
+    },
+    {
+      "experiment_id": "QEXP-024",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.9,
+      "metric_secondary": 0.854,
+      "inference_time_ms": 119
+    },
+    {
+      "experiment_id": "QEXP-025",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.92,
+      "metric_secondary": 0.872,
+      "inference_time_ms": 122
+    },
+    {
+      "experiment_id": "QEXP-026",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.94,
+      "metric_secondary": 0.85,
+      "inference_time_ms": 125
+    },
+    {
+      "experiment_id": "QEXP-027",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.96,
+      "metric_secondary": 0.868,
+      "inference_time_ms": 128
+    },
+    {
+      "experiment_id": "QEXP-028",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.98,
+      "metric_secondary": 0.886,
+      "inference_time_ms": 131
+    },
+    {
+      "experiment_id": "QEXP-029",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.93,
+      "metric_secondary": 0.904,
+      "inference_time_ms": 134
+    },
+    {
+      "experiment_id": "QEXP-030",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.95,
+      "metric_secondary": 0.922,
+      "inference_time_ms": 137
+    },
+    {
+      "experiment_id": "QEXP-031",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.97,
+      "metric_secondary": 0.9,
+      "inference_time_ms": 140
+    },
+    {
+      "experiment_id": "QEXP-032",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.99,
+      "metric_secondary": 0.918,
+      "inference_time_ms": 143
+    },
+    {
+      "experiment_id": "QEXP-033",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.01,
+      "metric_secondary": 0.936,
+      "inference_time_ms": 146
+    },
+    {
+      "experiment_id": "QEXP-034",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.03,
+      "metric_secondary": 0.954,
+      "inference_time_ms": 149
+    },
+    {
+      "experiment_id": "QEXP-035",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.05,
+      "metric_secondary": 0.972,
+      "inference_time_ms": 152
+    },
+    {
+      "experiment_id": "QEXP-036",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.0,
+      "metric_secondary": 0.95,
+      "inference_time_ms": 155
+    },
+    {
+      "experiment_id": "QEXP-037",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.02,
+      "metric_secondary": 0.968,
+      "inference_time_ms": 158
+    },
+    {
+      "experiment_id": "QEXP-038",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.04,
+      "metric_secondary": 0.986,
+      "inference_time_ms": 161
+    },
+    {
+      "experiment_id": "QEXP-039",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.06,
+      "metric_secondary": 1.004,
+      "inference_time_ms": 164
+    },
+    {
+      "experiment_id": "QEXP-040",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.08,
+      "metric_secondary": 1.022,
+      "inference_time_ms": 167
+    },
+    {
+      "experiment_id": "QEXP-041",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.1,
+      "metric_secondary": 1.0,
+      "inference_time_ms": 170
+    },
+    {
+      "experiment_id": "QEXP-042",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.12,
+      "metric_secondary": 1.018,
+      "inference_time_ms": 173
+    },
+    {
+      "experiment_id": "QEXP-043",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.07,
+      "metric_secondary": 1.036,
+      "inference_time_ms": 176
+    },
+    {
+      "experiment_id": "QEXP-044",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.09,
+      "metric_secondary": 1.054,
+      "inference_time_ms": 179
+    },
+    {
+      "experiment_id": "QEXP-045",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.11,
+      "metric_secondary": 1.072,
+      "inference_time_ms": 182
+    },
+    {
+      "experiment_id": "QEXP-046",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.13,
+      "metric_secondary": 1.05,
+      "inference_time_ms": 185
+    },
+    {
+      "experiment_id": "QEXP-047",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.15,
+      "metric_secondary": 1.068,
+      "inference_time_ms": 188
+    },
+    {
+      "experiment_id": "QEXP-048",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.17,
+      "metric_secondary": 1.086,
+      "inference_time_ms": 191
+    },
+    {
+      "experiment_id": "QEXP-049",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.19,
+      "metric_secondary": 1.104,
+      "inference_time_ms": 194
+    },
+    {
+      "experiment_id": "QEXP-050",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.14,
+      "metric_secondary": 1.122,
+      "inference_time_ms": 197
+    },
+    {
+      "experiment_id": "QEXP-051",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.66,
+      "metric_secondary": 0.6,
+      "inference_time_ms": 200
+    },
+    {
+      "experiment_id": "QEXP-052",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.68,
+      "metric_secondary": 0.618,
+      "inference_time_ms": 203
+    },
+    {
+      "experiment_id": "QEXP-053",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.7,
+      "metric_secondary": 0.636,
+      "inference_time_ms": 206
+    },
+    {
+      "experiment_id": "QEXP-054",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.72,
+      "metric_secondary": 0.654,
+      "inference_time_ms": 209
+    },
+    {
+      "experiment_id": "QEXP-055",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.74,
+      "metric_secondary": 0.672,
+      "inference_time_ms": 212
+    },
+    {
+      "experiment_id": "QEXP-056",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.76,
+      "metric_secondary": 0.65,
+      "inference_time_ms": 215
+    },
+    {
+      "experiment_id": "QEXP-057",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.71,
+      "metric_secondary": 0.668,
+      "inference_time_ms": 218
+    },
+    {
+      "experiment_id": "QEXP-058",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.73,
+      "metric_secondary": 0.686,
+      "inference_time_ms": 221
+    },
+    {
+      "experiment_id": "QEXP-059",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.75,
+      "metric_secondary": 0.704,
+      "inference_time_ms": 224
+    },
+    {
+      "experiment_id": "QEXP-060",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.77,
+      "metric_secondary": 0.722,
+      "inference_time_ms": 227
+    },
+    {
+      "experiment_id": "QEXP-061",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.79,
+      "metric_secondary": 0.7,
+      "inference_time_ms": 50
+    },
+    {
+      "experiment_id": "QEXP-062",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.81,
+      "metric_secondary": 0.718,
+      "inference_time_ms": 53
+    },
+    {
+      "experiment_id": "QEXP-063",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.83,
+      "metric_secondary": 0.736,
+      "inference_time_ms": 56
+    },
+    {
+      "experiment_id": "QEXP-064",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.78,
+      "metric_secondary": 0.754,
+      "inference_time_ms": 59
+    },
+    {
+      "experiment_id": "QEXP-065",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.8,
+      "metric_secondary": 0.772,
+      "inference_time_ms": 62
+    },
+    {
+      "experiment_id": "QEXP-066",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.82,
+      "metric_secondary": 0.75,
+      "inference_time_ms": 65
+    },
+    {
+      "experiment_id": "QEXP-067",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.84,
+      "metric_secondary": 0.768,
+      "inference_time_ms": 68
+    },
+    {
+      "experiment_id": "QEXP-068",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.86,
+      "metric_secondary": 0.786,
+      "inference_time_ms": 71
+    },
+    {
+      "experiment_id": "QEXP-069",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.88,
+      "metric_secondary": 0.804,
+      "inference_time_ms": 74
+    },
+    {
+      "experiment_id": "QEXP-070",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.9,
+      "metric_secondary": 0.822,
+      "inference_time_ms": 77
+    },
+    {
+      "experiment_id": "QEXP-071",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.85,
+      "metric_secondary": 0.8,
+      "inference_time_ms": 80
+    },
+    {
+      "experiment_id": "QEXP-072",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.87,
+      "metric_secondary": 0.818,
+      "inference_time_ms": 83
+    },
+    {
+      "experiment_id": "QEXP-073",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.89,
+      "metric_secondary": 0.836,
+      "inference_time_ms": 86
+    },
+    {
+      "experiment_id": "QEXP-074",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.91,
+      "metric_secondary": 0.854,
+      "inference_time_ms": 89
+    },
+    {
+      "experiment_id": "QEXP-075",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.93,
+      "metric_secondary": 0.872,
+      "inference_time_ms": 92
+    },
+    {
+      "experiment_id": "QEXP-076",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.95,
+      "metric_secondary": 0.85,
+      "inference_time_ms": 95
+    },
+    {
+      "experiment_id": "QEXP-077",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.97,
+      "metric_secondary": 0.868,
+      "inference_time_ms": 98
+    },
+    {
+      "experiment_id": "QEXP-078",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.92,
+      "metric_secondary": 0.886,
+      "inference_time_ms": 101
+    },
+    {
+      "experiment_id": "QEXP-079",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.94,
+      "metric_secondary": 0.904,
+      "inference_time_ms": 104
+    },
+    {
+      "experiment_id": "QEXP-080",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.96,
+      "metric_secondary": 0.922,
+      "inference_time_ms": 107
+    },
+    {
+      "experiment_id": "QEXP-081",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.98,
+      "metric_secondary": 0.9,
+      "inference_time_ms": 110
+    },
+    {
+      "experiment_id": "QEXP-082",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.0,
+      "metric_secondary": 0.918,
+      "inference_time_ms": 113
+    },
+    {
+      "experiment_id": "QEXP-083",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.02,
+      "metric_secondary": 0.936,
+      "inference_time_ms": 116
+    },
+    {
+      "experiment_id": "QEXP-084",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.04,
+      "metric_secondary": 0.954,
+      "inference_time_ms": 119
+    },
+    {
+      "experiment_id": "QEXP-085",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.99,
+      "metric_secondary": 0.972,
+      "inference_time_ms": 122
+    },
+    {
+      "experiment_id": "QEXP-086",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.01,
+      "metric_secondary": 0.95,
+      "inference_time_ms": 125
+    },
+    {
+      "experiment_id": "QEXP-087",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.03,
+      "metric_secondary": 0.968,
+      "inference_time_ms": 128
+    },
+    {
+      "experiment_id": "QEXP-088",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.05,
+      "metric_secondary": 0.986,
+      "inference_time_ms": 131
+    },
+    {
+      "experiment_id": "QEXP-089",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.07,
+      "metric_secondary": 1.004,
+      "inference_time_ms": 134
+    },
+    {
+      "experiment_id": "QEXP-090",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.09,
+      "metric_secondary": 1.022,
+      "inference_time_ms": 137
+    },
+    {
+      "experiment_id": "QEXP-091",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.11,
+      "metric_secondary": 1.0,
+      "inference_time_ms": 140
+    },
+    {
+      "experiment_id": "QEXP-092",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.06,
+      "metric_secondary": 1.018,
+      "inference_time_ms": 143
+    },
+    {
+      "experiment_id": "QEXP-093",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.08,
+      "metric_secondary": 1.036,
+      "inference_time_ms": 146
+    },
+    {
+      "experiment_id": "QEXP-094",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.1,
+      "metric_secondary": 1.054,
+      "inference_time_ms": 149
+    },
+    {
+      "experiment_id": "QEXP-095",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.12,
+      "metric_secondary": 1.072,
+      "inference_time_ms": 152
+    },
+    {
+      "experiment_id": "QEXP-096",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.14,
+      "metric_secondary": 1.05,
+      "inference_time_ms": 155
+    },
+    {
+      "experiment_id": "QEXP-097",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.16,
+      "metric_secondary": 1.068,
+      "inference_time_ms": 158
+    },
+    {
+      "experiment_id": "QEXP-098",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.18,
+      "metric_secondary": 1.086,
+      "inference_time_ms": 161
+    },
+    {
+      "experiment_id": "QEXP-099",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.13,
+      "metric_secondary": 1.104,
+      "inference_time_ms": 164
+    },
+    {
+      "experiment_id": "QEXP-100",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.15,
+      "metric_secondary": 1.122,
+      "inference_time_ms": 167
+    },
+    {
+      "experiment_id": "QEXP-101",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.67,
+      "metric_secondary": 0.6,
+      "inference_time_ms": 170
+    },
+    {
+      "experiment_id": "QEXP-102",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.69,
+      "metric_secondary": 0.618,
+      "inference_time_ms": 173
+    },
+    {
+      "experiment_id": "QEXP-103",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.71,
+      "metric_secondary": 0.636,
+      "inference_time_ms": 176
+    },
+    {
+      "experiment_id": "QEXP-104",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.73,
+      "metric_secondary": 0.654,
+      "inference_time_ms": 179
+    },
+    {
+      "experiment_id": "QEXP-105",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.75,
+      "metric_secondary": 0.672,
+      "inference_time_ms": 182
+    },
+    {
+      "experiment_id": "QEXP-106",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.7,
+      "metric_secondary": 0.65,
+      "inference_time_ms": 185
+    },
+    {
+      "experiment_id": "QEXP-107",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.72,
+      "metric_secondary": 0.668,
+      "inference_time_ms": 188
+    },
+    {
+      "experiment_id": "QEXP-108",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.74,
+      "metric_secondary": 0.686,
+      "inference_time_ms": 191
+    },
+    {
+      "experiment_id": "QEXP-109",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.76,
+      "metric_secondary": 0.704,
+      "inference_time_ms": 194
+    },
+    {
+      "experiment_id": "QEXP-110",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.78,
+      "metric_secondary": 0.722,
+      "inference_time_ms": 197
+    },
+    {
+      "experiment_id": "QEXP-111",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.8,
+      "metric_secondary": 0.7,
+      "inference_time_ms": 200
+    },
+    {
+      "experiment_id": "QEXP-112",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.82,
+      "metric_secondary": 0.718,
+      "inference_time_ms": 203
+    },
+    {
+      "experiment_id": "QEXP-113",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.77,
+      "metric_secondary": 0.736,
+      "inference_time_ms": 206
+    },
+    {
+      "experiment_id": "QEXP-114",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.79,
+      "metric_secondary": 0.754,
+      "inference_time_ms": 209
+    },
+    {
+      "experiment_id": "QEXP-115",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.81,
+      "metric_secondary": 0.772,
+      "inference_time_ms": 212
+    },
+    {
+      "experiment_id": "QEXP-116",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.83,
+      "metric_secondary": 0.75,
+      "inference_time_ms": 215
+    },
+    {
+      "experiment_id": "QEXP-117",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.85,
+      "metric_secondary": 0.768,
+      "inference_time_ms": 218
+    },
+    {
+      "experiment_id": "QEXP-118",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.87,
+      "metric_secondary": 0.786,
+      "inference_time_ms": 221
+    },
+    {
+      "experiment_id": "QEXP-119",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.89,
+      "metric_secondary": 0.804,
+      "inference_time_ms": 224
+    },
+    {
+      "experiment_id": "QEXP-120",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.84,
+      "metric_secondary": 0.822,
+      "inference_time_ms": 227
+    },
+    {
+      "experiment_id": "QEXP-121",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.86,
+      "metric_secondary": 0.8,
+      "inference_time_ms": 50
+    },
+    {
+      "experiment_id": "QEXP-122",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.88,
+      "metric_secondary": 0.818,
+      "inference_time_ms": 53
+    },
+    {
+      "experiment_id": "QEXP-123",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.9,
+      "metric_secondary": 0.836,
+      "inference_time_ms": 56
+    },
+    {
+      "experiment_id": "QEXP-124",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.92,
+      "metric_secondary": 0.854,
+      "inference_time_ms": 59
+    },
+    {
+      "experiment_id": "QEXP-125",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.94,
+      "metric_secondary": 0.872,
+      "inference_time_ms": 62
+    },
+    {
+      "experiment_id": "QEXP-126",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.96,
+      "metric_secondary": 0.85,
+      "inference_time_ms": 65
+    },
+    {
+      "experiment_id": "QEXP-127",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.91,
+      "metric_secondary": 0.868,
+      "inference_time_ms": 68
+    },
+    {
+      "experiment_id": "QEXP-128",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.93,
+      "metric_secondary": 0.886,
+      "inference_time_ms": 71
+    },
+    {
+      "experiment_id": "QEXP-129",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.95,
+      "metric_secondary": 0.904,
+      "inference_time_ms": 74
+    },
+    {
+      "experiment_id": "QEXP-130",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.97,
+      "metric_secondary": 0.922,
+      "inference_time_ms": 77
+    },
+    {
+      "experiment_id": "QEXP-131",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.99,
+      "metric_secondary": 0.9,
+      "inference_time_ms": 80
+    },
+    {
+      "experiment_id": "QEXP-132",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.01,
+      "metric_secondary": 0.918,
+      "inference_time_ms": 83
+    },
+    {
+      "experiment_id": "QEXP-133",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.03,
+      "metric_secondary": 0.936,
+      "inference_time_ms": 86
+    },
+    {
+      "experiment_id": "QEXP-134",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.98,
+      "metric_secondary": 0.954,
+      "inference_time_ms": 89
+    },
+    {
+      "experiment_id": "QEXP-135",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.0,
+      "metric_secondary": 0.972,
+      "inference_time_ms": 92
+    },
+    {
+      "experiment_id": "QEXP-136",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.02,
+      "metric_secondary": 0.95,
+      "inference_time_ms": 95
+    },
+    {
+      "experiment_id": "QEXP-137",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.04,
+      "metric_secondary": 0.968,
+      "inference_time_ms": 98
+    },
+    {
+      "experiment_id": "QEXP-138",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.06,
+      "metric_secondary": 0.986,
+      "inference_time_ms": 101
+    },
+    {
+      "experiment_id": "QEXP-139",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.08,
+      "metric_secondary": 1.004,
+      "inference_time_ms": 104
+    },
+    {
+      "experiment_id": "QEXP-140",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.1,
+      "metric_secondary": 1.022,
+      "inference_time_ms": 107
+    },
+    {
+      "experiment_id": "QEXP-141",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.05,
+      "metric_secondary": 1.0,
+      "inference_time_ms": 110
+    },
+    {
+      "experiment_id": "QEXP-142",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.07,
+      "metric_secondary": 1.018,
+      "inference_time_ms": 113
+    },
+    {
+      "experiment_id": "QEXP-143",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.09,
+      "metric_secondary": 1.036,
+      "inference_time_ms": 116
+    },
+    {
+      "experiment_id": "QEXP-144",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.11,
+      "metric_secondary": 1.054,
+      "inference_time_ms": 119
+    },
+    {
+      "experiment_id": "QEXP-145",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.13,
+      "metric_secondary": 1.072,
+      "inference_time_ms": 122
+    },
+    {
+      "experiment_id": "QEXP-146",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.15,
+      "metric_secondary": 1.05,
+      "inference_time_ms": 125
+    },
+    {
+      "experiment_id": "QEXP-147",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.17,
+      "metric_secondary": 1.068,
+      "inference_time_ms": 128
+    },
+    {
+      "experiment_id": "QEXP-148",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.12,
+      "metric_secondary": 1.086,
+      "inference_time_ms": 131
+    },
+    {
+      "experiment_id": "QEXP-149",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.14,
+      "metric_secondary": 1.104,
+      "inference_time_ms": 134
+    },
+    {
+      "experiment_id": "QEXP-150",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.16,
+      "metric_secondary": 1.122,
+      "inference_time_ms": 137
+    },
+    {
+      "experiment_id": "QEXP-151",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.68,
+      "metric_secondary": 0.6,
+      "inference_time_ms": 140
+    },
+    {
+      "experiment_id": "QEXP-152",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.7,
+      "metric_secondary": 0.618,
+      "inference_time_ms": 143
+    },
+    {
+      "experiment_id": "QEXP-153",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.72,
+      "metric_secondary": 0.636,
+      "inference_time_ms": 146
+    },
+    {
+      "experiment_id": "QEXP-154",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.74,
+      "metric_secondary": 0.654,
+      "inference_time_ms": 149
+    },
+    {
+      "experiment_id": "QEXP-155",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.69,
+      "metric_secondary": 0.672,
+      "inference_time_ms": 152
+    },
+    {
+      "experiment_id": "QEXP-156",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.71,
+      "metric_secondary": 0.65,
+      "inference_time_ms": 155
+    },
+    {
+      "experiment_id": "QEXP-157",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.73,
+      "metric_secondary": 0.668,
+      "inference_time_ms": 158
+    },
+    {
+      "experiment_id": "QEXP-158",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.75,
+      "metric_secondary": 0.686,
+      "inference_time_ms": 161
+    },
+    {
+      "experiment_id": "QEXP-159",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.77,
+      "metric_secondary": 0.704,
+      "inference_time_ms": 164
+    },
+    {
+      "experiment_id": "QEXP-160",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.79,
+      "metric_secondary": 0.722,
+      "inference_time_ms": 167
+    },
+    {
+      "experiment_id": "QEXP-161",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.81,
+      "metric_secondary": 0.7,
+      "inference_time_ms": 170
+    },
+    {
+      "experiment_id": "QEXP-162",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.76,
+      "metric_secondary": 0.718,
+      "inference_time_ms": 173
+    },
+    {
+      "experiment_id": "QEXP-163",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.78,
+      "metric_secondary": 0.736,
+      "inference_time_ms": 176
+    },
+    {
+      "experiment_id": "QEXP-164",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.8,
+      "metric_secondary": 0.754,
+      "inference_time_ms": 179
+    },
+    {
+      "experiment_id": "QEXP-165",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.82,
+      "metric_secondary": 0.772,
+      "inference_time_ms": 182
+    },
+    {
+      "experiment_id": "QEXP-166",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.84,
+      "metric_secondary": 0.75,
+      "inference_time_ms": 185
+    },
+    {
+      "experiment_id": "QEXP-167",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.86,
+      "metric_secondary": 0.768,
+      "inference_time_ms": 188
+    },
+    {
+      "experiment_id": "QEXP-168",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.88,
+      "metric_secondary": 0.786,
+      "inference_time_ms": 191
+    },
+    {
+      "experiment_id": "QEXP-169",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.83,
+      "metric_secondary": 0.804,
+      "inference_time_ms": 194
+    },
+    {
+      "experiment_id": "QEXP-170",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.85,
+      "metric_secondary": 0.822,
+      "inference_time_ms": 197
+    },
+    {
+      "experiment_id": "QEXP-171",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.87,
+      "metric_secondary": 0.8,
+      "inference_time_ms": 200
+    },
+    {
+      "experiment_id": "QEXP-172",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.89,
+      "metric_secondary": 0.818,
+      "inference_time_ms": 203
+    },
+    {
+      "experiment_id": "QEXP-173",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.91,
+      "metric_secondary": 0.836,
+      "inference_time_ms": 206
+    },
+    {
+      "experiment_id": "QEXP-174",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.93,
+      "metric_secondary": 0.854,
+      "inference_time_ms": 209
+    },
+    {
+      "experiment_id": "QEXP-175",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.95,
+      "metric_secondary": 0.872,
+      "inference_time_ms": 212
+    },
+    {
+      "experiment_id": "QEXP-176",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.9,
+      "metric_secondary": 0.85,
+      "inference_time_ms": 215
+    },
+    {
+      "experiment_id": "QEXP-177",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.92,
+      "metric_secondary": 0.868,
+      "inference_time_ms": 218
+    },
+    {
+      "experiment_id": "QEXP-178",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.94,
+      "metric_secondary": 0.886,
+      "inference_time_ms": 221
+    },
+    {
+      "experiment_id": "QEXP-179",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.96,
+      "metric_secondary": 0.904,
+      "inference_time_ms": 224
+    },
+    {
+      "experiment_id": "QEXP-180",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.98,
+      "metric_secondary": 0.922,
+      "inference_time_ms": 227
+    },
+    {
+      "experiment_id": "QEXP-181",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.0,
+      "metric_secondary": 0.9,
+      "inference_time_ms": 50
+    },
+    {
+      "experiment_id": "QEXP-182",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.02,
+      "metric_secondary": 0.918,
+      "inference_time_ms": 53
+    },
+    {
+      "experiment_id": "QEXP-183",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.97,
+      "metric_secondary": 0.936,
+      "inference_time_ms": 56
+    },
+    {
+      "experiment_id": "QEXP-184",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.99,
+      "metric_secondary": 0.954,
+      "inference_time_ms": 59
+    },
+    {
+      "experiment_id": "QEXP-185",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.01,
+      "metric_secondary": 0.972,
+      "inference_time_ms": 62
+    },
+    {
+      "experiment_id": "QEXP-186",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.03,
+      "metric_secondary": 0.95,
+      "inference_time_ms": 65
+    },
+    {
+      "experiment_id": "QEXP-187",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.05,
+      "metric_secondary": 0.968,
+      "inference_time_ms": 68
+    },
+    {
+      "experiment_id": "QEXP-188",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.07,
+      "metric_secondary": 0.986,
+      "inference_time_ms": 71
+    },
+    {
+      "experiment_id": "QEXP-189",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.09,
+      "metric_secondary": 1.004,
+      "inference_time_ms": 74
+    },
+    {
+      "experiment_id": "QEXP-190",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.04,
+      "metric_secondary": 1.022,
+      "inference_time_ms": 77
+    },
+    {
+      "experiment_id": "QEXP-191",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.06,
+      "metric_secondary": 1.0,
+      "inference_time_ms": 80
+    },
+    {
+      "experiment_id": "QEXP-192",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.08,
+      "metric_secondary": 1.018,
+      "inference_time_ms": 83
+    },
+    {
+      "experiment_id": "QEXP-193",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.1,
+      "metric_secondary": 1.036,
+      "inference_time_ms": 86
+    },
+    {
+      "experiment_id": "QEXP-194",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.12,
+      "metric_secondary": 1.054,
+      "inference_time_ms": 89
+    },
+    {
+      "experiment_id": "QEXP-195",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.14,
+      "metric_secondary": 1.072,
+      "inference_time_ms": 92
+    },
+    {
+      "experiment_id": "QEXP-196",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.16,
+      "metric_secondary": 1.05,
+      "inference_time_ms": 95
+    },
+    {
+      "experiment_id": "QEXP-197",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.11,
+      "metric_secondary": 1.068,
+      "inference_time_ms": 98
+    },
+    {
+      "experiment_id": "QEXP-198",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.13,
+      "metric_secondary": 1.086,
+      "inference_time_ms": 101
+    },
+    {
+      "experiment_id": "QEXP-199",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.15,
+      "metric_secondary": 1.104,
+      "inference_time_ms": 104
+    },
+    {
+      "experiment_id": "QEXP-200",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.17,
+      "metric_secondary": 1.122,
+      "inference_time_ms": 107
+    },
+    {
+      "experiment_id": "QEXP-201",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.69,
+      "metric_secondary": 0.6,
+      "inference_time_ms": 110
+    },
+    {
+      "experiment_id": "QEXP-202",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.71,
+      "metric_secondary": 0.618,
+      "inference_time_ms": 113
+    },
+    {
+      "experiment_id": "QEXP-203",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.73,
+      "metric_secondary": 0.636,
+      "inference_time_ms": 116
+    },
+    {
+      "experiment_id": "QEXP-204",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.68,
+      "metric_secondary": 0.654,
+      "inference_time_ms": 119
+    },
+    {
+      "experiment_id": "QEXP-205",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.7,
+      "metric_secondary": 0.672,
+      "inference_time_ms": 122
+    },
+    {
+      "experiment_id": "QEXP-206",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.72,
+      "metric_secondary": 0.65,
+      "inference_time_ms": 125
+    },
+    {
+      "experiment_id": "QEXP-207",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.74,
+      "metric_secondary": 0.668,
+      "inference_time_ms": 128
+    },
+    {
+      "experiment_id": "QEXP-208",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.76,
+      "metric_secondary": 0.686,
+      "inference_time_ms": 131
+    },
+    {
+      "experiment_id": "QEXP-209",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.78,
+      "metric_secondary": 0.704,
+      "inference_time_ms": 134
+    },
+    {
+      "experiment_id": "QEXP-210",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.8,
+      "metric_secondary": 0.722,
+      "inference_time_ms": 137
+    },
+    {
+      "experiment_id": "QEXP-211",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.75,
+      "metric_secondary": 0.7,
+      "inference_time_ms": 140
+    },
+    {
+      "experiment_id": "QEXP-212",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.77,
+      "metric_secondary": 0.718,
+      "inference_time_ms": 143
+    },
+    {
+      "experiment_id": "QEXP-213",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.79,
+      "metric_secondary": 0.736,
+      "inference_time_ms": 146
+    },
+    {
+      "experiment_id": "QEXP-214",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.81,
+      "metric_secondary": 0.754,
+      "inference_time_ms": 149
+    },
+    {
+      "experiment_id": "QEXP-215",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.83,
+      "metric_secondary": 0.772,
+      "inference_time_ms": 152
+    },
+    {
+      "experiment_id": "QEXP-216",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.85,
+      "metric_secondary": 0.75,
+      "inference_time_ms": 155
+    },
+    {
+      "experiment_id": "QEXP-217",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.87,
+      "metric_secondary": 0.768,
+      "inference_time_ms": 158
+    },
+    {
+      "experiment_id": "QEXP-218",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.82,
+      "metric_secondary": 0.786,
+      "inference_time_ms": 161
+    },
+    {
+      "experiment_id": "QEXP-219",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.84,
+      "metric_secondary": 0.804,
+      "inference_time_ms": 164
+    },
+    {
+      "experiment_id": "QEXP-220",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.86,
+      "metric_secondary": 0.822,
+      "inference_time_ms": 167
+    },
+    {
+      "experiment_id": "QEXP-221",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.88,
+      "metric_secondary": 0.8,
+      "inference_time_ms": 170
+    },
+    {
+      "experiment_id": "QEXP-222",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.9,
+      "metric_secondary": 0.818,
+      "inference_time_ms": 173
+    },
+    {
+      "experiment_id": "QEXP-223",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.92,
+      "metric_secondary": 0.836,
+      "inference_time_ms": 176
+    },
+    {
+      "experiment_id": "QEXP-224",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.94,
+      "metric_secondary": 0.854,
+      "inference_time_ms": 179
+    },
+    {
+      "experiment_id": "QEXP-225",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.89,
+      "metric_secondary": 0.872,
+      "inference_time_ms": 182
+    },
+    {
+      "experiment_id": "QEXP-226",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.91,
+      "metric_secondary": 0.85,
+      "inference_time_ms": 185
+    },
+    {
+      "experiment_id": "QEXP-227",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.93,
+      "metric_secondary": 0.868,
+      "inference_time_ms": 188
+    },
+    {
+      "experiment_id": "QEXP-228",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.95,
+      "metric_secondary": 0.886,
+      "inference_time_ms": 191
+    },
+    {
+      "experiment_id": "QEXP-229",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.97,
+      "metric_secondary": 0.904,
+      "inference_time_ms": 194
+    },
+    {
+      "experiment_id": "QEXP-230",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.99,
+      "metric_secondary": 0.922,
+      "inference_time_ms": 197
+    },
+    {
+      "experiment_id": "QEXP-231",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.01,
+      "metric_secondary": 0.9,
+      "inference_time_ms": 200
+    },
+    {
+      "experiment_id": "QEXP-232",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.96,
+      "metric_secondary": 0.918,
+      "inference_time_ms": 203
+    },
+    {
+      "experiment_id": "QEXP-233",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.98,
+      "metric_secondary": 0.936,
+      "inference_time_ms": 206
+    },
+    {
+      "experiment_id": "QEXP-234",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.0,
+      "metric_secondary": 0.954,
+      "inference_time_ms": 209
+    },
+    {
+      "experiment_id": "QEXP-235",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.02,
+      "metric_secondary": 0.972,
+      "inference_time_ms": 212
+    },
+    {
+      "experiment_id": "QEXP-236",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.04,
+      "metric_secondary": 0.95,
+      "inference_time_ms": 215
+    },
+    {
+      "experiment_id": "QEXP-237",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.06,
+      "metric_secondary": 0.968,
+      "inference_time_ms": 218
+    },
+    {
+      "experiment_id": "QEXP-238",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.08,
+      "metric_secondary": 0.986,
+      "inference_time_ms": 221
+    },
+    {
+      "experiment_id": "QEXP-239",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.03,
+      "metric_secondary": 1.004,
+      "inference_time_ms": 224
+    },
+    {
+      "experiment_id": "QEXP-240",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.05,
+      "metric_secondary": 1.022,
+      "inference_time_ms": 227
+    },
+    {
+      "experiment_id": "QEXP-241",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.07,
+      "metric_secondary": 1.0,
+      "inference_time_ms": 50
+    },
+    {
+      "experiment_id": "QEXP-242",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.09,
+      "metric_secondary": 1.018,
+      "inference_time_ms": 53
+    },
+    {
+      "experiment_id": "QEXP-243",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.11,
+      "metric_secondary": 1.036,
+      "inference_time_ms": 56
+    },
+    {
+      "experiment_id": "QEXP-244",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.13,
+      "metric_secondary": 1.054,
+      "inference_time_ms": 59
+    },
+    {
+      "experiment_id": "QEXP-245",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.15,
+      "metric_secondary": 1.072,
+      "inference_time_ms": 62
+    },
+    {
+      "experiment_id": "QEXP-246",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.1,
+      "metric_secondary": 1.05,
+      "inference_time_ms": 65
+    },
+    {
+      "experiment_id": "QEXP-247",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.12,
+      "metric_secondary": 1.068,
+      "inference_time_ms": 68
+    },
+    {
+      "experiment_id": "QEXP-248",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.14,
+      "metric_secondary": 1.086,
+      "inference_time_ms": 71
+    },
+    {
+      "experiment_id": "QEXP-249",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.16,
+      "metric_secondary": 1.104,
+      "inference_time_ms": 74
+    },
+    {
+      "experiment_id": "QEXP-250",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.18,
+      "metric_secondary": 1.122,
+      "inference_time_ms": 77
+    },
+    {
+      "experiment_id": "QEXP-251",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.7,
+      "metric_secondary": 0.6,
+      "inference_time_ms": 80
+    },
+    {
+      "experiment_id": "QEXP-252",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.72,
+      "metric_secondary": 0.618,
+      "inference_time_ms": 83
+    },
+    {
+      "experiment_id": "QEXP-253",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.67,
+      "metric_secondary": 0.636,
+      "inference_time_ms": 86
+    },
+    {
+      "experiment_id": "QEXP-254",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.69,
+      "metric_secondary": 0.654,
+      "inference_time_ms": 89
+    },
+    {
+      "experiment_id": "QEXP-255",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.71,
+      "metric_secondary": 0.672,
+      "inference_time_ms": 92
+    },
+    {
+      "experiment_id": "QEXP-256",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.73,
+      "metric_secondary": 0.65,
+      "inference_time_ms": 95
+    },
+    {
+      "experiment_id": "QEXP-257",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.75,
+      "metric_secondary": 0.668,
+      "inference_time_ms": 98
+    },
+    {
+      "experiment_id": "QEXP-258",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.77,
+      "metric_secondary": 0.686,
+      "inference_time_ms": 101
+    },
+    {
+      "experiment_id": "QEXP-259",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.79,
+      "metric_secondary": 0.704,
+      "inference_time_ms": 104
+    },
+    {
+      "experiment_id": "QEXP-260",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.74,
+      "metric_secondary": 0.722,
+      "inference_time_ms": 107
+    },
+    {
+      "experiment_id": "QEXP-261",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.76,
+      "metric_secondary": 0.7,
+      "inference_time_ms": 110
+    },
+    {
+      "experiment_id": "QEXP-262",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.78,
+      "metric_secondary": 0.718,
+      "inference_time_ms": 113
+    },
+    {
+      "experiment_id": "QEXP-263",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.8,
+      "metric_secondary": 0.736,
+      "inference_time_ms": 116
+    },
+    {
+      "experiment_id": "QEXP-264",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.82,
+      "metric_secondary": 0.754,
+      "inference_time_ms": 119
+    },
+    {
+      "experiment_id": "QEXP-265",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.84,
+      "metric_secondary": 0.772,
+      "inference_time_ms": 122
+    },
+    {
+      "experiment_id": "QEXP-266",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.86,
+      "metric_secondary": 0.75,
+      "inference_time_ms": 125
+    },
+    {
+      "experiment_id": "QEXP-267",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.81,
+      "metric_secondary": 0.768,
+      "inference_time_ms": 128
+    },
+    {
+      "experiment_id": "QEXP-268",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.83,
+      "metric_secondary": 0.786,
+      "inference_time_ms": 131
+    },
+    {
+      "experiment_id": "QEXP-269",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.85,
+      "metric_secondary": 0.804,
+      "inference_time_ms": 134
+    },
+    {
+      "experiment_id": "QEXP-270",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 0.87,
+      "metric_secondary": 0.822,
+      "inference_time_ms": 137
+    },
+    {
+      "experiment_id": "QEXP-271",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.89,
+      "metric_secondary": 0.8,
+      "inference_time_ms": 140
+    },
+    {
+      "experiment_id": "QEXP-272",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.91,
+      "metric_secondary": 0.818,
+      "inference_time_ms": 143
+    },
+    {
+      "experiment_id": "QEXP-273",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.93,
+      "metric_secondary": 0.836,
+      "inference_time_ms": 146
+    },
+    {
+      "experiment_id": "QEXP-274",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 0.88,
+      "metric_secondary": 0.854,
+      "inference_time_ms": 149
+    },
+    {
+      "experiment_id": "QEXP-275",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 0.9,
+      "metric_secondary": 0.872,
+      "inference_time_ms": 152
+    },
+    {
+      "experiment_id": "QEXP-276",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 0.92,
+      "metric_secondary": 0.85,
+      "inference_time_ms": 155
+    },
+    {
+      "experiment_id": "QEXP-277",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 0.94,
+      "metric_secondary": 0.868,
+      "inference_time_ms": 158
+    },
+    {
+      "experiment_id": "QEXP-278",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 0.96,
+      "metric_secondary": 0.886,
+      "inference_time_ms": 161
+    },
+    {
+      "experiment_id": "QEXP-279",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 0.98,
+      "metric_secondary": 0.904,
+      "inference_time_ms": 164
+    },
+    {
+      "experiment_id": "QEXP-280",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.0,
+      "metric_secondary": 0.922,
+      "inference_time_ms": 167
+    },
+    {
+      "experiment_id": "QEXP-281",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 0.95,
+      "metric_secondary": 0.9,
+      "inference_time_ms": 170
+    },
+    {
+      "experiment_id": "QEXP-282",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 0.97,
+      "metric_secondary": 0.918,
+      "inference_time_ms": 173
+    },
+    {
+      "experiment_id": "QEXP-283",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 0.99,
+      "metric_secondary": 0.936,
+      "inference_time_ms": 176
+    },
+    {
+      "experiment_id": "QEXP-284",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.01,
+      "metric_secondary": 0.954,
+      "inference_time_ms": 179
+    },
+    {
+      "experiment_id": "QEXP-285",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.03,
+      "metric_secondary": 0.972,
+      "inference_time_ms": 182
+    },
+    {
+      "experiment_id": "QEXP-286",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.05,
+      "metric_secondary": 0.95,
+      "inference_time_ms": 185
+    },
+    {
+      "experiment_id": "QEXP-287",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.07,
+      "metric_secondary": 0.968,
+      "inference_time_ms": 188
+    },
+    {
+      "experiment_id": "QEXP-288",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.02,
+      "metric_secondary": 0.986,
+      "inference_time_ms": 191
+    },
+    {
+      "experiment_id": "QEXP-289",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.04,
+      "metric_secondary": 1.004,
+      "inference_time_ms": 194
+    },
+    {
+      "experiment_id": "QEXP-290",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.06,
+      "metric_secondary": 1.022,
+      "inference_time_ms": 197
+    },
+    {
+      "experiment_id": "QEXP-291",
+      "domain": "Quantum Simulation",
+      "subdomain": "Lattice Gauge",
+      "model": "AtlasNet-Q",
+      "dataset": "qsim_majestic",
+      "metric_primary": 1.08,
+      "metric_secondary": 1.0,
+      "inference_time_ms": 200
+    },
+    {
+      "experiment_id": "QEXP-292",
+      "domain": "Materials Science",
+      "subdomain": "Battery Chemistry",
+      "model": "QuantaFormer",
+      "dataset": "matbench_xl",
+      "metric_primary": 1.1,
+      "metric_secondary": 1.018,
+      "inference_time_ms": 203
+    },
+    {
+      "experiment_id": "QEXP-293",
+      "domain": "Biological Modeling",
+      "subdomain": "Protein Folding",
+      "model": "NovaGraph",
+      "dataset": "biofold_2024",
+      "metric_primary": 1.12,
+      "metric_secondary": 1.036,
+      "inference_time_ms": 206
+    },
+    {
+      "experiment_id": "QEXP-294",
+      "domain": "Climate Modeling",
+      "subdomain": "Atmospheric",
+      "model": "SpectraNet",
+      "dataset": "atm_reanalysis",
+      "metric_primary": 1.14,
+      "metric_secondary": 1.054,
+      "inference_time_ms": 209
+    },
+    {
+      "experiment_id": "QEXP-295",
+      "domain": "Robotics",
+      "subdomain": "Control",
+      "model": "HelixBoost",
+      "dataset": "robo_gym",
+      "metric_primary": 1.09,
+      "metric_secondary": 1.072,
+      "inference_time_ms": 212
+    },
+    {
+      "experiment_id": "QEXP-296",
+      "domain": "Natural Language",
+      "subdomain": "Semantic Parsing",
+      "model": "AeroFlow",
+      "dataset": "semparse_corpus",
+      "metric_primary": 1.11,
+      "metric_secondary": 1.05,
+      "inference_time_ms": 215
+    },
+    {
+      "experiment_id": "QEXP-297",
+      "domain": "Computer Vision",
+      "subdomain": "Remote Sensing",
+      "model": "TerraSeq",
+      "dataset": "orbit_vision",
+      "metric_primary": 1.13,
+      "metric_secondary": 1.068,
+      "inference_time_ms": 218
+    },
+    {
+      "experiment_id": "QEXP-298",
+      "domain": "Financial Modeling",
+      "subdomain": "Risk",
+      "model": "LumiGraph",
+      "dataset": "quant_risk",
+      "metric_primary": 1.15,
+      "metric_secondary": 1.086,
+      "inference_time_ms": 221
+    },
+    {
+      "experiment_id": "QEXP-299",
+      "domain": "Healthcare",
+      "subdomain": "Diagnostics",
+      "model": "CatalystRL",
+      "dataset": "clinical_synth",
+      "metric_primary": 1.17,
+      "metric_secondary": 1.104,
+      "inference_time_ms": 224
+    },
+    {
+      "experiment_id": "QEXP-300",
+      "domain": "Energy Systems",
+      "subdomain": "Grid Optimization",
+      "model": "PulseNet",
+      "dataset": "gridflex",
+      "metric_primary": 1.19,
+      "metric_secondary": 1.122,
+      "inference_time_ms": 227
+    }
+  ]
+}
