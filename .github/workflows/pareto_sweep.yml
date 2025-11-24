@@ -1,0 +1,10 @@
+name: Pareto Sweep
+on:
+  workflow_dispatch:
+jobs:
+  sweep:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - run: python bench/latency_sentry.py

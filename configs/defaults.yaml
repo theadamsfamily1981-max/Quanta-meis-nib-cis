@@ -1,0 +1,39 @@
+# Attention / TLS
+keep_ratio: 0.33
+tls_strategy: hybrid
+tls_alpha_persistence: 0.7
+cat_fallback_acc_drop_pct: 2.0
+cat_fallback_overhead_pct: 10.0
+per_head_landmarks: true
+
+# FDR / EPR
+fdr_snapshot_every_steps: 50
+fdr_lr_min_mult: 0.5
+fdr_lr_max_mult: 1.5
+ssa_T_min: 0.5
+ssa_T_max: 2.0
+early_stop_fdr1_tol: 0.05
+early_stop_patience_epochs: 8
+
+# CTD
+ctd_enable_ndcg_gain_min: 0.02
+ctd_riemann_overhead_max: 0.12
+
+# PH / Topology
+ph_exact_time_cap_min: 20
+ph_exact_sample_cap: 5000
+ph_wasserstein_gap_max_pct: 2.0
+ph_cosine_orthogonality_alert: 0.2
+cv_beta0: 1
+cv_beta1: 0
+kg_low_beta1: true
+kg_low_beta2: true
+
+# SLOs
+slo_attn_p95_ms: 10
+slo_ttw_p95_ms: 5
+slo_pgu_p95_ms: 200
+
+# Telemetry
+telemetry_sink: env:TFAN_TELEMETRY_SINK  # s3://bucket/prefix or gs://bucket/prefix
+retention_months: 6

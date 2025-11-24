@@ -1,0 +1,8 @@
+torch
+numpy
+scipy
+z3-solver
+gudhi
+ripser
+geoopt
+# add boto3 or google-cloud-storage after Pulse provides bucket choice
