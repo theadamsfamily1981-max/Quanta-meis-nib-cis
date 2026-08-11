@@ -1,0 +1,26 @@
+{
+  "dataset": "coarse_topology_panel",
+  "timestamp": "2024-06-10T21:45:00Z",
+  "experiments": [
+    {
+      "id": "filtration-subsample-01",
+      "homology_dimension": 1,
+      "bottleneck_distance": 0.031,
+      "wasserstein_distance": 0.044,
+      "persistence_interval_overlap": 0.91
+    },
+    {
+      "id": "filtration-subsample-07",
+      "homology_dimension": 2,
+      "bottleneck_distance": 0.054,
+      "wasserstein_distance": 0.069,
+      "persistence_interval_overlap": 0.87
+    }
+  ],
+  "summary": {
+    "mean_bottleneck": 0.0425,
+    "mean_wasserstein": 0.0565,
+    "max_interval_overlap": 0.93,
+    "min_interval_overlap": 0.82
+  }
+}
