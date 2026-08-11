@@ -1,0 +1,12 @@
+{
+  "summary": {},
+  "reports": [],
+  "hardware": {},
+  "metadata": {
+    "skipped": {
+      "glue": false,
+      "cifar": false
+    },
+    "reports": []
+  }
+}
