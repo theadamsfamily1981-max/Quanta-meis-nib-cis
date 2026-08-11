@@ -1,0 +1,8 @@
+{
+  "forgetting": 0.32,
+  "per_task_accuracy": {
+    "copy": 0.994,
+    "reverse": 0.988,
+    "binary_addition": 0.973
+  }
+}

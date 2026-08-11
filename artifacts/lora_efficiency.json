@@ -1,0 +1,6 @@
+{
+  "parameter_reduction": 0.968,
+  "rank": 8,
+  "base_parameters": 120000000,
+  "trainable_parameters": 3840000
+}
