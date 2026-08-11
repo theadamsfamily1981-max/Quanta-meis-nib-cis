@@ -1,0 +1,329 @@
+{
+  "suite": "Phase III tactile integration",
+  "sensor": "phaseIII-touch-array",
+  "test_count": 40,
+  "passed": 26,
+  "failed": 14,
+  "results": [
+    {
+      "test_id": "Exp-331",
+      "label": "Soft foam grip \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.3358,
+      "avg_temperature": 0.1482,
+      "vibration_rms": 0.1057
+    },
+    {
+      "test_id": "Exp-332",
+      "label": "Cable harness pinch \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.5648,
+      "avg_temperature": 0.1811,
+      "vibration_rms": 0.2281
+    },
+    {
+      "test_id": "Exp-333",
+      "label": "Rigid block press \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 1.4168,
+      "avg_temperature": 0.1986,
+      "vibration_rms": 0.1588
+    },
+    {
+      "test_id": "Exp-334",
+      "label": "Silicone membrane sweep \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.2937,
+      "avg_temperature": 0.1319,
+      "vibration_rms": 0.2974
+    },
+    {
+      "test_id": "Exp-335",
+      "label": "Thermal drift monitor \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.4405,
+      "avg_temperature": 0.3139,
+      "vibration_rms": 0.1918
+    },
+    {
+      "test_id": "Exp-336",
+      "label": "Microtexture mapping \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.3779,
+      "avg_temperature": 0.231,
+      "vibration_rms": 0.4188
+    },
+    {
+      "test_id": "Exp-337",
+      "label": "Valve rotation support \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.6058,
+      "avg_temperature": 0.173,
+      "vibration_rms": 0.2808
+    },
+    {
+      "test_id": "Exp-338",
+      "label": "Compliance rating \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.7653,
+      "avg_temperature": 0.1575,
+      "vibration_rms": 0.2544
+    },
+    {
+      "test_id": "Exp-339",
+      "label": "Impact damping check \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.5119,
+      "avg_temperature": 0.14,
+      "vibration_rms": 0.455
+    },
+    {
+      "test_id": "Exp-340",
+      "label": "Soft grasp release \u2013 variant 1",
+      "passed": true,
+      "peak_pressure": 0.3251,
+      "avg_temperature": 0.1656,
+      "vibration_rms": 0.1229
+    },
+    {
+      "test_id": "Exp-341",
+      "label": "Soft foam grip \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.5246,
+      "avg_temperature": 0.1892,
+      "vibration_rms": 0.1403
+    },
+    {
+      "test_id": "Exp-342",
+      "label": "Cable harness pinch \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.7552,
+      "avg_temperature": 0.2223,
+      "vibration_rms": 0.2622
+    },
+    {
+      "test_id": "Exp-343",
+      "label": "Rigid block press \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 1.606,
+      "avg_temperature": 0.2384,
+      "vibration_rms": 0.1927
+    },
+    {
+      "test_id": "Exp-344",
+      "label": "Silicone membrane sweep \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.4782,
+      "avg_temperature": 0.1739,
+      "vibration_rms": 0.3329
+    },
+    {
+      "test_id": "Exp-345",
+      "label": "Thermal drift monitor \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.6279,
+      "avg_temperature": 0.355,
+      "vibration_rms": 0.2281
+    },
+    {
+      "test_id": "Exp-346",
+      "label": "Microtexture mapping \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.5658,
+      "avg_temperature": 0.2724,
+      "vibration_rms": 0.4556
+    },
+    {
+      "test_id": "Exp-347",
+      "label": "Valve rotation support \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.7933,
+      "avg_temperature": 0.2146,
+      "vibration_rms": 0.3156
+    },
+    {
+      "test_id": "Exp-348",
+      "label": "Compliance rating \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.9515,
+      "avg_temperature": 0.198,
+      "vibration_rms": 0.2901
+    },
+    {
+      "test_id": "Exp-349",
+      "label": "Impact damping check \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.7015,
+      "avg_temperature": 0.1829,
+      "vibration_rms": 0.4909
+    },
+    {
+      "test_id": "Exp-350",
+      "label": "Soft grasp release \u2013 variant 2",
+      "passed": true,
+      "peak_pressure": 0.5128,
+      "avg_temperature": 0.2067,
+      "vibration_rms": 0.1587
+    },
+    {
+      "test_id": "Exp-351",
+      "label": "Soft foam grip \u2013 variant 3",
+      "passed": false,
+      "peak_pressure": 0.1048,
+      "avg_temperature": 0.1655,
+      "vibration_rms": 0.1229
+    },
+    {
+      "test_id": "Exp-352",
+      "label": "Cable harness pinch \u2013 variant 3",
+      "passed": true,
+      "peak_pressure": 0.3358,
+      "avg_temperature": 0.1983,
+      "vibration_rms": 0.2464
+    },
+    {
+      "test_id": "Exp-353",
+      "label": "Rigid block press \u2013 variant 3",
+      "passed": true,
+      "peak_pressure": 1.1841,
+      "avg_temperature": 0.2143,
+      "vibration_rms": 0.175
+    },
+    {
+      "test_id": "Exp-354",
+      "label": "Silicone membrane sweep \u2013 variant 3",
+      "passed": false,
+      "peak_pressure": 0.0627,
+      "avg_temperature": 0.1493,
+      "vibration_rms": 0.3164
+    },
+    {
+      "test_id": "Exp-355",
+      "label": "Thermal drift monitor \u2013 variant 3",
+      "passed": true,
+      "peak_pressure": 0.2097,
+      "avg_temperature": 0.331,
+      "vibration_rms": 0.21
+    },
+    {
+      "test_id": "Exp-356",
+      "label": "Microtexture mapping \u2013 variant 3",
+      "passed": false,
+      "peak_pressure": 0.147,
+      "avg_temperature": 0.2478,
+      "vibration_rms": 0.4388
+    },
+    {
+      "test_id": "Exp-357",
+      "label": "Valve rotation support \u2013 variant 3",
+      "passed": true,
+      "peak_pressure": 0.3773,
+      "avg_temperature": 0.1895,
+      "vibration_rms": 0.2982
+    },
+    {
+      "test_id": "Exp-358",
+      "label": "Compliance rating \u2013 variant 3",
+      "passed": true,
+      "peak_pressure": 0.5338,
+      "avg_temperature": 0.1739,
+      "vibration_rms": 0.2737
+    },
+    {
+      "test_id": "Exp-359",
+      "label": "Impact damping check \u2013 variant 3",
+      "passed": true,
+      "peak_pressure": 0.2832,
+      "avg_temperature": 0.1574,
+      "vibration_rms": 0.4732
+    },
+    {
+      "test_id": "Exp-360",
+      "label": "Soft grasp release \u2013 variant 3",
+      "passed": false,
+      "peak_pressure": 0.0944,
+      "avg_temperature": 0.1808,
+      "vibration_rms": 0.1399
+    },
+    {
+      "test_id": "Exp-361",
+      "label": "Soft foam grip \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.5368,
+      "avg_temperature": 0.2483,
+      "vibration_rms": 0.2109
+    },
+    {
+      "test_id": "Exp-362",
+      "label": "Cable harness pinch \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.7494,
+      "avg_temperature": 0.2807,
+      "vibration_rms": 0.3346
+    },
+    {
+      "test_id": "Exp-363",
+      "label": "Rigid block press \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 3.6198,
+      "avg_temperature": 0.2961,
+      "vibration_rms": 0.2636
+    },
+    {
+      "test_id": "Exp-364",
+      "label": "Silicone membrane sweep \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.4975,
+      "avg_temperature": 0.2308,
+      "vibration_rms": 0.4015
+    },
+    {
+      "test_id": "Exp-365",
+      "label": "Thermal drift monitor \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.6459,
+      "avg_temperature": 0.4129,
+      "vibration_rms": 0.2978
+    },
+    {
+      "test_id": "Exp-366",
+      "label": "Microtexture mapping \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.5755,
+      "avg_temperature": 0.3308,
+      "vibration_rms": 0.5262
+    },
+    {
+      "test_id": "Exp-367",
+      "label": "Valve rotation support \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.7969,
+      "avg_temperature": 0.2729,
+      "vibration_rms": 0.3872
+    },
+    {
+      "test_id": "Exp-368",
+      "label": "Compliance rating \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.9595,
+      "avg_temperature": 0.2548,
+      "vibration_rms": 0.3594
+    },
+    {
+      "test_id": "Exp-369",
+      "label": "Impact damping check \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.7109,
+      "avg_temperature": 0.2395,
+      "vibration_rms": 0.5607
+    },
+    {
+      "test_id": "Exp-370",
+      "label": "Soft grasp release \u2013 variant 4",
+      "passed": false,
+      "peak_pressure": 2.5286,
+      "avg_temperature": 0.2646,
+      "vibration_rms": 0.2268
+    }
+  ]
+}
