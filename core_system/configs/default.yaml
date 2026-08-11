@@ -1,0 +1,4 @@
+system:
+  name: "QUANTA_MEIS_CORE"
+  mode: "test"
+  seed: 42

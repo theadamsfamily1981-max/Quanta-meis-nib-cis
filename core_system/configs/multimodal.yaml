@@ -1,0 +1,6 @@
+adapters:
+  text: true
+  image: true
+  audio: true
+fusion:
+  method: "mean"
