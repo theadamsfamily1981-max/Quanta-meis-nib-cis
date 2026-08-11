@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "dataset": "t-fan",
+    "collection_date": "2025-11-09",
+    "description": "Empirical evaluation of T-FAN across varied turbulence regimes",
+    "source": "wind-tunnel campaign TF-2025A"
+  },
+  "experiments": [
+    {
+      "id": "TF-2025A-001",
+      "phase": 1,
+      "configuration": {
+        "rotor_diameter_m": 0.8,
+        "blade_pitch_deg": 12.5,
+        "sensors": ["pressure", "temperature", "vibration"]
+      },
+      "operating_conditions": {
+        "inlet_velocity_mps": 35.0,
+        "turbulence_intensity_pct": 4.5,
+        "ambient_temperature_c": 17.2
+      },
+      "performance": {
+        "efficiency_pct": 91.3,
+        "torque_nm": 140.6,
+        "power_kw": 32.4
+      },
+      "stability_metrics": {
+        "max_vibration_mm": 0.21,
+        "pressure_ripple_pct": 1.7,
+        "stall_margin_pct": 14.2
+      },
+      "notes": "Baseline configuration used to calibrate measurement pipeline."
+    },
+    {
+      "id": "TF-2025A-014",
+      "phase": 1,
+      "configuration": {
+        "rotor_diameter_m": 0.8,
+        "blade_pitch_deg": 14.0,
+        "sensors": ["pressure", "temperature", "vibration", "strain"]
+      },
+      "operating_conditions": {
+        "inlet_velocity_mps": 38.5,
+        "turbulence_intensity_pct": 5.3,
+        "ambient_temperature_c": 16.4
+      },
+      "performance": {
+        "efficiency_pct": 89.8,
+        "torque_nm": 151.2,
+        "power_kw": 34.7
+      },
+      "stability_metrics": {
+        "max_vibration_mm": 0.28,
+        "pressure_ripple_pct": 2.1,
+        "stall_margin_pct": 11.9
+      },
+      "notes": "Increased pitch improves torque but narrows stall margin."
+    },
+    {
+      "id": "TF-2025A-031",
+      "phase": 2,
+      "configuration": {
+        "rotor_diameter_m": 0.92,
+        "blade_pitch_deg": 13.3,
+        "sensors": ["pressure", "temperature", "vibration", "strain", "acoustic"]
+      },
+      "operating_conditions": {
+        "inlet_velocity_mps": 41.2,
+        "turbulence_intensity_pct": 6.8,
+        "ambient_temperature_c": 18.9
+      },
+      "performance": {
+        "efficiency_pct": 92.1,
+        "torque_nm": 165.4,
+        "power_kw": 39.6
+      },
+      "stability_metrics": {
+        "max_vibration_mm": 0.24,
+        "pressure_ripple_pct": 1.5,
+        "stall_margin_pct": 13.8
+      },
+      "notes": "Optimized rotor diameter restored margin while keeping high torque."
+    },
+    {
+      "id": "TF-2025A-047",
+      "phase": 2,
+      "configuration": {
+        "rotor_diameter_m": 0.92,
+        "blade_pitch_deg": 11.0,
+        "sensors": ["pressure", "temperature", "vibration", "acoustic"]
+      },
+      "operating_conditions": {
+        "inlet_velocity_mps": 37.6,
+        "turbulence_intensity_pct": 7.4,
+        "ambient_temperature_c": 19.7
+      },
+      "performance": {
+        "efficiency_pct": 93.5,
+        "torque_nm": 152.0,
+        "power_kw": 36.8
+      },
+      "stability_metrics": {
+        "max_vibration_mm": 0.19,
+        "pressure_ripple_pct": 1.2,
+        "stall_margin_pct": 16.5
+      },
+      "notes": "Lower pitch reduced torque but maximized efficiency under turbulence."
+    },
+    {
+      "id": "TF-2025A-062",
+      "phase": 3,
+      "configuration": {
+        "rotor_diameter_m": 1.1,
+        "blade_pitch_deg": 12.2,
+        "sensors": ["pressure", "temperature", "vibration", "strain", "acoustic", "optical"]
+      },
+      "operating_conditions": {
+        "inlet_velocity_mps": 45.0,
+        "turbulence_intensity_pct": 8.9,
+        "ambient_temperature_c": 20.5
+      },
+      "performance": {
+        "efficiency_pct": 94.2,
+        "torque_nm": 181.7,
+        "power_kw": 43.8
+      },
+      "stability_metrics": {
+        "max_vibration_mm": 0.27,
+        "pressure_ripple_pct": 1.6,
+        "stall_margin_pct": 15.1
+      },
+      "notes": "Advanced instrumentation captured new acoustic modes at high speed."
+    }
+  ]
+}

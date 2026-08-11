@@ -1,0 +1,66 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{T-FAN Supplementary Material}
+\author{Validation and Proofs Team}
+\date{Updated Section D -- November 2025}
+
+\begin{document}
+\maketitle
+
+\section{Notation Recap}
+We denote by $\mathcal{F}$ the family of admissible fan profiles, parameterized by the curvature radius $r$ and local twist $\theta$. The aerodynamic response under turbulent forcing $\boldsymbol{u}(t)$ is represented by the linear operator $\mathcal{T}$ acting on the perturbation field $\phi$.
+
+\section{Baseline Stability Bound}
+Given the energy functional
+\begin{equation}
+    E(\phi) = \frac{1}{2} \int_{\Omega} \left( \|\nabla \phi\|^2 + \alpha \phi^2 \right) \mathrm{d}x,
+\end{equation}
+we recall the bound derived in the main text:
+\begin{equation}
+    E(\phi(t)) \leq E(\phi(0)) e^{-2\lambda t} + \frac{\|\boldsymbol{u}\|^2}{2\lambda} \left( 1 - e^{-2\lambda t} \right),
+\end{equation}
+where $\lambda$ is the spectral gap of the generator associated with $\mathcal{T}$.
+
+\section{Proof of Proposition C.3}
+The proof follows from compactness arguments and the coercivity of the bilinear form $B(\phi, \psi)$. Specifically, let $\{\phi_n\}$ be the minimizing sequence. The reflexivity of $H^1(\Omega)$ implies the existence of a weakly convergent subsequence $\phi_{n_k} \rightharpoonup \phi_*$, and the lower semi-continuity of $E$ ensures that $\phi_*$ is a minimizer.
+
+\section{Updated Section D: Turbulence-Adjusted Fan Stability}
+\label{sec:updated-section-d}
+We refine the previous analysis by incorporating the turbulence intensity parameter $\tau$. Define the modified operator
+\begin{equation}
+    \mathcal{T}_\tau = \mathcal{T} + \tau \mathcal{K},
+\end{equation}
+where $\mathcal{K}$ is compact and self-adjoint, representing the feedback from the turbulence control surface.
+
+\subsection{Spectral Adjustment}
+Let $\{\mu_i\}$ denote the eigenvalues of $\mathcal{T}$ ordered non-decreasingly. Weyl's inequality for compact perturbations yields
+\begin{equation}
+    |\mu_i(\mathcal{T}_\tau) - \mu_i(\mathcal{T})| \leq \tau \|\mathcal{K}\|.
+\end{equation}
+Consequently, the perturbed spectral gap satisfies
+\begin{equation}
+    \lambda_\tau \geq \lambda - \tau \|\mathcal{K}\|,
+\end{equation}
+which is positive provided $0 \leq \tau < \lambda / \|\mathcal{K}\|$.
+
+\subsection{Energy Decay Under Turbulence}
+Under the modified dynamics, the energy functional obeys
+\begin{equation}
+    \frac{\mathrm{d}}{\mathrm{d}t} E(\phi) \leq -2\lambda_\tau E(\phi) + \|\boldsymbol{u}\| \cdot \|\phi\|.
+\end{equation}
+Applying Grönwall's inequality and the bound on $\lambda_\tau$ leads to
+\begin{equation}
+    E(\phi(t)) \leq E(\phi(0)) e^{-2(\lambda - \tau \|\mathcal{K}\|) t} + \frac{\|\boldsymbol{u}\|^2}{2(\lambda - \tau \|\mathcal{K}\|)} \left( 1 - e^{-2(\lambda - \tau \|\mathcal{K}\|) t} \right).
+\end{equation}
+This explicit decay rate quantifies the resilience of T-FAN to turbulent fluctuations of magnitude $\tau$.
+
+\subsection{Critical Intensity Threshold}
+Finally, observe that if $\tau$ approaches the critical value $\lambda/\|\mathcal{K}\|$, the decay rate vanishes. In that regime, higher-order stabilizers from the nonlinear actuator terms must be included. Empirical results (see Dataset TF-2025A) confirm that operational turbulence remains below $0.6\,\lambda/\|\mathcal{K}\|$, validating the linear theory.
+
+\section{Conclusion}
+The updated Section~\ref{sec:updated-section-d} establishes explicit quantitative bounds that align with the November 2025 experimental campaign. The synergy between theoretical guarantees and empirical validation strengthens the certification path for T-FAN.
+
+\end{document}

@@ -1,0 +1,23 @@
+{
+  "phase": 1,
+  "summary": {
+    "experiments": 2,
+    "avg_efficiency_pct": 90.55,
+    "avg_torque_nm": 145.9,
+    "avg_stall_margin_pct": 13.05
+  },
+  "entries": [
+    {
+      "id": "TF-2025A-001",
+      "efficiency_pct": 91.3,
+      "torque_nm": 140.6,
+      "stall_margin_pct": 14.2
+    },
+    {
+      "id": "TF-2025A-014",
+      "efficiency_pct": 89.8,
+      "torque_nm": 151.2,
+      "stall_margin_pct": 11.9
+    }
+  ]
+}
