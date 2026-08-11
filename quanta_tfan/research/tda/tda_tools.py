@@ -1,0 +1,1 @@
+# GUDHI/Ripser integration stubs
