@@ -1,0 +1,6 @@
+system: default
+modules:
+  tfan:
+    backend: torch
+  nib:
+    cycles: 10

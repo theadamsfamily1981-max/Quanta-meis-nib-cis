@@ -1,0 +1,4 @@
+system: antifragility
+tests:
+  - noise_injection
+  - stress_test
