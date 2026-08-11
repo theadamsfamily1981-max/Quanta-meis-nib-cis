@@ -1,0 +1,14 @@
+{
+  "baseline_task": "sst2",
+  "baseline_eval_accuracy": 1.0,
+  "improvements": {
+    "sst2": {
+      "delta_vs_baseline_eval": 0.0,
+      "overfit_gap": 0.5
+    },
+    "mrpc": {
+      "delta_vs_baseline_eval": -0.5,
+      "overfit_gap": 0.0
+    }
+  }
+}
